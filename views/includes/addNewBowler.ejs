@@ -1,0 +1,32 @@
+
+<div class="container">
+  <h3 class="p-2">All Active Bowlers</h3>
+  <ul id="select-bowlers" class="list-group pb-2">
+  </ul>
+  <form id="selectBowlerAddingForm" class="card" action="/selectBowler" method="POST">
+    <h3 id="selectedBowler" class="list-group p-3 text-success text-center">
+    </h3>
+     <input hidden type="text" id="selectBowlerIndex" name="selectBowlerIndex">
+    <button id="submitSelectBowlerButton" type="submit" class="btn btn-primary">Click to add bowler</button>
+  </form>
+  <hr>
+  <button class="btn btn-primary " id="resetButton" >Reset</button>
+  <h3>New Bowlers</h3>
+  <ul id="new-bowlers" class="list-group pb-2">
+  </ul>
+  <form id="newBowlerAddingForm" class="card" action="/newBowler" method="POST">
+    <h3 id="newBowler" class="list-group p-3 text-success text-center">
+    </h3>
+    <input hidden type="text" id="newBowlerName" name="newBowlerName" >
+    <input hidden type="text" id="newBowlerRegNumber" name="newBowlerRegNumber">
+    <input hidden type="text" id="newBowlerIndex" name="newBowlerIndex">
+    <button id="submitNewBowlerButton" type="submit" class="btn btn-primary">Click to add bowler</button>
+  </form>
+  <script>
+    let selectedBowlersIndexes = <%-JSON.stringify(newBowlerData.bowlersIndexes)%>;
+    let allBowlers = <%-JSON.stringify(newBowlerData.newBowlers)%>;
+    let previousBowler = <%-JSON.stringify(newBowlerData.previousBowlerIndex)%>;
+    let addedBowlers = <%-JSON.stringify(newBowlerData.activeBowlers)%>;
+  </script>
+  <script src="/addNewBowler.js"></script>
+</div>

@@ -1,0 +1,30 @@
+
+
+<div class="container">
+   <ul id="available-batters" class="list-group pb-2">
+  </ul>
+  <hr>
+  <h3 class="text-primary"><strong>Retired Hurt Players-</strong></h3>
+  <ul id="retirHurt-batters" class="list-group pb-2">
+    <form id="retiredHurtPlayerForm" action="/addRetiredHurtBatterToBat" method="post">
+      <input type="text" hidden id="battedIndex" name="battedIndex">
+    </form>
+  </ul>
+
+<button class="btn btn-primary " id="resetButton" >Reset</button>
+  <form id="newBatterAddingForm" class="card" action="/addBatsman" method="POST">
+    <h3 id="selectedBatter" class="list-group p-3 text-success text-center">
+    </h3>
+    <input hidden type="text" id="batterName" name="batterName" >
+    <input hidden type="text" id="batterRegNumber" name="batterRegNumber">
+    <input hidden type="text" id="batterIndex" name="batterIndex">
+    <button id="submitBatterButton" type="submit" class="btn btn-primary">Click to add batter</button>
+  </form>
+  <script>
+    let battersList = <%-JSON.stringify(newBatterData.battersList)%>;
+    let battersIndexes = <%-JSON.stringify(newBatterData.battersIndexes)%>;
+    let retiredHurtPlayersArray = <%-JSON.stringify(retiredHurtPlayers)%>;
+  </script>
+  <script src="/addNewBatter.js"></script>
+</div>
+

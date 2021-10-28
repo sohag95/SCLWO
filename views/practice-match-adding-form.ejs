@@ -1,0 +1,57 @@
+<%- include('includes/header') %> <%- include('includes/flash') %>
+<div class="container py-md-3">
+  <form action="/add-practice-match-performance" method="POST" id="practiceMatchDetailsForm">
+    <h2 class="bold-font">Add match details with your performance</h2>
+
+    <div class="form-group">
+      <label for="myTeamName" class="text-muted mb-1"><small>Your team name</small></label>
+      <input required name="myTeamName" id="myTeamName" class="form-control" type="text" placeholder="Enter your team name" autocomplete="off" />
+    </div>
+
+    <div class="form-group">
+      <label for="opponentTeamName" class="text-muted mb-1"><small>Opponent team name</small></label>
+      <input required name="opponentTeamName" id="opponentTeamName" class="form-control" type="text" placeholder="Enter opponent team name" autocomplete="off" />
+    </div>
+
+    <div class="form-group">
+      <label for="venue" class="text-muted mb-1"><small>Ground Name</small></label>
+      <input required name="venue" id="venue" class="form-control" type="text" placeholder="Enter the ground name" autocomplete="off" />
+    </div>
+
+    <div class="form-group">
+      <label for="date" class="text-muted mb-1"><small>Date of the game</small></label>
+      <input required name="date" id="date" class="form-control" type="date" placeholder="Enter the played date" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label for="shortDetails" class="text-muted mb-1"><small>Give short details about the match</small></label>
+      <input required name="shortDetails" id="shortDetails" class="form-control" type="text" placeholder="Short details about the match" autocomplete="off" />
+    </div>
+    <hr>
+    <div class="form-group">
+      <label for="didPlayerBatted" class="text-muted mb-1"><small>Did you batted in that match</small></label>
+      <select id="didPlayerBatted" class="form-control form-control-lg"  form="practiceMatchDetailsForm">
+        <option value="no">NO</option>
+        <option value="yes">YES</option>
+      </select>
+    </div>
+    <div id="battingDataFields">
+    </div>
+
+    <div class="form-group">
+      <label for="didPlayerBowled" class="text-muted mb-1"><small>Did you bowled in that match</small></label>
+      <select id="didPlayerBowled" class="form-control form-control-lg"  form="practiceMatchDetailsForm">
+        <option value="no">NO</option>
+        <option value="yes">YES</option>
+      </select>
+    </div>
+    <div id="bowlingDataFields">
+    </div>
+
+    <input type="text" hidden id="battingData" name="battingData">
+    <input type="text" hidden id="bowlingData" name="bowlingData">
+    <button  id="practiceMatchDataSubmitButton" class=" py-3 mt-4 btn btn-lg btn-success btn-block">Add Match Data</button>
+  </form>
+
+  <script src="/practiceMatchDataInputForm.js"></script>
+</div>
+<%- include('includes/footer') %>

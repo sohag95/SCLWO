@@ -1,0 +1,193 @@
+<%- include('includes/header') %>
+
+<div class="container">
+  <% regErrors.forEach(function(message) { %>
+  <div class="alert alert-danger small"><%= message %></div>
+  <% }) %> 
+  <%- include('includes/flash') %>
+</div>
+
+<div class="container">
+  <div class="row paddingMarginZero">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-3 align-self-start shadow mobileResponsiveDesign">
+          <div class="container" style="margin-top: 1rem">
+            <div class="text-center">
+              <picture>
+                <img class="homeProfilePic shadow" src="/images/sohag.jpg" alt="" />
+              </picture>
+              <h2 class="about-h2 text-uppercase boldFont nameStyle"><%= user.userName %></h2>
+            </div>
+          </div>
+          <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingUpdateNotice">
+                <h5 class="mb-0">
+                  <button class="btn btn-link bolderFont" data-toggle="collapse" data-target="#collapseUpdateNotice" aria-expanded="true" aria-controls="collapseUpdateNotice">Update Notice</button>
+                </h5>
+              </div>
+
+              <div id="collapseUpdateNotice" class="collapse" aria-labelledby="headingUpdateNotice" data-parent="#accordion">
+                <div class="card-body">
+                  <form action="/updateNotice" method="POST" id="payment-form">
+                    <div class="form-group">
+                      <label for="notice" class="text-muted mb-1"><small>Update Notice</small></label>
+                      <input required name="notice" id="notice" class="form-control" value="Editable notice" type="text" placeholder="Enter registration number" autocomplete="off" />
+                    </div>
+                      <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+           
+
+            <div class="card">
+              <div class="card-header" id="headingSlidePicture">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed bolderFont" data-toggle="collapse" data-target="#collapseSlidePicture" aria-expanded="false" aria-controls="collapseSlidePicture">Upload Slide Picture</button>
+                </h5>
+              </div>
+              <div id="collapseSlidePicture" class="collapse" aria-labelledby="headingSlidePicture" data-parent="#accordion">
+                <div class="card-body">
+                  <form action="/slidePictureUpload" method="POST" id="slidefileUpload-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="slidePicNumber" class="text-muted mb-1"><small>Select Picture's Position</small></label>
+                      <select required id="slidePicNumber" class="form-control" name="slidePicNumber" form="slidefileUpload-form">
+                        <option value="slideNo1">First Position</option>
+                        <option value="slideNo2">Second Position</option>
+                        <option value="slideNo3">Third Position</option>
+                        <option value="slideNo4">Forth Position</option>
+                        <option value="slideNo5">Fifth Position</option>
+                      </select>
+                    </div>
+
+                    <div class="custom-file form-group">
+                      <label for="exampleFormControlFile1">Choose Image File To Upload</label>
+                      <input type="file" name="file" class="form-control" id="exampleFormControlFile1" />
+                    </div>
+                      <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingPrfileDelete">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed bolderFont" data-toggle="collapse" data-target="#collapsePrfileDelete" aria-expanded="false" aria-controls="collapsePrfileDelete">Delete Profile</button>
+                </h5>
+              </div>
+              <div id="collapsePrfileDelete" class="collapse" aria-labelledby="headingPrfileDelete" data-parent="#accordion">
+                <div class="card-body">
+                  <form action="/deleteProfile" method="POST" id="delete-form">
+                    <div class="form-group">
+                      <label for="regNumber" class="text-muted mb-1"><small>Enter Registration Number</small></label>
+                      <input required name="regNumber" id="regNumber" class="form-control" type="text" placeholder="Enter registration number" autocomplete="off" />
+                    </div>
+                      <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="headingPasswordChange">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed bolderFont" data-toggle="collapse" data-target="#collapsePasswordChange" aria-expanded="false" aria-controls="collapsePasswordChange">Change Your Password</button>
+                </h5>
+              </div>
+              <div id="collapsePasswordChange" class="collapse" aria-labelledby="headingPasswordChange" data-parent="#accordion">
+                <div class="card-body"><%- include('includes/changePasswordForm') %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 shadow mobileResponsiveDesign">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-10" style="padding-top: 0.75rem">
+                <form action="/player-register" method="POST" id="player-registration-form">
+                  <h2 class="bold-font">Add a new player</h2>
+
+                  <div class="form-group">
+                    <label for="username-register" class="text-muted mb-1"><small>Name</small></label>
+                    <input name="userName" id="username-register" class="form-control" type="text" placeholder="Name of the player" autocomplete="off" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="dob-register" class="text-muted mb-1"><small>Date of birth</small></label>
+                    <input name="dob" id="dob-register" class="form-control" type="date" placeholder="Enter date of birth" autocomplete="off" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="batting-register" class="text-muted mb-1"><small>Batting Style</small></label>
+                    <select required id="batting-register" class="form-control" name="battingStyle" form="player-registration-form">
+                      <option value="Right Handed bat">Right Handed Bat</option>
+                      <option value="Left Handed bat">Left Handed Bat</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bowling-register" class="text-muted mb-1"><small>Bowling Style</small></label>
+                    <select required id="bowling-register" class="form-control" name="bowlingStyle" form="player-registration-form">
+                      <option value="Right-arm">Right-arm</option>
+                      <option value="Left-arm">Left-arm</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="gender-register" class="text-muted mb-1"><small>Select gender of the player</small></label>
+                    <select required id="gender-register" class="form-control" name="gender" form="player-registration-form">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="club-register" class="text-muted mb-1"><small>Current club name</small></label>
+                    <select required id="club-register" class="form-control" name="currentClub" form="player-registration-form">
+                      <option value="SSC">Suvash Sporting Club</option>
+                      <option value="MSC">Mahananda Sporting Club</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="tournament-register" class="text-muted mb-1"><small>Select the tournament</small></label>
+                    <select required id="tournament-register" class="form-control" name="leaguePlaying" form="player-registration-form">
+                      <option value="1st-division">1st division</option>
+                      <option value="super-division">super division</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="address-register" class="text-muted mb-1"><small>Address</small></label>
+                    <input name="address" id="address-register" class="form-control" type="tyext" placeholder="Enter address" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
+                    <input name="phone" id="phone-register" class="form-control" type="text" placeholder="Enter phone number" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="email-register" class="text-muted mb-1"><small>Email(optional)</small></label>
+                    <input name="email" id="email-register" class="form-control" type="text" placeholder="you@example.com" autocomplete="off" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="password-register" class="text-muted mb-1"><small>Password</small></label>
+                    <input name="password" id="password-register" class="form-control" type="password" placeholder="Create a password" required />
+                  </div>
+
+                  <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit Data</button>
+                </form>
+                <br />
+                <hr />
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('includes/footer') %>

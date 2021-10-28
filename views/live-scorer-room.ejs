@@ -1,0 +1,468 @@
+<%- include('includes/header') %> <%- include('includes/flash') %>
+
+    <div class="container">
+      <div class="row">
+        
+        <div class="col-md-12 shadow">
+          <div class=" marginTop" style="padding: 0;margin:auto">
+            <div class="innerBgColor" style="color: #39424b">
+              <div class="text-center upperBgColor paddingTop">
+                <h4 class="bolderFont" style="color: #0062cc">Live Score Room</h4>
+                <p class="btmMarginZero"><strong>Tournament Name: <%=room.matchDetails.tournamentName%> 
+                  <%if(room.matchDetails.secondRoundName){%>
+                  | <%=room.matchDetails.secondRoundName%>
+                  <%}%></strong>
+                </p>
+                <p class="btmMarginZero"><strong><%=room.matchDetails.firstTeam%></strong> Vs <strong><%=room.matchDetails.secondTeam%></strong></p>
+                <%if(!room.matchDetails.isStarted || room.matchDetails.inningsStatus=="completed"){%>
+                  <p class="btmMarginZero"><strong>Date: <%=room.matchDetails.dateOfTheMatch%></strong></p>
+                  <p class="btmMarginZero"><strong>Starts At: <%=room.matchDetails.matchStartingTime%></strong></p>
+                  <p class="btmMarginZero"><strong>Venue: <%=room.matchDetails.venue%></strong></p>
+                <%}%>
+                <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished){%>
+                  <%if(!room.matchCancled.hasCancled){%>
+                    <p class="fontBolder " style="color: red;display: inline-block;"><i class="fas fa-circle"></i> Live</p>
+                  <%}else{%>
+                    <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
+                  <%}%>
+                  <%if(room.matchDetails.inningsStatus=="2nd Innings"){%>
+                   <p><strong>Target - </strong><%=room.matchDetails.target%></p> 
+                  <%}%> 
+                <%}%> 
+                  
+              </div>
+              <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished && room.state.strikerIndex!=null && room.state.nonStrikerIndex!=null && room.state.bowlerIndex!=null){%>
+              <div class=" upperBgColor paddingTop">
+                <div class="container">
+                  <hr>
+                  <div class="row">
+                    
+                    <div class="col-6 p_zero">
+                      <p>
+                        <strong>
+                          <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                            <%=room.batting.firstBattingTeam%> - 
+                          <%}else{%>
+                            <%=room.batting.secondBattingTeam%> - 
+                          <%}%>
+                        </strong> <%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>
+                        </p>
+                        <p><strong>Overs :</strong> <%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%> (<%=room.matchDetails.overs%> Ovs.)</p>
+                        <p><strong>CRR :</strong> <%=room.crr%></p>
+                        <p><strong>Total extras :</strong> <%=room.extras.totalWideBalls+room.extras.totalNoBalls+room.extras.totalByeRuns+room.extras.totalLegByeRuns+room.extras.paneltyRuns%></p>
+                        <p><strong>Partnership :</strong> <%=room.liveScore.partnershipRuns%>(<%=room.liveScore.partnershipBalls%>)</p>
+                        <p><strong>Last Over Runs :</strong><%=room.eachOver.lastOverRuns%></p>
+                      
+                      </div>
+                      <div class="col-6 p_zero">
+                        <p><strong>Wide :</strong><%=room.extras.totalWideBalls%></p>
+                        <p><strong>No :</strong> <%=room.extras.totalNoBalls%></p>
+                        <p><strong>Bye :</strong><%=room.extras.totalByeRuns%></p>
+                        <p><strong>Leg-bye:</strong><%=room.extras.totalLegByeRuns%></p>
+                        <p><strong>Panelty:</strong><%=room.extras.paneltyRuns%></p>   
+                      </div>  
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-12 p_zero">
+                      <p><strong>Bowler:</strong></p>
+                      <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                        <p><strong><%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].name%> : </strong>
+                          O - <%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].overs%>.<%=room.eachOver.ballNumber%> | M - <%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].madenOvers%> | R - <%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].runs%> | W - <%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].wickets%>
+                        </p>
+                      <%}else{%>
+                        <p><strong><%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].name%> : </strong>
+                         O - <%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].overs%>.<%=room.eachOver.ballNumber%> | M - <%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].madenOvers%> | R - <%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].runs%> | W - <%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].wickets%>
+                        </p>
+                      <%}%>
+                      <p><strong>Recent Balls : </strong>...
+                        <% let start%>
+                        <%if(room.recentBalls.length>15){%>
+                          <%start=room.recentBalls.length-15%>
+                        <%}else{%>
+                          <%start=0%>
+                        <% }%>
+                      <%for(let i=start;i<room.recentBalls.length;i++){%>
+                        <%=room.recentBalls[i]%>&nbsp;
+                      <%}%>
+                      </p>
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 p_zero">
+                      <p><strong>Batting:</strong></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6  text-center">
+                      <p><strong>Striker*</strong></p>
+                      
+                      <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                        <p><strong><%=room.firstInningsBatting.allBatsman[room.state.strikerIndex].name%> : </strong>
+                          <%=room.firstInningsBatting.allBatsman[room.state.strikerIndex].runs%>(<%=room.firstInningsBatting.allBatsman[room.state.strikerIndex].balls%>)
+                        </p>
+                      <%}else{%>
+                        <p><strong><%=room.secondInningsBatting.allBatsman[room.state.strikerIndex].name%> : </strong>
+                          <%=room.secondInningsBatting.allBatsman[room.state.strikerIndex].runs%>(<%=room.secondInningsBatting.allBatsman[room.state.strikerIndex].balls%>)
+                        </p>
+                      <%}%>
+                    </div>
+                    <div class="col-6  text-center">
+                      <p><strong>Non-Striker</strong></p>
+                      <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                        <p><strong><%=room.firstInningsBatting.allBatsman[room.state.nonStrikerIndex].name%> : </strong>
+                          <%=room.firstInningsBatting.allBatsman[room.state.nonStrikerIndex].runs%>(<%=room.firstInningsBatting.allBatsman[room.state.nonStrikerIndex].balls%>)
+                        </p>
+                      <%}else{%>
+                        <p><strong><%=room.secondInningsBatting.allBatsman[room.state.nonStrikerIndex].name%> : </strong>
+                          <%=room.secondInningsBatting.allBatsman[room.state.nonStrikerIndex].runs%>(<%=room.secondInningsBatting.allBatsman[room.state.nonStrikerIndex].balls%>)
+                        </p>
+                      <%}%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+              <div class="shortDetailsContainer textJustifyAlign">
+                <%if(!room.matchDetails.isStarted){%>
+
+                <div id="accordion">
+                  <div>
+                    <div id="matchStarting">
+                      <button class="btn btn-sm btn-info btn-block" data-toggle="collapse" data-target="#collapsematchStarting" aria-expanded="false" aria-controls="collapsematchStarting">Start live scoring of the match</button>
+                    </div>
+                    <div id="collapsematchStarting" class="collapse" aria-labelledby="matchStarting" data-parent="#accordion">
+                      <div class="card-body">
+                        <form action="/matchStarted" method="POST" class="d-inline">
+                          <div class="form-group">
+                            <label for="scorerName" class="text-muted mb-1"><small>Scorer Name</small></label>
+                            <input required name="scorerName" id="scorerName" class="form-control" type="text" placeholder="Enter Your Name." autocomplete="off" />
+                          </div>
+                          
+                          <button class="btn btn-sm btn-info">Submit</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <%}else if(room.matchDetails.firstTeamTeamList.length==0 || room.matchDetails.secondTeamTeamList.length==0){%>
+                <!-- //here will be the time list adding page -->
+                  
+                  <%- include('includes/createTeamList') %>
+
+                <%}else if(room.matchDetails.inningsStatus==null){%>
+                <h3 class="bolderFont text-center">Set match starting details</h3>
+                <form action="/tossDetails" method="POST" class="d-inline" id="tossDetails">
+                  <div class="form-group">
+                    <label for="toss" class="text-muted mb-1"><small>Select the toss winning team</small></label>
+                    <select required id="toss" class="form-control" name="tossWonBy" form="tossDetails">
+                      <option value="firstTeam"><%=room.matchDetails.firstTeam%></option>
+                      <option value="secondTeam"><%=room.matchDetails.secondTeam%></option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="decide" class="text-muted mb-1"><small>Decided to do by the toss winning team</small></label>
+                    <select required id="decide" class="form-control" name="decidedTo" form="tossDetails">
+                      <option value="batting">Batting</option>
+                      <option value="bowling">Bowling</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="overs" class="text-muted mb-1"><small>Total Overs of each innings</small></label>
+                    <input required name="overs" id="overs" class="form-control" type="number" placeholder="Enter number of overs." autocomplete="off" />
+                  </div>
+                  <input type="hidden" name="inningsStatus" value="1st Innings" />
+                  <input type="hidden" name="firstTeam" value="<%=room.matchDetails.firstTeam%>" />
+                  <input type="hidden" name="secondTeam" value="<%=room.matchDetails.secondTeam%>" />
+                  
+                  <button class="btn btn-sm btn-info">Submit</button>
+                </form>
+                <%}else if(room.matchDetails.inningsStatus=="game over" ){%>
+                  <div class="card-body">
+                    
+                    <div class="text-center">
+                      <h3 class="btn btn-sm btn-warning text-center"><%=room.matchDetails.winningStatus%></h3>
+                    </div>
+                    <h2 class="text-center font-bolder text-primary"><strong>Select "Player Of The Match"</strong></h2>
+                    <hr>
+                    <h3 class="text-center"><strong>Team players of <%=room.matchDetails.firstTeam%></strong></h3>
+                     <%room.matchDetails.firstTeamTeamList.forEach((player)=>{%>
+                      <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                        <span class="item-text"><strong>Name : </strong><%=player.userName%></span>
+                        <form  action="/manOfTheMatch" method="POST">
+                          <input type="text" hidden name="manOfTheMatch" value="<%=player.userName%>">
+                          <div>
+                            <button type="submit" class="newBatterToAdd btn btn-primary btn-sm">Player Of The Match</button>
+                          </div>
+                        </form>
+                      </li>
+                      <%})%>
+                    
+                    <h3 class="text-center"><strong>Team players of <%=room.matchDetails.secondTeam%></strong></h3>
+                      <%room.matchDetails.secondTeamTeamList.forEach((player)=>{%>
+                        <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                          <span class="item-text"><strong>Name : </strong><%=player.userName%></span>
+                          <form class="card" action="/manOfTheMatch" method="POST">
+                          <input type="text" hidden name="manOfTheMatch" value="<%=player.userName%>">
+                          <div>
+                            <button type="submit" class="newBatterToAdd btn btn-primary btn-sm">Player Of The Match</button>
+                          </div>
+                        </form>
+                      </li>
+                      <%})%>
+                  </div>
+                <%}else if(room.matchDetails.isInningsCompleted){%>
+                  <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                    <form action="/startSecondInnings" method="POST" class="d-inline">
+                      <div id="matchStarting">
+                      <h3 class="text-center">1st Innings Completed</h3>
+                      
+                      <button class="btn btn-sm btn-info btn-block" >To start Second Innings Click Here</button>
+                    </div>
+                    </form>
+                  <%}%>
+                  <%if(room.matchDetails.inningsStatus=="completed"){%>
+                    <div id="matchStarting">
+                      <h3 class="text-center"><strong>Game Is Over</strong> </h3>
+                      <h4 class="text-center"><%=room.matchDetails.winningStatus%></h4>
+                      <button class="btn btn-sm btn-info btn-block" >Thank you for scoring.</button>
+                    </div>
+                  <%}%>
+                <%}else if(room.state.strikerIndex==null || room.state.nonStrikerIndex==null || room.state.wicketFallen){%>
+                    <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                      <h3 class="text-center">Batters List Of <strong><%=room.batting.firstBattingTeam%></strong></h3>
+                    <%}else{%>
+                      <h3 class="text-center">Batters List Of <strong><%=room.batting.secondBattingTeam%></strong></h3>
+                    <%}%>
+                    <div>
+                      <%if(room.state.strikerIndex==null){%>
+                        <h3 class="text-center">Striker Batsman</h3>
+                      <%}else if(room.state.nonStrikerIndex==null){%>
+                        <h3 class="text-center">Non-Striker Batsman</h3>
+                      <%}else{%>
+                        <h3 class="text-center">New Batsman</h3>
+                      <%}%> 
+                    </div>
+                    <%- include('includes/addNewBatter') %>
+                   
+                <%}else if(room.state.bowlerNumber==0 || room.state.overFinished){%>
+                  <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                    <h3 class="text-center">Bowlers List Of <strong><%=room.batting.secondBattingTeam%></strong></h3>
+                  <%}else{%>
+                    <h3 class="text-center">Bowlers List Of <strong><%=room.batting.firstBattingTeam%></strong></h3>
+                  <%}%>
+                  <%- include('includes/addNewBowler') %>
+                 
+                <%}else if(!room.matchDetails.isFinished){%>
+                  <%if(!room.matchCancled.hasCancled){%>
+                    <%if(!room.emergency.hasEmergency){%>
+                    <div class="text-center">
+                      <form action="/changeStrike" method="POST" class=" m-1">
+                        <button class="btn btn-sm btn-block btn-secondary">CHANGE STRIKE</button>
+                      </form>
+                      <form action="/gotRetiredHurt" method="POST" class=" m-1">
+                        <button class="btn btn-sm btn-block btn-secondary">Retired Hurt</button>
+                      </form>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-block btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add Panelty Runs
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                          <form action="/addPaneltyRuns" method="POST" class="text-center m-1">
+                            <input type="text" hidden name="paneltyRuns" value="-5">
+                            <input type="text" hidden name="paneltyBy" value="batting-team">
+                            <button class="btn btn-sm btn-primary text-center">Panelty For Batting Team</button>
+                          </form>
+                          <form action="/addPaneltyRuns" method="POST" class="text-center">
+                            <input type="text" hidden name="paneltyRuns" value="5">
+                            <input type="text" hidden name="paneltyBy" value="bowling-team">
+                            <button class="btn btn-sm btn-primary text-center">Panelty For Bowling Team</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <form action="/updateLiveScore" method="POST" id="updateScore">
+                      <h2 class="bolderFont">Update Score</h2>
+                      <div class="form-group">
+                        <label for="ballType" class="text-muted mb-1"><small>Select the ball type</small></label>
+                        <select required id="ballType" class="form-control" name="ballType" for="updateScore">
+                          <option value="ok">OK BALL</option>
+                          <option value="wideBall">WIDE BALL</option>
+                          <option value="byeRun">BYE RUNS</option>
+                          <option value="legByeRun">LEG BYE RUNS</option>
+                          <option value="noBallRunBat">NO BALL AND RUNS FROM BAT</option>
+                          <option value="noBallRunBye">NO BALL AND BYE RUNS</option>
+                          <option value="noBallRunLegBye">NO BALL AND LEG BY RUNS</option> 
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="run" class="text-muted mb-1"><small>Run/runs in this ball</small></label>
+                        <input required name="run" id="run" class="form-control" type="number" placeholder="Enter the run." autocomplete="off" />
+                      </div>
+                      <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Update Score</button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                      <h3><strong class="text-danger">OUT SECTION</strong></h3>
+                      <div class="dropdown m-1">
+                        <button class="btn btn-sm btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Run Out
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                          <form action="/runOut" method="POST" class="text-center">
+                            <div class="form-group card">
+                              <label for="filderName1" class="text-muted mb-1"><small>Filder's name</small></label>
+                              <input required name="filderName" id="filderName1" class="form-control" type="text" placeholder="Enter filder's name." autocomplete="off" />
+                            </div>
+                            <input type="text" hidden name="outType" value="run-out">
+                            <button class="btn btn-sm btn-primary text-center">Run out!!</button>
+                          </form>
+                        </div>
+                      </div>
+
+                      <div class="dropdown m-1">
+                        <button class="btn btn-sm btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Caught Out
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                          <form action="/generalOut" method="POST" class="text-center">
+                            <div class="form-group card">
+                              <label for="filderName2" class="text-muted mb-1"><small>Filder's name</small></label>
+                              <input required name="filderName" id="filderName2" class="form-control" type="text" placeholder="Enter filder's name." autocomplete="off" />
+                            </div>
+                            <input type="text" hidden name="outType" value="caught-out">
+                            <button class="btn btn-sm btn-primary text-center">Caught Out!!</button>
+                          </form>
+                        </div>
+                      </div>
+
+                      <div class="dropdown m-1">
+                        <button class="btn btn-sm btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Leg-before Wicket(LBW)
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                          <form action="/generalOut" method="POST" class="text-center">
+                            <input type="text" hidden name="filderName" value="no">
+                            <input type="text" hidden name="outType" value="lbw">
+                            <button class="btn btn-sm btn-primary text-center">LBW Out!!</button>
+                          </form>
+                        </div>
+                      </div>
+
+                      <div class="dropdown m-1">
+                        <button class="btn btn-sm btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenu5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Bowled
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                          <form action="/generalOut" method="POST" class="text-center">
+                            <input type="text" hidden name="filderName" value="no">
+                            <input type="text" hidden name="outType" value="bowled">
+                            <button class="btn btn-sm btn-primary text-center">Bowled Out!!</button>
+                          </form>
+                        </div>
+                      </div>
+
+                      <div class="dropdown m-1">
+                        <button class="btn btn-sm btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenu6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Stumping Out
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu6">
+                          <form action="/generalOut" method="POST" class="text-center">
+                            <div class="form-group card">
+                              <label for="filderName3" class="text-muted mb-1"><small>Keeper's name</small></label>
+                              <input required name="filderName" id="filderName3" class="form-control" type="text" placeholder="Enter keeper's name." autocomplete="off" />
+                            </div>
+                            <input type="text" hidden name="outType" value="stumping-out">
+                            <button class="btn btn-sm btn-primary text-center">Stumping Out!!</button>
+                          </form>
+                        </div>
+                      </div>
+
+                      <div class="dropdown m-1">
+                        <button class="btn btn-sm btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenu7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Hit Wicket
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu7">
+                          <form action="/generalOut" method="POST" class="text-center">
+                            <input type="text" hidden name="filderName" value="no">
+                            <input type="text" hidden name="outType" value="hit-wicket">
+                            <button class="btn btn-sm btn-primary text-center">Hit Out!!</button>
+                          </form>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  <hr />
+                  <h3><strong class="text-danger">EMERGENCY SECTION</strong></h3>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="dropdown m-1">
+                        <button class="btn btn-lg btn-danger btn-block dropdown-toggle" type="button" id="dropdownMenu8" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Emergency
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu8">
+                          <form action="/addEmergencyMessage" method="POST" class="text-center">
+                            <div class="form-group card">
+                              <label for="emergencyMessage" class="text-muted mb-1"><small>Emergency message</small></label>
+                              <input required name="emergencyMessage" id="emergencyMessage" class="form-control" type="text" placeholder="Emergency message-." autocomplete="off" />
+                            </div>
+                            <button class="btn btn-sm btn-primary text-center">Add emergency!!</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="dropdown m-1">
+                        <button class="btn btn-lg btn-danger btn-block dropdown-toggle" type="button" id="dropdownMenu9" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Match cancled
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu9">
+                          <form action="/matchCancled" method="POST" class="text-center">
+                            <div class="form-group card">
+                              <label for="canclationMessage" class="text-muted mb-1"><small>Match canclation reason</small></label>
+                              <input required name="canclationMessage" id="canclationMessage" class="form-control" type="text" placeholder="Write reason." autocomplete="off" />
+                            </div>
+                            <button class="btn btn-sm btn-primary text-center">Match Cancled!!</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <%}else{%>
+                    <h3 class="text-info text-center"><strong ><%=room.emergency.emergencyMessage%></strong></h3>
+                    <form action="/removeEmergencyMessage" method="POST" class="text-center">
+                      
+                      <button class="btn btn-lg btn-warning text-center">Remove emergency & Start scoring!!</button>
+                    </form>
+                  <%}%>
+                  <hr>
+                  <h3><strong class="text-primary">COMMENTRY SECTION</strong></h3>
+                  <form action="/matchCommentry" method="POST" class="d-inline">
+                    <div>
+                      <label for="matchCommentry" class="text-muted mb-1"><small>Match Commentry</small></label>
+                      <textarea required name="matchComment" id="matchCommentry" class="body-content form-control" placeholder="Write comments here...." type="text"></textarea>
+                    </div>
+                    <button class="btn btn-sm btn-info">Comment</button>
+                  </form>
+                  <%}else{%>
+                    <h2 class="text-center"><strong>Game is over!!</strong></h2>
+                    <h3 class="text-danger text-center"><strong ><%=room.matchCancled.canclationMessage%></strong></h3>
+                    
+                      <button class="btn btn-lg btn-block btn-info text-center">Thank You For Scoring!!</button>
+                   
+                  <%}%>
+                <%}else{%>
+                <span class="pt-2">
+                  <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText"><strong>Game Is Over.Thank You</strong></p>
+                </span>
+                <%}%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+<%- include('includes/footer') %>

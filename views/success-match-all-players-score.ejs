@@ -1,0 +1,139 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+
+<div class="container  container--narrow">
+    <div class="text-center p_zero mt-2">
+      <p><strong>MatchId : <%=matchDetails.matchId%></strong></p>
+      <p><strong>Tournament : <%=matchDetails.tournamentName%> (<%=matchDetails.tournamentYear%>)</strong></p>
+      <p><strong>Match no : <%=matchDetails.matchNumber%> | At - <%=matchDetails.venue%></strong></p>
+      <h5><strong><%=matchDetails.firstTeam%> VS <%=matchDetails.secondTeam%></strong></h5>
+      <p><strong class="text-warning"><%=matchDetails.winningStatus%></strong></p>
+    </div>
+    <hr>
+    <h4 class="text-primary p-2"><strong><%=matchDetails.firstTeam%> team players performances:</strong></h4>
+    <%playersScoreDetails.firstTeam.firstTeamPlayersScore.forEach((playerData,index)=>{%>
+      <li class="list-group-item list-group-item-action mb-1">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="item-text"><strong>Name : </strong><%=playerData.userName%></span>
+          </div>
+          <div>
+            <span class="item-text"><strong>Reg No : </strong><%=playerData.regNumber%></span>  
+          </div>
+        </div>
+        <hr>
+          <div class="row">
+            <div class="col-6">
+              <h5><strong>Batting Score:</strong></h5>
+              <%if(playerData.battingData){%>
+                <p><strong>Runs : </strong><%=playerData.battingData.runs%> | <strong>Balls : </strong><%=playerData.battingData.balls%></p>
+              <%}else{%>
+                <p><strong>Player did not bat!!</strong></p>
+              <%}%>
+            </div>
+            <div class="col-6">
+              <h5><strong>Bowling Score:</strong></h5>
+              <%if(playerData.bowlingData){%>
+              <p><strong>Runs given : </strong><%=playerData.bowlingData.runs%> | <strong>Overs : </strong><%=playerData.bowlingData.overs%> |<strong> Wickets :</strong> <%=playerData.bowlingData.wickets%></p>
+              <%}else{%>
+                <p><strong>Player did not bowl!!</strong></p>
+              <%}%>
+            </div>
+          </div>
+          
+        <div class=" shadow-sm">
+          <form action="/match/<%=matchDetails.matchId%>/update-player-score" method="POST" >
+            <input type="text" name="matchData" value="<%=JSON.stringify(playerData.matchData)%>" hidden>
+            <input type="text" name="battingData" value="<%=JSON.stringify(playerData.battingData)%>" hidden>
+            <input type="text" name="bowlingData" value="<%=JSON.stringify(playerData.bowlingData)%>" hidden>
+            <input type="text" name="battingIndex" value="<%=playerData.battingIndex%>" hidden>
+            <input type="text" name="bowlingIndex" value="<%=playerData.bowlingIndex%>" hidden>
+            <input type="text" name="teamMemberIndex" value="<%=index%>" hidden>
+            <input type="text" name="team" value="firstTeam" hidden>
+            <input type="text" name="battingInningsPosition" value="<%=playersScoreDetails.firstTeam.firstTeamBattingInningsPosition%>" hidden>
+            <input type="text" name="bowlingInningsPosition" value="<%=playersScoreDetails.firstTeam.firstTeamBowlingInningsPosition%>" hidden>
+           <%if(enteredRegNumbers.enteredRegNumbersFirstTeam.includes(playerData.regNumber)){%>
+              <button disabled class="btn btn-danger btn-lg btn-block">Player's Score added</button>
+            <%}else{%>
+              <%if(playerData.regNumber=="Not registered"){%>
+                <div class="d-flex align-items-center">
+                  <input type="text" name="regNumberInMatch" value="<%=playerData.regNumber%>" hidden>
+                  <input placeholder="Enter Player's Reg. Number" name="regNumber" autocomplete="off" class="form-control mr-3" required type="text" style="flex: 1;">
+                  <button id="add-player-button" class="btn btn-primary">Add Player's Score</button>
+                </div>
+                <%}else{%>
+                <input type="text" name="regNumberInMatch" value="<%=playerData.regNumber%>" hidden>
+                <input type="text" name="regNumber" value="<%=playerData.regNumber%>" hidden>
+                <button  class="btn btn-primary btn-lg btn-block">Click to Add Player's Score</button>
+                <%}%>
+            <%}%>
+          </form>
+        </div>
+        </li>
+    <%})%>
+    <hr>
+    <h4 class="text-primary p-2"><strong><%=matchDetails.secondTeam%> team players performances:</strong></h4>
+    <%playersScoreDetails.secondTeam.secondTeamPlayersScore.forEach((playerData,index)=>{%>
+      <li class="list-group-item list-group-item-action mb-1">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="item-text"><strong>Name : </strong><%=playerData.userName%></span>
+          </div>
+          <div>
+            <span class="item-text"><strong>Reg No : </strong><%=playerData.regNumber%></span>  
+          </div>
+        </div>
+        <hr>
+          <div class="row">
+            <div class="col-6">
+              <h5><strong>Batting Score:</strong></h5>
+              <%if(playerData.battingData){%>
+                <p><strong>Runs : </strong><%=playerData.battingData.runs%> | <strong>Balls : </strong><%=playerData.battingData.balls%></p>
+              <%}else{%>
+                <p><strong>Player did not bat!!</strong></p>
+              <%}%>
+            </div>
+            <div class="col-6">
+              <h5><strong>Bowling Score:</strong></h5>
+              <%if(playerData.bowlingData){%>
+              <p><strong>Runs given : </strong><%=playerData.bowlingData.runs%> | <strong>Overs : </strong><%=playerData.bowlingData.overs%> |<strong> Wickets :</strong> <%=playerData.bowlingData.wickets%></p>
+              <%}else{%>
+                <p><strong>Player did not bowl!!</strong></p>
+              <%}%>
+            </div>
+          </div>
+          
+        <div class=" shadow-sm">
+          <form action="/match/<%=matchDetails.matchId%>/update-player-score" method="POST" >
+            <input type="text" name="matchData" value="<%=JSON.stringify(playerData.matchData)%>" hidden>
+            <input type="text" name="battingData" value="<%=JSON.stringify(playerData.battingData)%>" hidden>
+            <input type="text" name="bowlingData" value="<%=JSON.stringify(playerData.bowlingData)%>" hidden>
+            <input type="text" name="battingIndex" value="<%=playerData.battingIndex%>" hidden>
+            <input type="text" name="bowlingIndex" value="<%=playerData.bowlingIndex%>" hidden>
+            <input type="text" name="teamMemberIndex" value="<%=index%>" hidden>
+            <input type="text" name="team" value="secondTeam" hidden>
+            <input type="text" name="battingInningsPosition" value="<%=playersScoreDetails.secondTeam.secondTeamBattingInningsPosition%>" hidden>
+            <input type="text" name="bowlingInningsPosition" value="<%=playersScoreDetails.secondTeam.secondTeamBowlingInningsPosition%>" hidden>
+           
+            <%if(enteredRegNumbers.enteredRegNumbersSecondTeam.includes(playerData.regNumber)){%>
+              <button disabled class="btn btn-danger btn-lg btn-block">Player's Score added</button>
+            <%}else{%>
+              <%if(playerData.regNumber=="Not registered"){%>
+                <div class="d-flex align-items-center">
+                  <input type="text" name="regNumberInMatch" value="<%=playerData.regNumber%>" hidden>
+                  <input placeholder="Enter Player's Reg. Number" name="regNumber" autocomplete="off" class="form-control mr-3" required type="text" style="flex: 1;">
+                  <button id="add-player-button" class="btn btn-primary">Add Player's Score</button>
+                </div>
+                <%}else{%>
+                <input type="text" name="regNumberInMatch" value="<%=playerData.regNumber%>" hidden>
+                <input type="text" name="regNumber" value="<%=playerData.regNumber%>" hidden>
+                <button  class="btn btn-primary btn-lg btn-block">Click to Add Player's Score</button>
+                <%}%>
+            <%}%>
+          </form>
+        </div>
+        </li>
+    <%})%>
+</div>
+
+  <%- include('includes/footer') %>

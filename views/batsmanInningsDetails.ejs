@@ -1,0 +1,35 @@
+<%- include('includes/header') %>
+<div class="container py-md-3">
+  <div class="row ">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 shadow ">
+          <div class="container scoreUpperPart">
+            
+            <h5 class="text-center"><strong> Team Name : <%=batsman.teamName%></strong></h5>
+            <p><strong>Player Name :</strong> <%=batsman.score.name%></p>
+            <p><strong>Innings Starts at - </strong><%=batsman.score.battingStartedAt%></p>
+            <p><strong>Player Out :</strong> <%= batsman.score.isOut ? "Yes" : "No"%></p>
+            <%if(batsman.score.isOut){%>
+              <p><strong>Out by the bowler : </strong><%=batsman.score.outBy%></p>
+            <%}%>
+            <div class="container scoreLowerPart ">
+              <p><strong>Scored runs : </strong><%=batsman.score.runs%></p>
+              <p><strong>Fetch balls : </strong><%=batsman.score.balls%></p>
+              <p><strong>Fours : </strong><%=batsman.score.fours%></p>
+              <p><strong>Sixes : </strong><%=batsman.score.sixes%></p>
+              <p><strong>Run rate : </strong><%=((batsman.score.runs*100)/batsman.score.balls).toFixed(2)%></p>
+              <p><strong>Fetching balls : </strong><%=batsman.score.ballsTracking%></p>
+            </div>
+            
+            <p><strong>Innings Ends at - </strong><%= batsman.score.isOut ? batsman.score.battingFinishedAt : "Not Out"%></p>
+          </div>
+          </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('includes/footer') %>

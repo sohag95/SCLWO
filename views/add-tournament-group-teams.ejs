@@ -1,0 +1,149 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+<div class="container py-md-5">
+    <h3>Tournament group added page</h3>
+    <p><strong>Tournament name : </strong><%=tournamentData.tournamentName%> (<%=tournamentData.tournamentYear%>)</p>
+    <h4>
+      All added groups for this tournament is : <%=tournamentData.groups.length%>
+    </h4>
+    <%tournamentData.groups.forEach((group)=>{%>
+      <h4><strong>Group name - <%=group.groupName%></strong></h4>
+      <table class="table table-sm table-borderless">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Team Name</strong> </th>
+            <th scope="col">Match Played</th>
+            <th scope="col">Win</th>
+            <th scope="col">Loss</th>
+            <th scope="col">Draw</th>
+            <th scope="col">Points</th>
+          </tr>
+        </thead>
+        <%group.teams.forEach((team)=>{%>
+          <tbody>
+            <tr>
+              <th scope="row"><%=team.teamFullName%> (<%=team.teamShortName%>)</th>
+              <td><%=team.matchesPlayed%></td>
+              <td><%=team.matchesWin%></td>
+              <td><%=team.matchesLoss%></td>
+              <td><%=team.tieOrDraw%></td>
+              <td><%=team.totalPoints%></td>
+            </tr>
+          </tbody>
+        <%})%>
+      </table>
+    <%})%>
+    <hr>
+    <%if(!tournamentData.isSecondRoundStarted){%>
+    <form action="/tournament/<%=tournamentData._id%>/add-group" method="POST" id="addGroupsOnTournament">
+      <div class="form-group">
+        <label for="groupName" class="text-muted mb-1"><small>Select Group Name</small></label>
+        <select required id="groupName" class="form-control" name="groupName" form="addGroupsOnTournament">
+          <%tournamentData.addedGroups.forEach((group)=>{%>
+            <option value="<%=group%>">Group <%=group%></option>
+          <%})%>
+          <option value="ALL">All teams in single group</option>
+        </select>
+      </div>
+      <ul id="addedTeams" class="list-group ">
+      </ul>
+      <input type="hidden" id="allTeams" name="allTeams">
+      <button id="submitGroupsButton" class="btn btn-lg btn-primary">ADD GROUP</button>
+    </form>
+
+    <h2 class="py-1">Enter team name:</h2>
+    <div class="jumbotron p-3 shadow-sm">
+      <form id="create-team-form" >
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="teamFullName" class="text-muted mb-1"><small>Team full name</small></label>
+              <input required  id="teamFullName" class="form-control" type="text" placeholder="Enter team name(full)" autocomplete="off" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="teamShortName" class="text-muted mb-1"><small>Team short name</small></label>
+              <input required  id="teamShortName" class="form-control" type="text" placeholder="Enter team name(short)" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        <button id="add-player-button" class="btn btn-primary">Add Team On Group</button>
+        </div>
+      </form>
+      
+        <form id="markAsAdded" action="/tournament/<%=tournamentData._id%>/allGroupsAdded" method="POST">
+          <button id="allGroupsAdded" class="btn btn-secondary btn-block btn-lg">Click to mark all groups added.</button>
+        </form>
+        <%if(tournamentData.isAddedAllGroups){%>
+        <button class="btn btn-danger btn-block btn-lg">ALL GROUPS ADDED.</button>
+        <%}%>
+      <hr>
+      <%if(!tournamentData.fixtureLink){%>
+        <form action="/tournament/<%=tournamentData._id%>/add-fixture-link" method="POST">
+          <div class="d-flex align-items-center">
+            <input id="create-field" name="fixtureLink" placeholder="Paste the link of tournament fixture."  autocomplete="off" class="form-control" required type="text" style="flex: 1;">
+            <button id="add-fixture-button" class="btn btn-primary">Submit Link</button>
+          </div>
+        </form>
+        <hr>
+      <%}else{%>
+        <div>
+          <p><strong>Link : </strong> <%=tournamentData.fixtureLink%></p>
+          <button id="match-success-button" class="btn btn-success btn-block">Fixture added</button>
+        </div>   
+      <%}%>
+      <div class="btn btn-lg btn-info m-2">
+        <a href="/tournament/qualified/<%=tournamentData._id%>/second-round-teams" style="color: #fff;">Click to add qualified teams for next stage...</a>
+      </div>
+    </div>
+    <script src="/addGroupTeams.js"></script> 
+    <%}else{%>
+      <h3><strong>Qualified teams for <%=tournamentData.secondRoundName%></strong></h3>
+      <hr>
+      <%tournamentData.secondRoundGroups.forEach((group)=>{%>
+        <h4><strong>Group name - <%=group.groupName%></strong></h4>
+        <table class="table table-sm table-borderless">
+          <thead>
+            <tr>
+              <th scope="col"><strong>Team Name</strong> </th>
+              <th scope="col">Match Played</th>
+              <th scope="col">Win</th>
+              <th scope="col">Loss</th>
+              <th scope="col">Draw</th>
+              <th scope="col">Points</th>
+            </tr>
+          </thead>
+          <%group.teams.forEach((team)=>{%>
+            <tbody>
+              <tr>
+                <th scope="row"><%=team.teamFullName%> (<%=team.teamShortName%>)</th>
+                <td><%=team.matchesPlayed%></td>
+                <td><%=team.matchesWin%></td>
+                <td><%=team.matchesLoss%></td>
+                <td><%=team.tieOrDraw%></td>
+                <td><%=team.totalPoints%></td>
+              </tr>
+            </tbody>
+          <%})%>
+        </table>
+      <%})%>
+      <%if(!tournamentData.secondRoundFixtureLink){%>
+        <form action="/tournament/<%=tournamentData._id%>/add-second-round-fixture-link" method="POST">
+          <div class="d-flex align-items-center">
+            <input  name="secondRoundFixtureLink" placeholder="Paste the link of second round fixture."  autocomplete="off" class="form-control" required type="text" style="flex: 1;">
+            <button  class="btn btn-primary">Submit Fixture Link</button>
+          </div>
+        </form>
+        <hr>
+      <%}else{%>
+        <div>
+          <p><strong>Link : </strong> <%=tournamentData.secondRoundFixtureLink%></p>
+          <button id="match-success-button" class="btn btn-success btn-block">Fixture link added</button>
+        </div>   
+      <%}%>
+      <hr>
+    <%}%> 
+</div>
+
+  <%- include('includes/footer') %>

@@ -1,0 +1,230 @@
+<%- include('includes/header') %>
+<div class="container py-md-3">
+  <div class="row align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 shadow">
+          <a class="small font-weight-bold" href="/singleRoomShortDetails/<%=room.matchId%>">&laquo; Back to Short Details</a>
+  
+          <h5 class="text-center text-uppercase fontBolder"><strong><%=room.matchDetails.firstTeam%> Vs <%=room.matchDetails.secondTeam%></strong></h5>
+          
+          <div class="scoreUpperPart btn-block row" style="margin-left: 0">
+            <div class="container">
+              <div class="container">
+                <div class="p_zero">
+                  <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  
+                    <%if(room.matchDetails.secondRoundName){%>
+                      | <%=room.matchDetails.secondRoundName%>
+                    <%}%>
+                    | Match no :<%=room.matchDetails.matchNumber%> </strong>
+                  </p>
+                  <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
+                  <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished){%>
+                    <%if(!room.matchCancled.hasCancled){%>
+                      <p class="fontBolder " style="color: red;display: inline-block;"><i class="fas fa-circle"></i> Live</p>
+                    <%}else{%>
+                      <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
+                    <%}%>
+                  <%}%>
+                </div>
+              </div>
+              
+              <!-- this is body part of the score card -->
+              <div class="container scoreLowerPart p_zero">
+                <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished && room.matchDetails.tossWonBy){%>
+                  <%if(room.emergency.hasEmergency){%>
+                    <p class="text-danger"><strong><%=room.emergency.emergencyMessage%></strong></p>
+                  <%}%>
+                  <p ><strong style="color: orangered;"><%=room.tossDetails%></strong></p>
+                    <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                    <p><i>-1st Innings</i>
+                      <%if(room.matchDetails.isInningsCompleted){%>
+                        <strong style="color: red;">(break)</strong>
+                      <%}%>
+                    </p>
+                    <p ><strong><%=room.batting.firstBattingTeam%></strong> - <%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>   </p>
+                    <p ><strong>Overs - </strong><%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%>  (<%=room.matchDetails.overs%> ovs.)</p>
+                    <p><strong>CRR - </strong><%=room.crr%></p>
+                    <%}else if(room.matchDetails.inningsStatus=="2nd Innings"){%>
+                      
+                      <p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%> ovs.) </p>
+                    
+                    <p ><i>-2nd Innings</i></p>
+                    <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>  </p>
+                    <p ><strong>Overs - </strong><%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%>  (<%=room.matchDetails.overs%> ovs.)</p>
+                    <p><strong>CRR - </strong><%=room.crr%></p>
+                     <%}else{%>
+                    <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
+                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                    </a>
+                    <a href="/secondInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
+                    </a>
+                    <%}%>
+                    
+                <%}else if(room.matchDetails.isFinished){%>
+                    <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
+                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                    </a>
+                    <a href="/secondInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
+                    </a>
+                    <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
+                <%}else{%>
+                <p ><strong><%=room.matchDetails.firstTeam%></strong></p>
+                <p ><strong><%=room.matchDetails.secondTeam%></strong></p>
+                <%}%>
+              </div>
+      
+              <hr />
+              <strong>1st Innings</strong>
+              <p class=" btn-block btn-info">Batting | <%=room.batting.firstBattingTeam%> :
+              <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                <%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%> 
+              <%}else{%>
+                <%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>
+              <%}%>
+              </p>
+                <table class="table table-sm table-borderless">
+                  <thead>
+                    <tr>
+                      <th scope="col">Player</th>
+                      <th scope="col">R(B)</th>
+                      <th scope="col">4s</th>
+                      <th scope="col">6s</th>
+                      <th scope="col">SR</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                      <%room.firstInningsBatting.allBatsman.forEach((batsman,index)=>{%>
+                        <tr>
+                          <th scope="row"><a href="/batsman/<%=room.matchId%>/<%=index%>/first/inningsDetails"><%=batsman.name%></a></th>
+                        <td><%=batsman.runs%>(<%=batsman.balls%>)</td>
+                        <td><%=batsman.fours%></td>
+                        <td><%=batsman.sixes%></td>
+                        <td><%=(batsman.runs*100/batsman.balls).toFixed(2)%></td>
+                        </tr>
+                        <tr>
+                          <%if(batsman.isOut){%>
+                            <%if(batsman.outType=="caught-out"){%>
+                              <td colspan="5"><p>c <i> <%=batsman.filderName%>  b <%=batsman.outBy%></i></p></td>
+                            <%}else if(batsman.outType=="lbw"){%>
+                              <td colspan="5"><p>lbw b <%=batsman.outBy%></p></td>
+                            <%}else if(batsman.outType=="bowled"){%>
+                              <td colspan="5"><p>b <%=batsman.outBy%></p></td>
+                            <%}else if(batsman.outType=="run-out"){%>
+                              <td colspan="5"><p>Run Out (<%=batsman.filderName%>)</p></td>
+                            <%}else if(batsman.outType=="stumping-out"){%>
+                              <td colspan="5"><p>stmp <%=batsman.filderName%> b <%=batsman.outBy%></p></td>
+                            <%}else if(batsman.outType=="hit-wicket"){%>
+                              <td colspan="5"><p>hit-out </p></td>
+                            <%}%>
+                          <%}else if(batsman.isRetiredHurt){%>
+                            <td colspan="5"><p>retire-hurt</p></td>
+                          <%}else if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                            <td colspan="5"><p>Batting</p></td>
+                          <%}else{%>
+                            <td colspan="5" ><p>Not out</p></td>
+                          <%}%> 
+                        </tr>
+                      <%})%>
+                  </tbody>
+                </table>
+              <hr />
+                <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                  <strong>Extras  <%=room.extras.totalWideBalls+room.extras.totalNoBalls+room.extras.totalByeRuns+room.extras.totalLegByeRuns+room.extras.paneltyRuns%></strong>
+                  <p>(nb <%=room.extras.totalNoBalls%>,b <%=room.extras.totalByeRuns%>,panelty <%=room.extras.paneltyRuns%>,wd <%=room.extras.totalWideBalls%>,lb <%=room.extras.totalLegByeRuns%>)</p>
+                  <hr>
+                  <strong>Total <%=room.liveScore.totalRuns%></strong>
+                  <p>(<%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%> ovrs,<%=room.liveScore.totalWickets%> Wkts) RR <%=room.crr%></p>
+              
+                <%}else{%>
+                  <strong>Extras  <%=room.firstInningsExtras.totalWideBalls+room.firstInningsExtras.totalNoBalls+room.firstInningsExtras.totalByeRuns+room.firstInningsExtras.totalLegByeRuns%>+panelty runs</strong>
+                  <p>(nb <%=room.firstInningsExtras.totalNoBalls%>,b <%=room.firstInningsExtras.totalByeRuns%>,panelty <%=room.firstInningsExtras.paneltyRuns%>,wd <%=room.firstInningsExtras.totalWideBalls%>,lb <%=room.firstInningsExtras.totalLegByeRuns%>)</p>
+                  <hr>
+                  <strong>Total <%=room.firstInningsScore.totalRuns%></strong>
+                  <p>(<%=room.firstInningsScore.totalOvers%> ovrs,<%=room.firstInningsScore.totalWickets%> Wkts) RR <%=(room.firstInningsScore.totalRuns/room.firstInningsScore.totalOvers).toFixed(2)%></p>
+              
+                <%}%>
+              <hr>
+              
+                
+              <p class=" btn-block btn-info">Bowling</p>
+              <table class="table table-sm table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">Bowler</th>
+                    <th scope="col">Ovs</th>
+                    <th scope="col">Mdn</th>
+                    <th scope="col">Run</th>
+                    <th scope="col">Wkt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%let index=0%>
+                    <%room.firstInningsBowling.allBowlers.forEach((bowler)=>{%>
+                      <tr>
+                      <th scope="row"><%=bowler.name%></th>
+                      <td><%=bowler.overs%>
+                      <%if(index==room.state.bowlerIndex && room.matchDetails.inningsStatus=="1st Innings"){%>
+                        .<%=room.eachOver.ballNumber%>
+                      <%}%>
+                      </td>
+                      <td><%=bowler.madenOvers%></td>
+                      <td><%=bowler.runs%></td>
+                      <td><%=bowler.wickets%></td>
+                    </tr>
+                    <%index+=1%>
+                    <%})%>
+                  
+                </tbody>
+              </table>
+              <hr>
+              <p class=" btn-block btn-info">Fall of wickets</p>
+              <table class="table table-sm table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">Wkt</th>
+                    <th scope="col">Runs</th>
+                    <th scope="col">Ovs</th>
+                    <th scope="col">Player</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <%let wicketNo=1%>
+                    <%room.firstInningsFallOfWickets.forEach((wicket)=>{%>
+                      <tr>
+                      <th scope="row"><%=wicketNo%></th>
+                      <td><%=wicket.runs%></td>
+                      <td><%=wicket.overs%></td>
+                      <td><%=wicket.batsman%></td>
+                    </tr>
+                    <%wicketNo+=1%>
+                    <%})%>
+                   
+                  
+                </tbody>
+              </table>
+              <!-- in this section i have to add dynamic values -->
+              
+              
+              
+              
+              <hr />
+              <p class=" btn-block btn-info">Match Info</p>
+              <%- include('includes/matchInfo') %>
+            </div>
+           
+          </div>
+          
+          </div>
+          
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('includes/footer') %>

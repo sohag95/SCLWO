@@ -1,0 +1,50 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+<div class="container py-md-5">
+    <h3>Qualified teams for next round page .</h3>
+    <p><strong>Tournament name : </strong><%=tournamentData.tournamentName%> (<%=tournamentData.tournamentYear%>)</p>
+    <h4>
+      All added groups for this tournament is : <%=tournamentData.groups.length%>
+    </h4>
+    <%tournamentData.groups.forEach((group,groupIndex)=>{%>
+      <h4><strong>Group name - <%=group.groupName%></strong></h4>
+      <table class="table table-sm table-borderless">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Team Name</strong> </th>
+            <th scope="col">Match Played</th>
+            <th scope="col">Win</th>
+            <th scope="col">Points</th>
+            <th scope="col">Mark If Qualified</th>
+          </tr>
+        </thead>
+        <%group.teams.forEach((team,teamIndex)=>{%>
+          <tbody>
+            <tr>
+              <th scope="row"><%=team.teamFullName%> (<%=team.teamShortName%>)</th>
+              <td><%=team.matchesPlayed%></td>
+              <td><%=team.matchesWin%></td>
+              <td><%=team.totalPoints%></td>
+              <td ><button data-id="<%=groupIndex%>" id="<%=team.teamFullName%>" value="<%=teamIndex%>" class="qualifiedButton btn btn-sm btn-danger"> Click If Qualified</button> </td>
+            </tr>
+          </tbody>
+        <%})%>
+      </table>
+    <%})%>
+    <hr>
+      <h3 class="text-primary text-center"><Strong>Qualified Teams</Strong></h3>
+      <p class="text-center warning text-danger "><strong>Enter round name!!</strong> </p>
+      <form action="/tournament/qualified/<%=tournamentData._id%>/second-round-teams" method="POST" id="addQualifiedTeamsForm">
+      <div class="form-group">
+        <label for="roundName" class="text-muted mb-1">Round name</label>
+        <input required name="roundName" id="roundName" class="form-control" type="text" placeholder="Give a name for this round" autocomplete="off" />
+      </div>
+      <ul id="addedQualifiedTeams" class="list-group ">
+      </ul>
+      <input type="hidden" id="allQualifiedTeams" name="allTeams">
+      <button id="submitQualifiedTeamsButton" class="btn btn-lg btn-primary">ADD QUALIFIED TEAMS</button>
+    </form>
+    <script src="/addSecondRoundTeams.js"></script>  
+</div>
+
+  <%- include('includes/footer') %>

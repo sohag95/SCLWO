@@ -1,0 +1,31 @@
+
+<div class="container">
+  <h3 class=" py-1">Registered Players Of <%=createTeamList.clubName%> </h3>
+  <ul id="club-players" class="list-group pb-2">
+  </ul>
+
+  <h2 class="py-1">Enter unregistered player's name:</h2>
+  <div class="jumbotron p-3 shadow-sm">
+    <form id="create-form" >
+      <div class="d-flex align-items-center">
+      <input id="create-field" name="item" autofocus autocomplete="off" class="form-control mr-3" required type="text" style="flex: 1;">
+      <button id="add-player-button" class="btn btn-primary">Add New Player</button>
+      </div>
+    </form>
+  </div>
+
+  <h3 id="remainMessage"><strong id="remainToAdd" class="text-warning">12 players remain</strong> to add on <strong class="text-warning"><%=createTeamList.clubName%></strong> team list.</h3>
+  <h3 id="createdMessage" class="text-success"><strong>Team List Created</strong> </h3>
+  <form id="add11form" class="card" action="/create-team-list" method="POST">
+    <ul id="item-list" class="list-group ">
+    </ul>
+    <input hidden type="text" name="teamListOf" value="<%=createTeamList.teamListOf%>">
+    <input hidden type="text" name="clubName" value="<%=createTeamList.clubName%>">
+    <input hidden type="text" id="team-11-players" name="teamPlayers">
+    <button id="submit11button" class="btn btn-primary">Submit Team List</button>
+  </form>
+  <script>
+    let allPlayers = <%-JSON.stringify(createTeamList.allPlayers)%>
+  </script>
+  <script src="/createTeamList.js"></script>
+</div>
