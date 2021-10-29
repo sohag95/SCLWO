@@ -1,0 +1,42 @@
+<%- include('includes/header') %> <%- include('includes/flash') %>
+<div class="container py-md-3">
+  <h3 class="m-2 text-center"><strong>All available match rooms</strong></h3>
+  <%if(!roomsData.length){%>
+    <div style="height: 50vh;">
+      <button class="btn btn-lg btn-block btn-info">There is no match room available!</button>
+    </div>
+  <%}%>
+ 
+  <%roomsData.forEach((room)=>{%>
+    <div class="scoreUpperPart btn-block row m-4" >
+      <!-- this is header part of score card -->
+      <div class="container">
+        <div class="p_zero">
+          <p class="text-uppercase"><strong><%=room.tournamentName%>  
+            <%if(room.secondRoundName){%>
+              | <%=room.secondRoundName%>
+            <%}%>
+            | Match no :<%=room.matchNumber%> </strong>
+          </p>
+          <p ><strong>Venue -</strong> <%=room.venue%></p>
+        </div>
+      </div>
+      <div class="container scoreLowerPart p_zero">
+        <p class="text-uppercase"><strong><%=room.firstTeam%></strong></p>
+        <p class="text-uppercase"><strong><%=room.secondTeam%></strong></p>
+      </div>
+      <div class="container">
+        <div class="p_zero"> 
+          <p >Starts at <%=room.matchStartingTime%> on <%=room.dateOfTheMatch%></p>
+        </div>
+        <hr>
+        <p><strong>Room Id :</strong> <%=room.matchId%>  <span class="float-right"><strong >Room Password :</strong> <%=room.password%></span></p>
+        <form  action="/match-room/<%=room._id%>/delete" method="post">
+          <button class="btn btn-danger">Delete Room</button>
+        </form>
+      </div> 
+      
+    </div>
+  <%})%>
+</div>
+<%- include('includes/footer') %>

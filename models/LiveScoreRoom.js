@@ -200,6 +200,17 @@ LiveScoreRoom.prototype.createRoom = function () {
   })
 }
 
+LiveScoreRoom.deleteRoom = function(id) {
+  return new Promise(async function(resolve, reject) {
+    try{
+      await liveRoomCollection.deleteOne({_id: new ObjectId(id)})
+      resolve()
+    }catch{
+      reject()
+    }
+  })
+}
+
 LiveScoreRoom.prototype.LiveScoreRoomControllerLogin = function () {
   return new Promise((resolve, reject) => {
     try {
@@ -655,18 +666,23 @@ LiveScoreRoom.manOfTheMatch = function (data, matchId) {
 
 LiveScoreRoom.findSingleRoomById = function(id) {
   return new Promise(async function(resolve, reject) {
-    if (typeof(id) != "string" || !ObjectId.isValid(id)) {
+    try{
+      if (typeof(id) != "string" || !ObjectId.isValid(id)) {
+        reject()
+        return
+      }
+      let room = await liveRoomCollection.findOne({_id: new ObjectId(id)})
+      if (room) {
+        resolve(room)
+      } else {
+        reject()
+      }
+    }catch{
       reject()
-      return
-    }
-    let room = await liveRoomCollection.findOne({_id: new ObjectId(id)})
-    if (room) {
-      resolve(room)
-    } else {
-      reject()
-    }
+    } 
   })
 }
+
 
 LiveScoreRoom.addScoreCardLink = function(scoreCardLink,id) {
   return new Promise(async (resolve, reject)=> {

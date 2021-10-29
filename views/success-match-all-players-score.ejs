@@ -134,6 +134,13 @@
         </div>
         </li>
     <%})%>
+    <hr>
+    <%if(!matchDetails.scoreAdditionCompleted){%>
+      <form action="/all-players-data/<%=matchDetails.matchId%>/added/marked" method="post">
+        <button class="btn btn-lg btn-block btn-danger m-2">Click to mark as all player's data added.</button>
+      </form>
+    <%}%>
+    
 </div>
 
   <%- include('includes/footer') %>

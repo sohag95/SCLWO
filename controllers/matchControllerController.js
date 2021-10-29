@@ -11,7 +11,7 @@ const completedMatchesCollection = require("../db").db().collection("CompletedMa
 exports.matchControllerHome=async function(req,res){
   try{
     let date=new Date()
-    let tournaments=await tournamentCollection.find({tournamentYear:String(date.getFullYear())}).sort({ createdDate: -1 }).toArray()
+    let tournaments=await tournamentCollection.find({tournamentYear:String(date.getFullYear()),isTournamentCompleted:false}).sort({ createdDate: -1 }).toArray()
     let rooms=await liveRoomCollection.find({matchFinished:true}).toArray()
     let successMatches=await completedMatchesCollection.find({scoreAdditionCompleted:false}).toArray()
     let completedMatches=rooms.map((room)=>{
@@ -63,6 +63,40 @@ exports.addGroupPage=async function(req,res){
       tournamentData:req.tournamentData,
       regErrors: req.flash("regErrors")
     })
+}
+
+exports.availableMatchRooms=async function(req,res){
+  try{
+    let allRooms=await liveRoomCollection.find({"matchDetails.isStarted":false}).toArray()
+    let roomsData=[]
+    allRooms.forEach((room)=>{
+      let data={
+        _id:room._id,
+        matchId:room.matchId,
+        password:room.password,
+        tournamentName: room.matchDetails.tournamentName,
+        tournamentYear:room.matchDetails.tournamentYear,
+        secondRoundName:room.matchDetails.secondRoundName,
+        groupName:room.matchDetails.groupName,
+        secondRoundName:room.matchDetails.secondRoundName,
+        matchNumber: room.matchDetails.matchNumber,
+        venue: room.matchDetails.venue,
+        firstTeam: room.matchDetails.firstTeam,
+        secondTeam: room.matchDetails.secondTeam,
+        dateOfTheMatch:room.matchDetails.dateOfTheMatch,
+        matchStartingTime: room.matchDetails.matchStartingTime,
+      }
+      roomsData.push(data)
+    })
+    res.render('all-available-match-rooms',{
+      roomsData:roomsData
+    })
+  }catch{
+    req.flash('errors', "Sorry there is some problem.Try again later!!")
+    req.session.save(function() {
+      res.redirect('/matchController-home')
+    })
+  }
 }
 
 exports.getSecondRoundTeamsPage=function(req,res){
@@ -130,6 +164,45 @@ exports.matchControllerLogin = function(req, res) {
   })
 }
 
+exports.liveMatchRoomCreate =function (req, res) {
+  try {
+    let liveScoreRoom = new LiveScoreRoom(req.body)
+    console.log("body", req.body)
+    liveScoreRoom
+      .createRoom()
+      .then(function (matchId) {
+        let message="Live Score Room Successfully created.Room id is : "+matchId+" and Room password is : "+req.body.password
+        req.flash("success", message)
+        req.session.save(() => res.redirect("/matchController-home"))
+      })
+      .catch(function (errors) {
+        errors.forEach(error => req.flash("errors", error))
+        req.session.save(() => res.redirect("/matchController-home"))
+      })
+  } catch {
+    res.render("404")
+  }
+}
+
+exports.liveMatchRoomDelete =function (req, res) {
+  try {
+    
+    LiveScoreRoom
+      .deleteRoom(req.params._id)
+      .then(function () {
+        let message="Live Score Room Successfully deleted."
+        req.flash("success", message)
+        req.session.save(() => res.redirect("/all-available-match-rooms"))
+      })
+      .catch(function () {
+         req.flash("errors", "Sorry there is some problem.Try again later!")
+        req.session.save(() => res.redirect("/all-available-match-rooms"))
+      })
+  } catch {
+    res.render("404")
+  }
+}
+
 exports.addNewTournament =function (req, res) {
   try {
     let matchController = new MatchController(req.body)
@@ -159,6 +232,44 @@ exports.ifTournamentExists = function(req, res, next) {
     res.render("404")
   })
 }
+
+exports.deleteTournament=function(req,res){
+  let tournamentName=req.body.tournamentName
+  if(req.tournamentData.tournamentName==tournamentName){
+    if(!req.tournamentData.isTournamentCompleted && !req.tournamentData.isSecondRoundStarted){
+      MatchController.deleteTournament(req.params._id).then(()=>{
+        req.flash("success", "Tournament successfully deleted.")
+        req.session.save(() => res.redirect("/matchController-home"))
+      }).catch(()=>{
+        req.flash("errors", "There is some problem")
+        req.session.save(() => res.redirect(`/tournament/${req.params._id}/add-group`))
+      })
+    }else{
+      req.flash("errors", "You can not delete this tournament.It is marked as completed or second round has started.")
+      req.session.save(() => res.redirect(`/tournament/${req.params._id}/add-group`))
+    }
+  }else{
+    req.flash("errors", "You have written wrong tournament name!!")
+    req.session.save(() => res.redirect(`/tournament/${req.params._id}/add-group`))
+  }
+}
+
+exports.tournamentCompleted=function(req,res){
+  let checkWord=req.body.checkWord
+  if(checkWord=="completed"){
+      MatchController.tournamentCompleted(req.params._id).then(()=>{
+        req.flash("success", "Successfully marked the tournament as COMPLETED !!.")
+        req.session.save(() => res.redirect("/matchController-home"))
+      }).catch(()=>{
+        req.flash("errors", "There is some problem")
+        req.session.save(() => res.redirect(`/tournament/${req.params._id}/add-group`))
+      })
+  }else{
+    req.flash("errors", "Please write 'completed' to mark the tournament as completed!!")
+    req.session.save(() => res.redirect(`/tournament/${req.params._id}/add-group`))
+  }
+}
+
 exports.addFixtureLink=function(req,res){
   MatchController.addFixtureLink(req.body.fixtureLink,req.params._id).then(()=>{
     req.flash("success", "Tournament Fixture link successfully added.")
@@ -237,26 +348,6 @@ exports.allGroupsAdded =function (req, res) {
 }
 
 
-exports.liveMatchRoomCreate =function (req, res) {
-  try {
-    let liveScoreRoom = new LiveScoreRoom(req.body)
-    console.log("body", req.body)
-    liveScoreRoom
-      .createRoom()
-      .then(function (matchId) {
-        let message="Live Score Room Successfully created.Room id is : "+matchId+" and Room password is : "+req.body.password
-        req.flash("success", message)
-        req.session.save(() => res.redirect("/matchController-home"))
-      })
-      .catch(function (errors) {
-        errors.forEach(error => req.flash("errors", error))
-        req.session.save(() => res.redirect("/matchController-home"))
-      })
-  } catch {
-    res.render("404")
-  }
-}
-
 exports.markSuccessfullyDone =function (req, res) {
  let matchesLiveToComplete=new MatchesLiveToCompleted(req.matchData)
  matchesLiveToComplete.successfullyDone()
@@ -278,7 +369,15 @@ exports.ifSuccessMatchExists = function(req, res, next) {
     res.render("404")
   })
 }
-
+//in case of searching successfull match room by typing matchId.
+exports.searchMatchId = function(req, res, next) {
+  SuccessMatchRoom.findSingleRoomById(req.body.matchId).then(function(matchData) {
+    req.successMatchData=matchData
+    next()
+  }).catch(function() {
+    res.render("404")
+  })
+}
 
 exports.getPlayersScoreUpdationPage = function(req, res) {
   let matchData=req.successMatchData
@@ -289,6 +388,7 @@ exports.getPlayersScoreUpdationPage = function(req, res) {
   }
   let matchDetails={
     matchId:matchData.matchId,
+    scoreAdditionCompleted:matchData.scoreAdditionCompleted,
     tournamentName:matchData.matchDetails.tournamentName,
     tournamentYear:matchData.matchDetails.tournamentYear,
     venue:matchData.matchDetails.venue,
@@ -316,5 +416,14 @@ exports.playerScoreUpdate = function(req, res) {
     errors.forEach(error => req.flash("errors", error))
     req.session.save(() => res.redirect(`/players-scores/${req.params.matchId}/updation/link/page`))
   })
-  
+}
+
+exports.markAsAllPlayerDataAdded = function(req, res) {
+  SuccessMatchRoom.markAsPlayersDataAdded(req.successMatchData._id).then(()=>{
+    req.flash("success", "Successfully marked.")
+    req.session.save(() => res.redirect("/matchController-home"))
+  }).catch(()=>{
+    req.flash("errors", "There is some problem.Please try again later!")
+    req.session.save(() => res.redirect("/matchController-home"))
+  })
 }

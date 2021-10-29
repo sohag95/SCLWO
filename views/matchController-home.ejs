@@ -29,9 +29,14 @@
                 <div class="card-body"><%- include('includes/changePasswordForm') %></div>
               </div>
             </div>
+            <div class="card-header" >
+              <h5 class="mb-0">
+               <a href="/all-available-match-rooms"><button class="btn btn-link  bolderFont" >All Available Matches</button></a> 
+              </h5>
+            </div>
           </div>
           <hr>
-          <h3 class="bold-font">Tournaments of 2021</h3>
+          <h3 class="bold-font">All Running Tournaments</h3>
           <%if(!tournaments.length){%>
             <div class="btn btn-lg btn-block btn-info">No tournament available!!</div>
           <%}%>
@@ -168,6 +173,14 @@
           <%})%> 
           </div> 
           <h4 class="bold-font">Matches score ready to add on player's account:</h4>
+          <form class="m-2" action="/search-match-room" method="post">
+            <h4><strong>Search completed match :</strong></h4>
+            <div class="d-flex align-items-center">
+              <input  name="matchId" autocomplete="off" placeholder="Enter matchId" class="form-control mr-3" required type="text" style="flex: 1;">
+              <button  class="btn btn-primary">Search</button>
+            </div>
+          </form>
+          <hr>
           <div class="card p-2">
             <%if(!successMatches.length){%>
               <div class="btn btn-lg btn-block btn-info">No match available!!</div>

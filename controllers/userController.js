@@ -40,6 +40,7 @@ exports.guestHome=async function(req,res){
 
 exports.singleRoomShortDetails = async function (req, res) {
   try {
+    
     let roomData = await liveRoomCollection.findOne({ matchId: req.params.matchId })
     let data=roomData
     let tossWonBy

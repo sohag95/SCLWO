@@ -38,12 +38,17 @@ router.get("/practice-match-addition-form", playerController.playerMustBeLoggedI
 router.post("/matchController-login", matchControllerController.matchControllerLogin)
 router.get("/matchController-home",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.matchControllerHome)
 router.post("/live-match-room-create", matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.liveMatchRoomCreate)
+router.get("/all-available-match-rooms",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.availableMatchRooms)
+router.post("/match-room/:_id/delete",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifMatchRoomExists,matchControllerController.liveMatchRoomDelete)
+
 router.post("/add-new-tournament", matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.addNewTournament)
 router.get("/tournament/:_id/add-group",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.addGroupPage)
 router.post("/tournament/:_id/add-group",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.addGroupOnTournament)
 router.post("/tournament/:_id/allGroupsAdded",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.allGroupsAdded)
 router.get("/tournament/qualified/:_id/second-round-teams",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.getSecondRoundTeamsPage)
 router.post("/tournament/qualified/:_id/second-round-teams",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.addSecondRoundTeams)
+router.post("/tournament/:_id/delete",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.deleteTournament)
+router.post("/tournament/:_id/completed",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.tournamentCompleted)
 
 router.post("/match/:_id/add-scoreCard-link",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifMatchRoomExists,matchControllerController.addScoreCardLink)
 router.post("/tournament/:_id/add-fixture-link",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.addFixtureLink)
@@ -51,6 +56,8 @@ router.post("/tournament/:_id/add-second-round-fixture-link",matchControllerCont
 router.post("/match/:_id/successfullyDone",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifMatchRoomExists,matchControllerController.markSuccessfullyDone)
 router.get("/players-scores/:matchId/updation/link/page",matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.ifSuccessMatchExists,matchControllerController.getPlayersScoreUpdationPage)
 router.post("/match/:matchId/update-player-score",matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.ifSuccessMatchExists,matchControllerController.playerScoreUpdate)
+router.post("/all-players-data/:matchId/added/marked",matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.ifSuccessMatchExists,matchControllerController.markAsAllPlayerDataAdded)
+router.post("/search-match-room",matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.searchMatchId,matchControllerController.getPlayersScoreUpdationPage)
 
 
 //Live scorer related routes

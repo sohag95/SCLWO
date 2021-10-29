@@ -3,9 +3,50 @@
 <div class="container py-md-5">
     <h3>Tournament group added page</h3>
     <p><strong>Tournament name : </strong><%=tournamentData.tournamentName%> (<%=tournamentData.tournamentYear%>)</p>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="deleteTournament">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed bolderFont" data-toggle="collapse" data-target="#collapseDeleteTournament" aria-expanded="false" aria-controls="collapseDeleteTournament">Delete Tournament</button>
+          </h5>
+        </div>
+        <div id="collapseDeleteTournament" class="collapse" aria-labelledby="deleteTournament" data-parent="#accordion">
+          <div class="card-body">
+            <form action="/tournament/<%=tournamentData._id%>/delete" method="post">
+              <h4>Write <strong>"<%=tournamentData.tournamentName%>"</strong> to delete the tournament.</h4>
+              <div class="d-flex align-items-center">
+                <input  name="tournamentName" autocomplete="off" placeholder="Write tournament name here" class="form-control mr-3" required type="text" style="flex: 1;">
+                <button  class="btn btn-danger">Delete Tournament</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="completedTournament">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed bolderFont" data-toggle="collapse" data-target="#collapseCompletedTournament" aria-expanded="false" aria-controls="collapseCompletedTournament">Mark As Completed Tournament</button>
+          </h5>
+        </div>
+        <div id="collapseCompletedTournament" class="collapse" aria-labelledby="completedTournament" data-parent="#accordion">
+          <div class="card-body">
+            <form action="/tournament/<%=tournamentData._id%>/completed" method="post">
+              <h4>Write <strong>"completed"</strong> to mark the tournament as completed.</h4>
+              <div class="d-flex align-items-center">
+                <input  name="checkWord" autocomplete="off" placeholder="Write 'completed' here" class="form-control mr-3" required type="text" style="flex: 1;">
+                <button  class="btn btn-success"> Tournament Completed</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     <h4>
       All added groups for this tournament is : <%=tournamentData.groups.length%>
     </h4>
+    
     <%tournamentData.groups.forEach((group)=>{%>
       <h4><strong>Group name - <%=group.groupName%></strong></h4>
       <table class="table table-sm table-borderless">
@@ -34,49 +75,52 @@
       </table>
     <%})%>
     <hr>
+    
     <%if(!tournamentData.isSecondRoundStarted){%>
-    <form action="/tournament/<%=tournamentData._id%>/add-group" method="POST" id="addGroupsOnTournament">
-      <div class="form-group">
-        <label for="groupName" class="text-muted mb-1"><small>Select Group Name</small></label>
-        <select required id="groupName" class="form-control" name="groupName" form="addGroupsOnTournament">
-          <%tournamentData.addedGroups.forEach((group)=>{%>
-            <option value="<%=group%>">Group <%=group%></option>
-          <%})%>
-          <option value="ALL">All teams in single group</option>
-        </select>
-      </div>
-      <ul id="addedTeams" class="list-group ">
-      </ul>
-      <input type="hidden" id="allTeams" name="allTeams">
-      <button id="submitGroupsButton" class="btn btn-lg btn-primary">ADD GROUP</button>
-    </form>
-
-    <h2 class="py-1">Enter team name:</h2>
-    <div class="jumbotron p-3 shadow-sm">
-      <form id="create-team-form" >
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="teamFullName" class="text-muted mb-1"><small>Team full name</small></label>
-              <input required  id="teamFullName" class="form-control" type="text" placeholder="Enter team name(full)" autocomplete="off" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label for="teamShortName" class="text-muted mb-1"><small>Team short name</small></label>
-              <input required  id="teamShortName" class="form-control" type="text" placeholder="Enter team name(short)" autocomplete="off" />
-            </div>
-          </div>
+      <%if(!tournamentData.isAddedAllGroups){%>
+      <form action="/tournament/<%=tournamentData._id%>/add-group" method="POST" id="addGroupsOnTournament">
+        <div class="form-group">
+          <label for="groupName" class="text-muted mb-1"><small>Select Group Name</small></label>
+          <select required id="groupName" class="form-control" name="groupName" form="addGroupsOnTournament">
+            <%tournamentData.addedGroups.forEach((group)=>{%>
+              <option value="<%=group%>">Group <%=group%></option>
+            <%})%>
+            <option value="ALL">All teams in single group</option>
+          </select>
         </div>
-        <button id="add-player-button" class="btn btn-primary">Add Team On Group</button>
-        </div>
+        <ul id="addedTeams" class="list-group ">
+        </ul>
+        <input type="hidden" id="allTeams" name="allTeams">
+        <button id="submitGroupsButton" class="btn btn-lg btn-primary">ADD GROUP</button>
       </form>
+
+      <h2 class="py-1">Enter team name:</h2>
+      <div class="jumbotron p-3 shadow-sm">
+        <form id="create-team-form" >
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="teamFullName" class="text-muted mb-1"><small>Team full name</small></label>
+                <input required  id="teamFullName" class="form-control" type="text" placeholder="Enter team name(full)" autocomplete="off" />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="teamShortName" class="text-muted mb-1"><small>Team short name</small></label>
+                <input required  id="teamShortName" class="form-control" type="text" placeholder="Enter team name(short)" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+          <button id="add-player-button" class="btn btn-primary">Add Team On Group</button>
+          </div>
+        </form>
       
         <form id="markAsAdded" action="/tournament/<%=tournamentData._id%>/allGroupsAdded" method="POST">
           <button id="allGroupsAdded" class="btn btn-secondary btn-block btn-lg">Click to mark all groups added.</button>
         </form>
-        <%if(tournamentData.isAddedAllGroups){%>
-        <button class="btn btn-danger btn-block btn-lg">ALL GROUPS ADDED.</button>
+        <script src="/addGroupTeams.js"></script> 
+        <%}else{%>
+        <button class="btn btn-info btn-block btn-lg">ALL GROUPS ARE ADDED!</button>
         <%}%>
       <hr>
       <%if(!tournamentData.fixtureLink){%>
@@ -97,7 +141,7 @@
         <a href="/tournament/qualified/<%=tournamentData._id%>/second-round-teams" style="color: #fff;">Click to add qualified teams for next stage...</a>
       </div>
     </div>
-    <script src="/addGroupTeams.js"></script> 
+    
     <%}else{%>
       <h3><strong>Qualified teams for <%=tournamentData.secondRoundName%></strong></h3>
       <hr>

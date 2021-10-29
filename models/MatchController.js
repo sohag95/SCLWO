@@ -85,7 +85,8 @@ MatchController.prototype.createTournament = function () {
           secondRoundName:null,
           secondRoundGroups:[],
           secondRoundFixtureLink:null,
-          createdDate:date
+          createdDate:date,
+          isTournamentCompleted:false
         }
         tournamentCollection.insertOne(details).then((info)=>{
           resolve(info.insertedId)
@@ -97,6 +98,33 @@ MatchController.prototype.createTournament = function () {
       }
     } catch {
       reject(["Ther is some problem."])
+    }
+  })
+}
+
+MatchController.deleteTournament = function(id) {
+  return new Promise(async function(resolve, reject) {
+    try{
+      await tournamentCollection.deleteOne({_id: new ObjectId(id)})
+      resolve()
+    }catch{
+      reject()
+    }
+  })
+}
+
+
+MatchController.tournamentCompleted = function(id) {
+  return new Promise(async function(resolve, reject) {
+    try{
+      await tournamentCollection.findOneAndUpdate({_id: new ObjectId(id)},{
+        $set:{
+          "isTournamentCompleted":true
+        }
+      })
+      resolve()
+    }catch{
+      reject()
     }
   })
 }
