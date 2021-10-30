@@ -2,6 +2,8 @@ const performanceTableCollection = require("../db").db().collection("performance
 const completedMatchesCollection = require("../db").db().collection("CompletedMatches")
 const tournamentCollection = require("../db").db().collection("Tournaments")
 const administrationCollection = require("../db").db().collection("administration")
+const CommonFunctions = require('../models/CommonFunctions')
+//last time worked on team name addition for each top payers data.
 
 const ObjectId = require('mongodb').ObjectId
 
@@ -18,6 +20,7 @@ let UpdatePlayerScore=function(bodyData,matchDetails){
   this.batterRegNumber
   this.bowlingName
   this.bowlingRegNumber
+  this.teamName
  }
  
  UpdatePlayerScore.prototype.checkPlayerExistsOrNot=function(){
@@ -42,14 +45,17 @@ let UpdatePlayerScore=function(bodyData,matchDetails){
   })
  }
 
- UpdatePlayerScore.prototype.checkGivenDataCorrectOrNot=function(){  
+ UpdatePlayerScore.prototype.checkGivenDataCorrectOrNot=function(){ 
+   let battingTeam=CommonFunctions.getBattingTeamName(this.matchDetails)
   if(this.battingData!=null){
     let battingIndex=Number(this.bodyData.battingIndex)
     let battingScore
       if(this.bodyData.battingInningsPosition=="firstInningsBatting"){
         battingScore=this.matchDetails.firstInningsBatting.allBatsman[battingIndex]
+        this.teamName=battingTeam.firstBattingTeam
       }else{
         battingScore=this.matchDetails.secondInningsBatting.allBatsman[battingIndex]
+        this.teamName=battingTeam.secondBattingTeam
       }
       
       //taking batters out type
@@ -71,8 +77,10 @@ let UpdatePlayerScore=function(bodyData,matchDetails){
     let bowlingScore
       if(this.bodyData.bowlingInningsPosition=="firstInningsBowling"){
         bowlingScore=this.matchDetails.firstInningsBowling.allBowlers[bowlingIndex]
+        this.teamName=battingTeam.secondBattingTeam
       }else{
         bowlingScore=this.matchDetails.secondInningsBowling.allBowlers[bowlingIndex]
+        this.teamName=battingTeam.firstBattingTeam
       }
       this.bowlerName=bowlingScore.name
       this.bowlerRegNumber=bowlingScore.regNumber
@@ -262,6 +270,7 @@ return new Promise(async(resolve,reject)=>{
         let batterData={
           userName:this.batterName,
           regNumber:this.batterRegNumber,
+          teamName:this.teamName,
           runs:tillNowScoredRuns+this.battingData.runs,
           matchesPlayed:totalMatches+1
          }
@@ -286,6 +295,7 @@ return new Promise(async(resolve,reject)=>{
         let bowlerData={
         userName:this.bowlerName,
         regNumber:this.bowlerRegNumber,
+        teamName:this.teamName,
         wickets:tillNowTakenWickets+this.bowlingData.wickets,
         matchesPlayed:totalMatches+1
         }

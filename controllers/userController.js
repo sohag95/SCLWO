@@ -1,5 +1,8 @@
 const User=require('../models/User')
+const tournamentCollection = require("../db").db().collection("Tournaments")
 const liveRoomCollection = require("../db").db().collection("LiveMatchRoom")
+const administrationCollection = require("../db").db().collection("administration")
+
 const CommonFunctions = require('../models/CommonFunctions')
 
 exports.logout = function (req, res) {
@@ -33,6 +36,106 @@ exports.guestHome=async function(req,res){
       return data
     })
     res.render("guest-home",{rooms:rooms})
+  } catch {
+    res.render("404")
+  }
+}
+
+exports.tournaments =async function (req, res) {
+  try{
+    let tournaments=await tournamentCollection.find().toArray()
+    let activeTournaments=[]
+    let oldTournaments=[]
+    tournaments.forEach((tournament)=>{
+      if(!tournament.isTournamentCompleted){
+        activeTournaments.push(tournament)
+      }else{
+        oldTournaments.push(tournament)
+      }
+    })
+    res.render('tournaments',{
+      activeTournaments:activeTournaments,
+      oldTournaments : oldTournaments
+    })
+  }catch{
+    res.render("404")
+  }
+}
+
+exports.singleTournament = function (req, res) {
+  res.render('single-tournament-details',{
+    tournamentData:req.tournamentData
+  })
+}
+
+exports.singleTeam = function (req, res) {
+  let tournamentData=req.tournamentData
+  let groupIndex=Number(req.params.groupIndex)
+  let teamIndex=Number(req.params.teamIndex)
+  let round=req.params.round
+  let groupName
+  let teamData
+  let tournament={
+    tournamentName:tournamentData.tournamentName,
+    tournamentYear:tournamentData.tournamentYear
+  }
+  if(round=="firstRound"){
+    groupName=tournamentData.groups[groupIndex].groupName
+    teamData=tournamentData.groups[groupIndex].teams[teamIndex]
+  }
+  if(round=="secondRound"){
+    groupName=tournamentData.secondRoundGroups[groupIndex].groupName
+    teamData=tournamentData.secondRoundGroups[groupIndex].teams[teamIndex]
+  }
+  if(groupName && teamData){
+    let teamDetails={
+      tournamentData:tournament,
+      groupName:groupName,
+      team:teamData
+    }
+    res.render('single-team-details',{
+      teamDetails:teamDetails
+    })
+  }else{
+    res.render("404")
+  }
+}
+
+exports.matches =async function (req, res) {
+  try {
+    let roomData = await liveRoomCollection.find().sort({ priority: -1 }).toArray()
+    let rooms=roomData.map((room)=>{
+      let data=room
+      let tossWonBy
+      if(data.matchDetails.tossWonBy=="firstTeam"){
+        tossWonBy=data.matchDetails.firstTeam
+      }else{
+        tossWonBy=data.matchDetails.secondTeam
+      }
+      data.tossDetails=tossWonBy+" won the toss and decided to "+data.matchDetails.decidedTo+" first."
+      data.batting=CommonFunctions.getBattingTeamName(data)
+      data.password=undefined
+      return data
+    })
+    res.render('matches',{
+      rooms:rooms
+    })
+  } catch {
+    res.render("404")
+  }
+}
+
+exports.topPlayers =async function (req, res) {
+  try {
+    let topPlayers = await administrationCollection.findOne({regNumber:"siliguriTop10Players"})
+    let top10Players={
+      topBatters:topPlayers.topBatters,
+      topBowlers:topPlayers.topBowlers,
+      topAllRounders:topPlayers.topAllRounders
+    }
+    res.render('top-10-players',{
+      top10Players:top10Players
+    })
   } catch {
     res.render("404")
   }

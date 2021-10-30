@@ -9,6 +9,12 @@ const liveScoreRoomController=require('./controllers/liveScoreRoomController')
 // user related routes
 router.get('/test',userController.test)
 router.get('/',userController.guestHome)
+router.get('/tournaments',userController.tournaments)
+router.get('/single/:_id/tournament',matchControllerController.ifTournamentExists,userController.singleTournament)
+router.get('/tournament/:round/:_id/:groupIndex/:teamIndex/singleTeam',matchControllerController.ifTournamentExists,userController.singleTeam)
+router.get('/matches',userController.matches)
+router.get('/top-players',userController.topPlayers)
+
 //user related routes of scoreboard
 router.get("/singleRoomShortDetails/:matchId",  userController.singleRoomShortDetails)
 router.get("/firstInningsDetails/:matchId",  userController.firstInningsDetails)

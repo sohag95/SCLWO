@@ -1,0 +1,54 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+<div class="container py-md-5">
+  <div class="container text-center">
+    <p><strong>Tournament name : </strong><%=teamDetails.tournamentData.tournamentName%> </p>
+    <p><strong>Tournament Year : </strong><%=teamDetails.tournamentData.tournamentYear%> </p>
+  </div>
+   <hr>
+   <div>
+    <h3 class="text-success"><strong>Points table</strong></h3>
+    <table class="table table-sm table-borderless">
+      <thead>
+        <tr>
+          <th scope="col"><strong>Team Name</strong> </th>
+          <th scope="col">Match Played</th>
+          <th scope="col">Win</th>
+          <th scope="col">Loss</th>
+          <th scope="col">Draw</th>
+          <th scope="col">Points</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><%=teamDetails.team.teamFullName%> (<%=teamDetails.team.teamShortName%>)</th>
+            <td><%=teamDetails.team.matchesPlayed%></td>
+            <td><%=teamDetails.team.matchesWin%></td>
+            <td><%=teamDetails.team.matchesLoss%></td>
+            <td><%=teamDetails.team.tieOrDraw%></td>
+            <td><%=teamDetails.team.totalPoints%></td>
+          </tr>
+        </tbody>
+    </table>
+   </div>
+   <hr>
+    <div>
+      <h3 class="text-success"><strong>Played matches details</strong></h3>
+      <%if(!teamDetails.team.matches.length){%>
+        <div class="btn btn-lg btn-block btn-info m-2">
+          <strong>No matches played till now!</strong>
+        </div>
+     <%}%>
+      <%teamDetails.team.matches.forEach((match)=>{%>
+        <div class="card m-1">
+          <div class="card-body">
+            <p><strong>Opponent team : </strong><%=match.opponentTeam%> </p>
+            <p><strong>Winning status : </strong><%=match.winningStatus%></p>
+            <a class="btn btn-secondary" href="#">Match details</a>
+          </div>
+        </div>
+      <%})%>
+    </div>
+</div>
+
+  <%- include('includes/footer') %>

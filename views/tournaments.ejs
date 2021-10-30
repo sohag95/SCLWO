@@ -1,0 +1,35 @@
+<%- include('includes/header') %> <%- include('includes/flash') %>
+<div class="container ">
+  <h3 class="text-success"><strong>Active Tournments</strong></h3>
+  <%if(!activeTournaments.length){%>
+    <div class="btn btn-lg btn-info btn-block m-1">
+      <Strong>No active tournament available.</Strong>
+    </div>
+  <%}%>
+  <%activeTournaments.forEach((tournament)=>{%>
+    <div class="card m-1">
+      <div class="card-body">
+        <p><strong>Tournament Name : </strong><%=tournament.tournamentName%> of  <%=tournament.tournamentYear%></p>
+        <p><strong>Total Groups : </strong><%=tournament.groups.length%></p>
+        <a class="btn btn-secondary" href="/single/<%=tournament._id%>/tournament">Tournament details</a>
+      </div>
+    </div>
+  <%})%>
+  <h3 class="text-secondary"><strong>Old Tournments</strong></h3>
+  <%if(!oldTournaments.length){%>
+    <div class="btn btn-lg btn-info btn-block m-1">
+      <Strong>No old tournament available.</Strong>
+    </div>
+  <%}%>
+  <%oldTournaments.forEach((tournament)=>{%>
+    <div class="card m-1">
+      <div class="card-body">
+        <p><strong>Tournament Name : </strong><%=tournament.tournamentName%> of  <%=tournament.tournamentYear%></p>
+        <p><strong>Total Groups : </strong><%=tournament.groups.length%></p>
+        <a class="btn btn-secondary" href="/single/<%=tournament._id%>/tournament">Tournament details</a>
+      </div>
+    </div>
+  <%})%>
+</div>
+
+<%- include('includes/footer') %> 

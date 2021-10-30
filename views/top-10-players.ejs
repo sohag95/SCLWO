@@ -1,0 +1,41 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+<div class="container">
+  <h3 class="text-success"><strong>Top players in siliguri since - 2022</strong></h3>
+  <hr>
+  <h3><strong>Top 10 Batters :</strong></h3>
+  <%top10Players.topBatters.forEach((batter)=>{%>
+    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+      <span class="item-text"><strong>Name : </strong><a href="linked-with-profile-page"><%=batter.userName%></a></span>
+      <span class="item-text"><strong>Matches played : </strong><%=batter.matchesPlayed%></span>
+      <div>
+        <strong> Total Runs : <%=batter.runs%> </strong>
+      </div>
+    </li>  
+  <%})%>
+  <hr>
+  <h3><strong>Top 10 Bowlers :</strong></h3>
+  <%top10Players.topBowlers.forEach((bowler)=>{%>
+    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+      <span class="item-text"><strong>Name : </strong><a href="linked-with-profile-page"><%=bowler.userName%></a></span>
+      <span class="item-text"><strong>Matches played : </strong><%=bowler.matchesPlayed%></span>
+      <div>
+        <strong> Total Wickets : <%=bowler.wickets%></strong>
+      </div>
+    </li>  
+  <%})%>
+  <hr>
+  <h3><strong>Top 10 All-rounders :</strong></h3>
+  <%top10Players.topAllRounders.forEach((allrounder)=>{%>
+    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+      <span class="item-text"><strong>Name : </strong><a href="linked-with-profile-page"><%=allrounder.userName%></a></span>
+      <span class="item-text"><strong>Total Points : </strong><%=allrounder.allRoundPoints%></span>
+      <span class="item-text"><strong>Total runs : </strong><%=allrounder.runs%></span>
+      <div>
+        <strong> Total Wickets : <%=allrounder.wickets%></strong>
+      </div>
+    </li>  
+  <%})%>
+  <hr>
+</div>
+<%- include('includes/footer') %>

@@ -134,7 +134,7 @@ firstTeamPart.addEventListener("change", () => {
     let secondTeams=getSecondTeamNames(selectedFirstTeam)
     let tag=document.createElement("option")
     tag.value=""
-    tag.innerHTML="--Select First Team Name--"
+    tag.innerHTML="--Select Second Team Name--"
     secondTeamPart.options.add(tag)
     secondTeams.forEach((team)=>{
       let newOption=document.createElement("option")
