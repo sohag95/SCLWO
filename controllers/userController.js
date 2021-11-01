@@ -2,8 +2,11 @@ const User=require('../models/User')
 const tournamentCollection = require("../db").db().collection("Tournaments")
 const liveRoomCollection = require("../db").db().collection("LiveMatchRoom")
 const administrationCollection = require("../db").db().collection("administration")
-
+const completedMatchesCollection = require("../db").db().collection("CompletedMatches")
+ 
 const CommonFunctions = require('../models/CommonFunctions')
+const Player = require('../models/Player')
+const PerformanceTable = require('../models/PerformanceTable')
 
 exports.logout = function (req, res) {
   req.session.destroy(function () {
@@ -15,8 +18,23 @@ exports.test = function (req, res) {
   res.render('teamSelectTest')
 }
 
+exports.searchPlayer = function (req, res) {
+  let searchTerm=req.body.searchTerm.toLowerCase()
+  User.search(searchTerm)
+    .then(players => {
+      res.json(players)
+    })
+    .catch(() => {
+      res.json([])
+    })
+}
+
+
+
 exports.guestHome=async function(req,res){
   try {
+    let liveRooms=[]
+    let upCommingMatches=[]
     let roomData = await liveRoomCollection.find().sort({ priority: -1 }).toArray()
     let rooms=roomData.filter((room)=>{
       if(!room.matchFinished){
@@ -33,9 +51,19 @@ exports.guestHome=async function(req,res){
       data.tossDetails=tossWonBy+" won the toss and decided to "+data.matchDetails.decidedTo+" first."
       data.batting=CommonFunctions.getBattingTeamName(data)
       data.password=undefined
+      if(data.matchDetails.isStarted){
+        liveRooms.push(data)
+      }
+      if(!data.matchDetails.isStarted && upCommingMatches.length<=2){
+        upCommingMatches.push(data)
+      }
       return data
     })
-    res.render("guest-home",{rooms:rooms})
+    res.render("guest-home",{
+      rooms:rooms,
+      liveRooms:liveRooms,
+      upCommingMatches:upCommingMatches
+    })
   } catch {
     res.render("404")
   }
@@ -141,11 +169,32 @@ exports.topPlayers =async function (req, res) {
   }
 }
 
+
+//scoreboard related routers
+
+exports.ifMatchExists = async function (req, res,next) {
+  try {
+    let roomData = await liveRoomCollection.findOne({ matchId: req.params.matchId })
+    let from="live"
+    if(!roomData){
+      roomData = await completedMatchesCollection.findOne({ matchId: req.params.matchId })
+      from="completed"
+    }
+    if(roomData){
+      req.roomData=roomData
+      req.from=from
+      next()
+    }else{
+      res.render("404")
+    }
+  } catch {
+    res.render("404")
+  }
+}
+
 exports.singleRoomShortDetails = async function (req, res) {
   try {
-    
-    let roomData = await liveRoomCollection.findOne({ matchId: req.params.matchId })
-    let data=roomData
+    let data=req.roomData
     let tossWonBy
     if(data.matchDetails.tossWonBy=="firstTeam"){
       tossWonBy=data.matchDetails.firstTeam
@@ -162,12 +211,14 @@ exports.singleRoomShortDetails = async function (req, res) {
       balls=data.secondInningsBallTracking.balls
     }
     data.recentBalls=balls.split(",")
-    console.log("recent balls:",data.recentBalls)
-    let runs = Number(data.liveScore.totalRuns)
+    if(req.from=="live"){
+      let runs = Number(data.liveScore.totalRuns)
       let crr = ((runs*6) / ((data.liveScore.totalOvers*6)+data.eachOver.ballNumber)).toFixed(2)
       data.crr = crr
-      console.log("crr:",((data.liveScore.totalOvers*6)+data.eachOver.ballNumber))
-    res.render("single-room-short-details",{room:data})
+    }
+    res.render("single-room-short-details",{
+      room:data
+    })
   } catch {
     res.render("404")
   }
@@ -176,8 +227,7 @@ exports.singleRoomShortDetails = async function (req, res) {
 
 exports.firstInningsDetails = async function (req, res) {
   try {
-    let roomData = await liveRoomCollection.findOne({ matchId: req.params.matchId })
-    let data=roomData
+    let data=req.roomData
     let tossWonBy
     if(data.matchDetails.tossWonBy=="firstTeam"){
       tossWonBy=data.matchDetails.firstTeam
@@ -187,12 +237,17 @@ exports.firstInningsDetails = async function (req, res) {
     data.tossDetails=tossWonBy+" won the toss and decided to "+data.matchDetails.decidedTo+" first."
     data.batting=CommonFunctions.getBattingTeamName(data)
     data.password=undefined
-    let runs = Number(data.liveScore.totalRuns)
-    
+    if(req.from=="live"){
+      let runs = Number(data.liveScore.totalRuns)
       let crr = ((runs*6) / ((data.liveScore.totalOvers*6)+data.eachOver.ballNumber)).toFixed(2)
-     
       data.crr = crr
-      console.log("crr:",crr)
+    }
+    if(req.from=="completed"){
+      data.state={}
+      data.eachOver={}
+      data.state.bowlerIndex=0
+      data.eachOver.ballNumber=0
+    }
     res.render("firstInningsDetails",{room:data})
   } catch {
     res.render("404")
@@ -201,8 +256,7 @@ exports.firstInningsDetails = async function (req, res) {
 
 exports.secondInningsDetails = async function (req, res) {
   try {
-    let roomData = await liveRoomCollection.findOne({ matchId: req.params.matchId })
-    let data=roomData
+    let data=req.roomData
     let tossWonBy
     if(data.matchDetails.tossWonBy=="firstTeam"){
       tossWonBy=data.matchDetails.firstTeam
@@ -212,11 +266,20 @@ exports.secondInningsDetails = async function (req, res) {
     data.tossDetails=tossWonBy+" won the toss and decided to "+data.matchDetails.decidedTo+" first."
     data.batting=CommonFunctions.getBattingTeamName(data)
     data.password=undefined
-    let runs = Number(data.liveScore.totalRuns)
-    let crr = ((runs*6) / ((data.liveScore.totalOvers*6)+data.eachOver.ballNumber)).toFixed(2)
+    if(req.from=="live"){
+      let runs = Number(data.liveScore.totalRuns)
+      let crr = ((runs*6) / ((data.liveScore.totalOvers*6)+data.eachOver.ballNumber)).toFixed(2)
       data.crr = crr
-      console.log("crr:",crr)
-    res.render("secondInningsDetails",{room:data})
+    }
+    if(req.from=="completed"){
+      data.state={}
+      data.eachOver={}
+      data.state.bowlerIndex=0
+      data.eachOver.ballNumber=0
+    }
+    res.render("secondInningsDetails",{
+      room:data
+    })
   } catch {
     res.render("404")
   }
@@ -224,8 +287,7 @@ exports.secondInningsDetails = async function (req, res) {
 
 exports.batsmanInningsDetails = async function (req, res) {
   try {
-    let roomData = await liveRoomCollection.findOne({ matchId: req.params.matchId })
-    let data=roomData
+    let data=req.roomData
     let firstBattingTeam
     let secondBattingTeam
     if((data.matchDetails.tossWonBy=="firstTeam" && data.matchDetails.decidedTo=="batting") || (data.matchDetails.tossWonBy=="secondTeam" && data.matchDetails.decidedTo=="bowling")){
@@ -243,13 +305,49 @@ exports.batsmanInningsDetails = async function (req, res) {
     if(req.params.innings=="second"){
       batsman.teamName=secondBattingTeam
       batsman.score=data.secondInningsBatting.allBatsman[Number(req.params.index)]
-    }
-
-    console.log("Params : ",Number(req.params.index))
-    console.log("batsman : ",batsman)
-    
-    res.render("batsmanInningsDetails",{batsman:batsman})
+    }    
+    res.render("batsmanInningsDetails",{
+      batsman:batsman
+    })
   } catch {
     res.render("404")
   }
+}
+
+exports.checkVisitorLoggedInOrNot = function (req, res, next) {
+  let loggedIn=false
+  if(req.session.user){
+    if (req.session.user.accountType == "player") {
+      loggedIn=true
+    } 
+  }
+  req.loggedIn=loggedIn
+  next()
+}
+
+exports.checkPlayerExistsOrNot = function (req, res, next) {
+  Player.findPlayerByregNumber(req.params.regNumber).then(async(profileUserData)=>{
+    let performanceData=await PerformanceTable.getPlayerPerformanceData(profileUserData.regNumber,"profile")
+    req.profileUserData=profileUserData
+    req.performanceData=performanceData
+    next()
+  }).catch(()=>{
+    res.render("404")
+  })
+}
+
+exports.getProfileData = function (req, res, next) {
+  let isVisitorOwner=false
+  if(req.loggedIn && (req.profileUserData.regNumber==req.session.user.regNumber)){
+    isVisitorOwner=true
+  }
+  let checkData={
+    isUserLoggedIn:req.loggedIn,
+    isVisitorOwner:isVisitorOwner
+  }
+  res.render("profile-page",{
+    profileUserData:req.profileUserData,
+    performanceData:req.performanceData,
+    checkData:checkData
+  })
 }

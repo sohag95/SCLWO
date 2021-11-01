@@ -1,3 +1,4 @@
+const PerformanceTable = require("../models/PerformanceTable")
 const Player = require("../models/Player")
 const PracticeMatch = require("../models/PracticeMatch")
 const playersCollection = require("../db").db().collection("players")
@@ -57,14 +58,16 @@ exports.playerRegister = function (req, res) {
     })
 }
 
+
 exports.playerHome =async function (req, res) {
   try{
-    let profileUser=await playersCollection.findOne({regNumber:req.regNumber})
-    let statistics=await performanceTableCollection.findOne({regNumber:req.regNumber})
-    profileUser.password=undefined
+    let userData=await Player.findPlayerByregNumber(req.regNumber)
+    let perfornamceData=await PerformanceTable.getPlayerPerformanceData(req.regNumber,"home")
+    console.log(userData)
+    console.log(perfornamceData)
     res.render("player-home",{
-      profileUser:profileUser,
-      statistics:statistics
+      userData:userData,
+      perfornamceData:perfornamceData
     })
   }catch{
     res.render('404')
@@ -201,4 +204,43 @@ exports.deletePracticeMatchData = function (req, res) {
         res.redirect("/player-home")
       })
     })
+}
+
+
+exports.regNumberManipulationCheck =async function (req, res,next) {
+  try{
+    let regNumberManipulated=false
+    let visitedUserData=await Player.findPlayerByregNumber(req.params.profileUserReg)
+    if(req.params.visitorReg!=req.session.user.regNumber){
+      regNumberManipulated=true
+    }
+    if(visitedUserData && !regNumberManipulated){
+      let visitedUserPerformance= await PerformanceTable.getPlayerPerformanceData(visitedUserData.regNumber,"compare")
+      let visitorUserData=await Player.findPlayerByregNumber(req.regNumber)
+      let visitorUserPerformance= await PerformanceTable.getPlayerPerformanceData(req.regNumber,"compare")
+      req.compareData={
+        visitedUserData:visitedUserData,
+        visitedUserPerformance:visitedUserPerformance,
+        visitorUserData:visitorUserData,
+        visitorUserPerformance:visitorUserPerformance
+      }
+      console.log(req.compareData)
+      next()
+    }else{
+      req.flash("errors", "Registration number changing detected.")
+      req.session.save(function () {
+        res.redirect("/player-home")
+      })
+    }
+  }catch{
+    req.flash("errors", "Sorry!!There is some problem.Try again later.")
+    res.render("404") 
+  }
+}
+
+exports.getComparePageWithData = function (req, res) {
+  console.log(req.compareData)
+  res.render("compare-page",{
+    compareData:req.compareData
+  })
 }

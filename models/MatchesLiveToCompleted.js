@@ -203,7 +203,6 @@ MatchesLiveToCompleted.prototype.clearRoomData=function(){
     secondInningsFallOfWickets:this.room.secondInningsFallOfWickets,
     secondInningsBallTracking:this.room.secondInningsBallTracking,
     matchCancled:this.room.matchCancled,
-    commentry:this.room.matchDetails.commentry,
     firstTeamScoreEnteredRegNumbers:[],
     secondTeamScoreEnteredRegNumbers:[],
     scoreCardLink:this.room.scoreCardLink

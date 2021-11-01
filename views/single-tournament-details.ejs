@@ -84,7 +84,7 @@
     <h3><strong>Hight runs scorrers :</strong></h3>
       <%tournamentData.topBatters.forEach((batter)=>{%>
         <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-          <span class="item-text"><strong>Name : </strong><a href="linked-with-profile-page"><%=batter.userName%></a></span>
+          <span class="item-text"><strong>Name : </strong><a href="/profile/<%=batter.regNumber%>"><%=batter.userName%></a></span>
           <span class="item-text"><strong>Matches played : </strong><%=batter.matchesPlayed%></span>
           <div>
             <strong> Total Runs : <%=batter.runs%> </strong>
@@ -95,7 +95,7 @@
       <h3><strong>Hight wicket takers :</strong></h3>
       <%tournamentData.topBowlers.forEach((bowler)=>{%>
         <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-          <span class="item-text"><strong>Name : </strong><a href="linked-with-profile-page"><%=bowler.userName%></a></span>
+          <span class="item-text"><strong>Name : </strong><a href="/profile/<%=bowler.regNumber%>"><%=bowler.userName%></a></span>
           <span class="item-text"><strong>Matches played : </strong><%=bowler.matchesPlayed%></span>
           <div>
             <strong> Total Wickets : <%=bowler.wickets%></strong>

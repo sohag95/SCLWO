@@ -14,12 +14,14 @@ router.get('/single/:_id/tournament',matchControllerController.ifTournamentExist
 router.get('/tournament/:round/:_id/:groupIndex/:teamIndex/singleTeam',matchControllerController.ifTournamentExists,userController.singleTeam)
 router.get('/matches',userController.matches)
 router.get('/top-players',userController.topPlayers)
+router.get('/profile/:regNumber',userController.checkVisitorLoggedInOrNot,userController.checkPlayerExistsOrNot,userController.getProfileData)
+router.post("/search-player",  userController.searchPlayer)
 
-//user related routes of scoreboard
-router.get("/singleRoomShortDetails/:matchId",  userController.singleRoomShortDetails)
-router.get("/firstInningsDetails/:matchId",  userController.firstInningsDetails)
-router.get("/secondInningsDetails/:matchId",  userController.secondInningsDetails)
-router.get("/batsman/:matchId/:index/:innings/inningsDetails",  userController.batsmanInningsDetails)
+//user related routes of scoreboard ()
+router.get("/singleRoomShortDetails/:matchId",  userController.ifMatchExists,userController.singleRoomShortDetails)
+router.get("/firstInningsDetails/:matchId",  userController.ifMatchExists,userController.firstInningsDetails)
+router.get("/secondInningsDetails/:matchId",  userController.ifMatchExists,userController.secondInningsDetails)
+router.get("/batsman/:matchId/:index/:innings/inningsDetails",userController.ifMatchExists,userController.batsmanInningsDetails)
 
 
 //Admin related routes
@@ -38,6 +40,7 @@ router.post("/update-player-profile-data", playerController.playerMustBeLoggedIn
 router.post("/add-practice-match-performance", playerController.playerMustBeLoggedIn, playerController.addPracticeMatchData)
 router.post("/delete/practiceMatch/:index/details", playerController.playerMustBeLoggedIn, playerController.deletePracticeMatchData)
 router.get("/practice-match-addition-form", playerController.playerMustBeLoggedIn, playerController.practiceMatchAdditionFormPage)
+router.get("/compare/:visitorReg/:profileUserReg/performance",playerController.playerMustBeLoggedIn,playerController.regNumberManipulationCheck,playerController.getComparePageWithData)
 
 
 //Match controller routes

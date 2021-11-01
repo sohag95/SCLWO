@@ -79,4 +79,44 @@ PerformanceTable.prototype.createTable = function () {
     }
   })
 }
+
+PerformanceTable.getPlayerPerformanceData = function (regNumber,from) {
+  return new Promise(function (resolve, reject) {
+    performanceTableCollection
+      .findOne({ regNumber: regNumber })
+      .then(function (performanceData) {
+        if (performanceData) {
+          let performanceDataCleanUp
+          if(from=="home"){
+            performanceDataCleanUp={
+              regNumber:performanceData.regNumber,
+              matches:performanceData.matches,
+              batting:performanceData.batting,
+              bowling:performanceData.bowling,
+              matchDetails:performanceData.matchDetails,
+              practiceMatches:performanceData.practiceMatches,
+              practiceMatchBatting:performanceData.practiceMatchBatting,
+              practiceMatchBowling:performanceData.practiceMatchBowling,
+              practiceMatchDetails:performanceData.practiceMatchDetails
+            }
+          }else{
+            performanceDataCleanUp={
+              regNumber:performanceData.regNumber,
+              matches:performanceData.matches,
+              batting:performanceData.batting,
+              bowling:performanceData.bowling,
+              matchDetails:performanceData.matchDetails
+            }
+          }
+          resolve(performanceDataCleanUp)
+        } else {
+          reject()
+        }
+      })
+      .catch(function () {
+        reject()
+      })
+  })
+}
+
 module.exports = PerformanceTable

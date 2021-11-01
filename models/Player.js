@@ -60,7 +60,7 @@ Player.prototype.cleanUp = async function () {
     if(this.from=="register"){
       this.data = {
         regNumber: this.regNumber,
-        userName: this.data.userName.trim(),
+        userName: this.data.userName.trim().toLowerCase(),
         currentClub:this.data.currentClub.trim().toUpperCase(),
         leaguePlaying:this.data.leaguePlaying.trim().toLowerCase(),
         leagueYear:String(date.getFullYear()),
