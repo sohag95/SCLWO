@@ -181,9 +181,12 @@ Calculation.prototype.addBowlerValues=function(matchId){
      let bowlerRunsPosition
      let bowlerWideBallsPosition
      let bowlerNoBallsPosition
+     let bowlerBallsTrackingPosition
+
      let nowRuns
      let nowWideBalls
      let nowNoBalls
+     let nowTrackingBalls
      
      
      //Total runs updation
@@ -194,7 +197,9 @@ Calculation.prototype.addBowlerValues=function(matchId){
        nowRuns=roomData.firstInningsBowling.allBowlers[bowlerIndex].runs
        nowNoBalls=roomData.firstInningsBowling.allBowlers[bowlerIndex].noBalls      
        nowWideBalls=roomData.firstInningsBowling.allBowlers[bowlerIndex].wideBalls
-       
+       nowWideBalls=roomData.firstInningsBowling.allBowlers[bowlerIndex].wideBalls
+       nowTrackingBalls=roomData.firstInningsBowling.allBowlers[bowlerIndex].trackingBalls
+
       if(this.data.run<7 && this.data.run>=0){
         perOverRuns=perOverRuns+this.data.run
         if(this.data.ballType=="ok" || this.data.ballType=="noBallRunBat" || this.data.ballType=="wideBall"){
@@ -226,12 +231,14 @@ Calculation.prototype.addBowlerValues=function(matchId){
       bowlerRunsPosition="firstInningsBowling.allBowlers."+Index+".runs"
       bowlerNoBallsPosition="firstInningsBowling.allBowlers."+Index+".noBalls"
       bowlerWideBallsPosition="firstInningsBowling.allBowlers."+Index+".wideBalls"
+      bowlerBallsTrackingPosition="firstInningsBowling.allBowlers."+Index+".trackingBalls"
       
     }else if(roomData.matchDetails.inningsStatus=="2nd Innings"){
       nowRuns=roomData.secondInningsBowling.allBowlers[bowlerIndex].runs
       nowNoBalls=roomData.secondInningsBowling.allBowlers[bowlerIndex].noBalls      
       nowWideBalls=roomData.secondInningsBowling.allBowlers[bowlerIndex].wideBalls
-      
+      nowTrackingBalls=roomData.secondInningsBowling.allBowlers[bowlerIndex].trackingBalls
+       
      if(this.data.run<7 && this.data.run>=0){
        perOverRuns=perOverRuns+this.data.run
        if(this.data.ballType=="ok" || this.data.ballType=="noBallRunBat" || this.data.ballType=="wideBall"){
@@ -258,12 +265,24 @@ Calculation.prototype.addBowlerValues=function(matchId){
         partnershipBalls=partnershipBalls+1
       }
      }
-     
-
      bowlerRunsPosition="secondInningsBowling.allBowlers."+Index+".runs"
      bowlerNoBallsPosition="secondInningsBowling.allBowlers."+Index+".noBalls"
      bowlerWideBallsPosition="secondInningsBowling.allBowlers."+Index+".wideBalls"
-     
+     bowlerBallsTrackingPosition="secondInningsBowling.allBowlers."+Index+".trackingBalls"
+    }
+    let entry
+    if(this.data.ballType=="ok"){
+      entry=String(this.data.run)+","
+      nowTrackingBalls=nowTrackingBalls.concat(entry)
+    }else if(this.data.ballType=="wideBall"){
+      entry=String(this.data.run)+"wd,"
+      nowTrackingBalls=nowTrackingBalls.concat(entry)
+    }else if(this.data.ballType=="legByeRun" || this.data.ballType=="byeRun"){
+      entry=String(this.data.run)+"lb,"
+      nowTrackingBalls=nowTrackingBalls.concat(entry)
+    }else if(this.data.ballType=="noBallRunBye" || this.data.ballType=="noBallRunBat" || this.data.ballType=="noBallRunLegBye"){
+      entry=String(this.data.run)+"no,"
+      nowTrackingBalls=nowTrackingBalls.concat(entry)
     }
       
      await liveRoomCollection.findOneAndUpdate(
@@ -273,6 +292,7 @@ Calculation.prototype.addBowlerValues=function(matchId){
           [bowlerRunsPosition]: nowRuns,
           [bowlerWideBallsPosition]: nowWideBalls,
           [bowlerNoBallsPosition]: nowNoBalls,  
+          [bowlerBallsTrackingPosition]: nowTrackingBalls,
           "liveScore.totalRuns":totalRuns,
           "eachOver.perOverRuns":perOverRuns,
           "eachOver.ballNumber":ballNumber,
@@ -740,6 +760,8 @@ Calculation.prototype.generalOut=function(matchId){
      let bowlerWickets
      let nowBalls
      let bowlerWicketPosition
+     let bowlerBallsTrackingPosition
+     let nowTrackingBalls
      let batsmanOutByPosition
      let batsmanBallsPosition
      let batsmanIsOutPosition
@@ -762,6 +784,8 @@ Calculation.prototype.generalOut=function(matchId){
       innings="firstInningsFallOfWickets"
         bowlerWickets=roomData.firstInningsBowling.allBowlers[bowlerIndex].wickets+1
         bowlerName=roomData.firstInningsBowling.allBowlers[bowlerIndex].name
+        nowTrackingBalls=roomData.firstInningsBowling.allBowlers[bowlerIndex].trackingBalls
+        
         batsmanName=roomData.firstInningsBatting.allBatsman[strikerBatsmanIndex].name
         batsmanRuns=roomData.firstInningsBatting.allBatsman[strikerBatsmanIndex].runs
         nowBalls=roomData.firstInningsBatting.allBatsman[strikerBatsmanIndex].balls+1
@@ -771,6 +795,8 @@ Calculation.prototype.generalOut=function(matchId){
         inningsBallTracking=roomData.firstInningsBallTracking.balls
      
         bowlerWicketPosition="firstInningsBowling.allBowlers."+IndexBowler+".wickets"
+        bowlerBallsTrackingPosition="firstInningsBowling.allBowlers."+IndexBowler+".trackingBalls"
+      
         batsmanOutByPosition="firstInningsBatting.allBatsman."+IndexBatsman+".outBy"
         batsmanBallsPosition="firstInningsBatting.allBatsman."+IndexBatsman+".balls"  
         batsmanIsOutPosition="firstInningsBatting.allBatsman."+IndexBatsman+".isOut" 
@@ -786,6 +812,8 @@ Calculation.prototype.generalOut=function(matchId){
         bowlerWickets=roomData.secondInningsBowling.allBowlers[bowlerIndex].wickets+1
         nowBalls=roomData.secondInningsBatting.allBatsman[strikerBatsmanIndex].balls+1
         bowlerName=roomData.secondInningsBowling.allBowlers[bowlerIndex].name
+        nowTrackingBalls=roomData.secondInningsBowling.allBowlers[bowlerIndex].trackingBalls
+        
         batsmanName=roomData.secondInningsBatting.allBatsman[strikerBatsmanIndex].name
         batsmanRuns=roomData.secondInningsBatting.allBatsman[strikerBatsmanIndex].runs
         ballsTracking=roomData.secondInningsBatting.allBatsman[strikerBatsmanIndex].ballsTracking
@@ -794,6 +822,8 @@ Calculation.prototype.generalOut=function(matchId){
         inningsBallTracking=roomData.secondInningsBallTracking.balls
      
         bowlerWicketPosition="secondInningsBowling.allBowlers."+IndexBowler+".wickets"
+        bowlerBallsTrackingPosition="secondInningsBowling.allBowlers."+IndexBowler+".trackingBalls"
+      
         batsmanBallsPosition="secondInningsBatting.allBatsman."+IndexBatsman+".balls"   
         batsmanOutByPosition="secondInningsBatting.allBatsman."+IndexBatsman+".outBy"
         batsmanIsOutPosition="secondInningsBatting.allBatsman."+IndexBatsman+".isOut" 
@@ -806,7 +836,7 @@ Calculation.prototype.generalOut=function(matchId){
         lastWicketDetails=  batsmanName+" :"+String(batsmanRuns)+"("+String(nowBalls)+")  Bowler:"+bowlerName+"  in "+String(overNumber)+"."+String(ballNumber)+" Ovs."
       
       }
-      inningsBallTracking=inningsBallTracking+"out,"
+      inningsBallTracking=inningsBallTracking+"W,"
       let outPosition={
         runs:totalRuns+"/"+String(totalWickets),
         overs:String(overNumber)+"."+String(ballNumber),
@@ -815,14 +845,19 @@ Calculation.prototype.generalOut=function(matchId){
 
       let type=""
       if(outType=="caught-out"){
+        nowTrackingBalls=nowTrackingBalls+"caught,"
         type="It is caught out.Caught taken by "+filderName+"."
       }else if(outType=="lbw"){
+        nowTrackingBalls=nowTrackingBalls+"lbw,"
         type="It is LBW."
       }else if(outType=="bowled"){
+        nowTrackingBalls=nowTrackingBalls+"bowled,"
         type="It is clean bowled."
       }else if(outType=="stumping-out"){
+        nowTrackingBalls=nowTrackingBalls+"stumping,"
         type="It is stumped.Stumping done by "+filderName+"."
       }else if(outType=="hit-wicket"){
+        nowTrackingBalls=nowTrackingBalls+"hitOut,"
         type="It is unfortunately Hit-Wicket."
       }
 
@@ -840,6 +875,16 @@ Calculation.prototype.generalOut=function(matchId){
         
           $set: {
             [bowlerWicketPosition]:bowlerWickets,
+            [bowlerBallsTrackingPosition]:nowTrackingBalls,
+            [inningsBallTrackingPosition]:inningsBallTracking
+          
+          }
+        }
+      )
+      await liveRoomCollection.findOneAndUpdate(
+        { matchId: matchId },
+        {
+          $set: {
             [batsmanBallsPosition]:nowBalls,
             [batsmanOutByPosition]:bowlerName,
             [batsmanIsOutPosition]:out,
@@ -847,8 +892,6 @@ Calculation.prototype.generalOut=function(matchId){
             [batsmanOutFilderNamePosition]:filderName,
             [batsmanFinishedTimeAtPosition]:time,
             [batsmanBallsTrackingPosition]:ballsTracking,
-            [inningsBallTrackingPosition]:inningsBallTracking
-          
           }
         }
       )

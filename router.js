@@ -6,11 +6,16 @@ const playerController=require('./controllers/playerController')
 const matchControllerController=require('./controllers/matchControllerController')
 const liveScoreRoomController=require('./controllers/liveScoreRoomController')
 
-// user related routes
+
+//####################################
 router.get('/test',userController.test)
+//####################################
+// user related routes
+router.get('/log-in',userController.logInForm)
 router.get('/',userController.guestHome)
 router.get('/tournaments',userController.tournaments)
 router.get('/single/:_id/tournament',matchControllerController.ifTournamentExists,userController.singleTournament)
+router.get('/all-completed-matches/:tournamentName/:tournamentYear',matchControllerController.getCompletedMatches)
 router.get('/tournament/:round/:_id/:groupIndex/:teamIndex/singleTeam',matchControllerController.ifTournamentExists,userController.singleTeam)
 router.get('/matches',userController.matches)
 router.get('/top-players',userController.topPlayers)
@@ -41,6 +46,7 @@ router.post("/add-practice-match-performance", playerController.playerMustBeLogg
 router.post("/delete/practiceMatch/:index/details", playerController.playerMustBeLoggedIn, playerController.deletePracticeMatchData)
 router.get("/practice-match-addition-form", playerController.playerMustBeLoggedIn, playerController.practiceMatchAdditionFormPage)
 router.get("/compare/:visitorReg/:profileUserReg/performance",playerController.playerMustBeLoggedIn,playerController.regNumberManipulationCheck,playerController.getComparePageWithData)
+router.get("/performance-analysis",playerController.playerMustBeLoggedIn,playerController.getPerformanceAnalysisPage)
 
 
 //Match controller routes

@@ -1,35 +1,67 @@
 <%- include('includes/header') %> <%- include('includes/flash') %>
-<div class="container ">
-  <h3 class="text-success"><strong>Active Tournments</strong></h3>
-  <%if(!activeTournaments.length){%>
-    <div class="btn btn-lg btn-info btn-block m-1">
-      <Strong>No active tournament available.</Strong>
-    </div>
-  <%}%>
-  <%activeTournaments.forEach((tournament)=>{%>
-    <div class="card m-1">
-      <div class="card-body">
-        <p><strong>Tournament Name : </strong><%=tournament.tournamentName%> of  <%=tournament.tournamentYear%></p>
-        <p><strong>Total Groups : </strong><%=tournament.groups.length%></p>
-        <a class="btn btn-secondary" href="/single/<%=tournament._id%>/tournament">Tournament details</a>
+
+
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
+    <h4 class="text-success mt-2"><strong>Active Tournments : <%=activeTournaments.length%></strong></h4>
+    <%if(!activeTournaments.length){%>
+      <div class="btn btn-lg btn-info btn-block m-1">
+        <Strong>No active tournament available.</Strong>
+      </div>
+    <%}%>
+    <%activeTournaments.forEach((tournament)=>{%>
+    <div class="single-batch-container mt-2">
+      <div class="single-batch-data pb-2">
+        <div style="position: relative;">
+          <img class="tournament-sponsor-image"  src="/images/sohag.jpg" alt="">
+          <div class="batch-no text-capitalize">Tournament sponsorred by Sohag Roy</div> 
+        </div>
+        <div class="ml-2 mr-2">
+          <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong><%=tournament.tournamentName%></div>
+          <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong><%=tournament.tournamentYear%></div>
+          <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Total Groups : </strong><%=tournament.groups.length%></div>
+          <div class="text-center">
+            <a href="/single/<%=tournament._id%>/tournament">
+              <div class="btn btn-outline-info btn-sm btn-block"><strong>See Tournament Details</strong> </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-  <%})%>
-  <h3 class="text-secondary"><strong>Old Tournments</strong></h3>
-  <%if(!oldTournaments.length){%>
-    <div class="btn btn-lg btn-info btn-block m-1">
-      <Strong>No old tournament available.</Strong>
-    </div>
-  <%}%>
-  <%oldTournaments.forEach((tournament)=>{%>
-    <div class="card m-1">
-      <div class="card-body">
-        <p><strong>Tournament Name : </strong><%=tournament.tournamentName%> of  <%=tournament.tournamentYear%></p>
-        <p><strong>Total Groups : </strong><%=tournament.groups.length%></p>
-        <a class="btn btn-secondary" href="/single/<%=tournament._id%>/tournament">Tournament details</a>
+    <%})%>
+    <hr>
+    <h4 class="text-secondary"><strong>Old Tournments : <%=oldTournaments.length%></strong></h4>
+    <%if(!oldTournaments.length){%>
+      <div class="btn btn-lg btn-info btn-block m-1">
+        <Strong>No old tournament available.</Strong>
+      </div>
+    <%}%>
+    <%oldTournaments.forEach((tournament)=>{%>
+    <div class="single-batch-container mt-2">
+      <div class="single-batch-data pb-2">
+        <div style="position: relative;">
+          <img class="tournament-sponsor-image"  src="/images/sohag.jpg" alt="">
+          <div class="batch-no text-capitalize">Tournament sponsorred by Sohag Roy</div> 
+        </div>
+        <div class="ml-2 mr-2">
+          <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong><%=tournament.tournamentName%></div>
+          <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong><%=tournament.tournamentYear%></div>
+          <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Total Groups : </strong><%=tournament.groups.length%></div>
+          <div class="text-center">
+            <a href="/single/<%=tournament._id%>/tournament">
+              <div class="btn btn-outline-info btn-sm btn-block"><strong>See Tournament Details</strong> </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-  <%})%>
+    <%})%>
+    <hr>
+
+  </div>
+<div class="col-lg"></div>
 </div>
+
 
 <%- include('includes/footer') %> 

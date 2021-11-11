@@ -58,11 +58,12 @@ let UpdatePlayerScore=function(bodyData,matchDetails){
         this.teamName=battingTeam.secondBattingTeam
       }
       
-      //taking batters out type
+      
       this.batterName=battingScore.name
       this.batterRegNumber=battingScore.regNumber
-
+      //taking batters out type
       this.battingData.outType=battingScore.outType
+      this.battingData.trackingBalls=battingScore.ballsTracking
       if((battingScore.runs!=this.battingData.runs)||
         (battingScore.balls!=this.battingData.balls)||
         (battingScore.fours!=this.battingData.fours)||
@@ -84,7 +85,7 @@ let UpdatePlayerScore=function(bodyData,matchDetails){
       }
       this.bowlerName=bowlingScore.name
       this.bowlerRegNumber=bowlingScore.regNumber
-
+      this.bowlingData.trackingBalls=bowlingScore.trackingBalls
       if((bowlingScore.runs!=this.bowlingData.runs)||
       (bowlingScore.wickets!=this.bowlingData.wickets)||
       (bowlingScore.overs!=this.bowlingData.overs)||

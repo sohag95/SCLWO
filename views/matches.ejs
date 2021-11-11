@@ -1,82 +1,89 @@
 <%- include('includes/header') %>
 <%- include('includes/flash') %>
-<div class="container">
-  <h3 class="text-success"><strong>All Matches :</strong></h3>
-  <%if(!rooms.length){%>
-    <h4 class="text-center"><strong>No match available now.</strong></h4>
-  <%}%>
-  <div class="container">
-  <div class="row align-items-center "> 
-    <%rooms.forEach((room)=>{%>       
-      <div class="scoreUpperPart btn-block row m-1" >
-        <!-- this is header part of score card -->
-        <div class="container">
-          <div class="p_zero">
-            <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  
-              <%if(room.matchDetails.secondRoundName){%>
-                | <%=room.matchDetails.secondRoundName%>
-              <%}%>
-              | Match no :<%=room.matchDetails.matchNumber%> </strong>
-            </p>
-            <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
-          </div>
-        </div>
-        <!-- this is body part of the score card -->
-        <div class="container scoreLowerPart p_zero">
-          <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished && room.matchDetails.tossWonBy){%>
-            <%if(room.emergency.hasEmergency){%>
-              <p class="text-danger"><strong><%=room.emergency.emergencyMessage%></strong></p>
-            <%}%>
-            <p ><strong style="color: orangered;"><%=room.tossDetails%></strong></p>
-              <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
-              <p><i>-1st Innings</i>
-                <%if(room.matchDetails.isInningsCompleted){%>
-                  <strong style="color: red;">(break)</strong>
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
+    <h4 class="text-success mt-2"><strong>All Matches : <%=rooms.length%></strong></h4>
+    <div class="single-batch-container mt-2">
+      <%if(!rooms.length){%>
+        <h4 class="text-center"><strong>No match available now.</strong></h4>
+      <%}%>
+      
+       
+        <%rooms.forEach((room)=>{%>       
+          <div class="scoreUpperPart btn-block row" style="margin-left: 0;">
+            <!-- this is header part of score card -->
+            <div class="container">
+              <div class="p_zero">
+                <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  
+                  <%if(room.matchDetails.secondRoundName){%>
+                    | <%=room.matchDetails.secondRoundName%>
+                  <%}%>
+                  | Match no :<%=room.matchDetails.matchNumber%> </strong>
+                </p>
+                <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
+              </div>
+            </div>
+            <!-- this is body part of the score card -->
+            <div class="container scoreLowerPart p_zero">
+              <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished && room.matchDetails.tossWonBy){%>
+                <%if(room.emergency.hasEmergency){%>
+                  <p class="text-danger"><strong><%=room.emergency.emergencyMessage%></strong></p>
                 <%}%>
-              </p>
-              <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>  (<%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%> ovs.) </p>
-              <p ><strong><%=room.batting.secondBattingTeam%></strong>-</p>
-              <%}else if(room.matchDetails.inningsStatus=="2nd Innings"){%>
-              <p ><i>-2nd Innings</i><strong>| Target - </strong><%=room.matchDetails.target%> (in <strong><%=room.matchDetails.overs%></strong> ovs.)</p>
-              <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%> ovs.) </p>
-              <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>  (<%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%> ovs.)</p>
-              <%}else{%>
-              <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
-              <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
-              <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
-              <%}%>  
-          <%}else if(room.matchDetails.isFinished){%>
-              <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
-              <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
-              <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
-              <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
-          <%}else{%>
-          <p class="text-uppercase"><strong><%=room.matchDetails.firstTeam%></strong></p>
-          <p class="text-uppercase"><strong><%=room.matchDetails.secondTeam%></strong></p>
-          <%}%>
-        </div>
-        <!-- this is the footer part of the score card -->
-        <div class="container">
-          <div class="p_zero">
-              <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished){%>
-                <%if(!room.matchCancled.hasCancled){%>
-                  <p class="fontBolder " style="color: red;display: inline-block;"><i class="fas fa-circle"></i> Live</p>
-                <%}else{%>
-                  <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
-                <%}%>
-              <p class="float-right "><strong>Scoring by-</strong> <%=room.matchDetails.scorerName%></p>
+                <p ><strong style="color: orangered;"><%=room.tossDetails%></strong></p>
+                  <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                  <p><i>-1st Innings</i>
+                    <%if(room.matchDetails.isInningsCompleted){%>
+                      <strong style="color: red;">(break)</strong>
+                    <%}%>
+                  </p>
+                  <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>  (<%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%> ovs.) </p>
+                  <p ><strong><%=room.batting.secondBattingTeam%></strong>-</p>
+                  <%}else if(room.matchDetails.inningsStatus=="2nd Innings"){%>
+                  <p ><i>-2nd Innings</i><strong>| Target - </strong><%=room.matchDetails.target%> (in <strong><%=room.matchDetails.overs%></strong> ovs.)</p>
+                  <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%> ovs.) </p>
+                  <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>  (<%=room.liveScore.totalOvers%>.<%=room.eachOver.ballNumber%> ovs.)</p>
+                  <%}else{%>
+                  <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
+                  <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                  <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
+                  <%}%>  
               <%}else if(room.matchDetails.isFinished){%>
-                <p class="float-right"><strong>Scored by-</strong> <%=room.matchDetails.scorerName%></p>
+                  <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
+                  <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                  <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
+                  <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
               <%}else{%>
-                <p >Starts at <%=room.matchDetails.matchStartingTime%> on <%=room.matchDetails.dateOfTheMatch%></p>
+              <p class="text-uppercase"><strong><%=room.matchDetails.firstTeam%></strong></p>
+              <p class="text-uppercase"><strong><%=room.matchDetails.secondTeam%></strong></p>
               <%}%>
+            </div>
+            <!-- this is the footer part of the score card -->
+            <div class="container">
+              <div class="p_zero">
+                  <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished){%>
+                    <%if(!room.matchCancled.hasCancled){%>
+                      <p class="fontBolder " style="color: red;display: inline-block;"><i class="fas fa-circle"></i> Live</p>
+                    <%}else{%>
+                      <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
+                    <%}%>
+                  <p class="float-right "><strong>Scoring by-</strong> <%=room.matchDetails.scorerName%></p>
+                  <%}else if(room.matchDetails.isFinished){%>
+                    <p class="float-right"><strong>Scored by-</strong> <%=room.matchDetails.scorerName%></p>
+                  <%}else{%>
+                    <p >Starts at <%=room.matchDetails.matchStartingTime%> on <%=room.matchDetails.dateOfTheMatch%></p>
+                  <%}%>
+              </div>
+              <strong><a href="/singleRoomShortDetails/<%=room.matchId%>" class="text-center">Details</a></strong>
+            </div> 
           </div>
-          <strong><a href="/singleRoomShortDetails/<%=room.matchId%>" class="text-center">Details</a></strong>
-        </div> 
-      </div>
-      <%})%>
+          <%})%>
+      
+    
+    </div>
   </div>
+  <div class="col-lg"></div>
 </div>
-</div>
+
 <!-- scoring rooms ends -->
 <%- include('includes/footer') %>

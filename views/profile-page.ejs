@@ -1,93 +1,480 @@
 <%- include('includes/header') %> <%- include('includes/flash') %>
-<div class="container py-md-3">
-  <div class="row align-items-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 shadow">
-          <h4 class="text-center"><strong>This is profile page</strong></h4>
-          <div class="container" style="margin-top: 1rem">
-            <div class="text-center">
-              <picture>
-                <img class="shadow homeProfilePic" src="/images/sohag.jpg" alt="" />
-              </picture>
-              <h2 class="about-h2 text-uppercase boldFont nameStyle btmMarginZero"><%= profileUserData.userName %></h2>
-              <%if(checkData.isUserLoggedIn && checkData.isVisitorOwner){%>
-                <p class="bolderFont">
-                  <a href="/player/profile/<%= profileUserData.regNumber %>/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top" title="Update Profile & Password"><i class="fas fa-edit"></i> Update Profile</a>
-                </p>
-              <%}%>
-            </div>
+
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg notVisibleOnCollapse" >
+  </div>
+  <div class="col-lg-9 pt-1" >
+    <div class="">
+      <div style="width: 100%;position: relative;">
+        <img class="cover-image" src="/images/sohag.jpg" width="1000" height="250"/>
+        <div class="text-center">
+          <img class="profile-image" src="/images/sohag.jpg" />
+          <h5>
+            <strong>Sohag Roy
+             <span class="text-primary" > <i class="fas fa-check-circle"></i></span>
+            </strong>
+          </h5>
+          <hr> 
+        </div>
+      </div>  
+    </div>
+
+     <!-- Profile related structures will be added here -->
+    <!-- **************************************************** -->
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="">
+          <div class="item-container mb-2">
+            <strong><p>Identity</p></strong>
+            <hr style="margin-bottom: .25rem;margin-top: 0rem;">
+           
+            <p><i class="fas fa-clock"></i> <strong>Name : </strong><%= profileUserData.userName %></p>
+            <p><i class="fas fa-clock"></i> <strong>Date of birth : </strong><%= profileUserData.dob %></p>
+            <p><i class="fas fa-clock"></i> <strong>Batting Style : </strong><%= profileUserData.battingStyle %></p>
+            <p><i class="fas fa-clock"></i> <strong>Bowling Style : </strong><%= profileUserData.bowlingStyle %></p>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Address : </strong><%= profileUserData.address %></p>
+            <p><i class="fas fa-clock"></i> <strong>Phone number : </strong><%= profileUserData.phone %></p>
+          
+            
+            <%if(checkData.isUserLoggedIn && checkData.isVisitorOwner){%>
+              <a  href="/player/profile/<%= profileUserData.regNumber %>/edit">
+                <div class="btn btn-secondary btn-block"><i class="fas fa-pen"></i> Update your profile</div>
+              </a>
+            <%}%>
+            <hr> 
           </div>
           
+          <div class="item-container mb-2 text-center">
+            <span class="text-warning">
+              <div class="text-center">
+                <strong>Tournament & Club for - <%= profileUserData.leagueYear %></strong>
+              </div>
+            </span>
+            <div><strong>Club name : </strong><%= profileUserData.currentClub %></div>
+            <div><strong>Tournament is : </strong><%= profileUserData.leaguePlaying %></div>
+            <%if(checkData.isUserLoggedIn && checkData.isVisitorOwner){%>
+              <a href="/player/profile/<%= profileUserData.regNumber %>/edit">
+                <div class="btn btn-secondary btn-block mt-2"><i class="fas fa-pen"></i> Update Club Details</div>
+              </a>  
+            <%}%>
+          </div>
+
+          <div class="item-container mb-2">
+            <p>
+              <strong>About</strong>
+              <%if(checkData.isUserLoggedIn && checkData.isVisitorOwner){%>
+                <span class="float-right">
+                  <span type="button" class="d-block text-primary" data-toggle="modal" data-target="#exampleModalCenter">Edit</span>
+    
+                  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Edit about details</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="/update-about-details" method="post">
+                            <div class="form-group" style="text-align: left;">
+                              <label for="status" class="text-muted" ><small>Write About Yourself </small></label>
+                              <textarea required name="aboutMe" id="post" class="post-input-field" placeholder="Write about yourself."  type="text"></textarea>
+                            </div>
+                            <div style="text-align: left;">
+                              <button class="btn btn-success btn-sm ">Submit</button>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+              <%}%>
+            </p>
+            <hr style="margin-bottom: .25rem;margin-top: 0rem;">
+            <p>
+              Hello i am sohag .I love to play cricket.I like to bowl and i am a off spin bowler.My favourite player is Virat Kohli.
+            </p>
+          </div>
+
           <%if(checkData.isUserLoggedIn && !checkData.isVisitorOwner){%>
-            <a href="/compare/<%=user.regNumber%>/<%=profileUserData.regNumber%>/performance"><button class="btn btn-lg btn-block btn-info">Compare your performance with <strong class="text-lowercase"><%=profileUserData.userName%>'s</strong> performance</button></a> 
+            <div class="item-container mb-2">
+              <a href="/compare/<%=user.regNumber%>/<%=profileUserData.regNumber%>/performance">
+                <div class="btn btn-success btn-block">Compare with <strong class="text-lowercase"><%=profileUserData.userName%>'s</strong> performance <i class="fas fa-arrow-right"></i></div>
+              </a>
+            </div>
           <%}%>
           
-          <div class="container mb-4 shadow profileDataContainer">
-            <p><strong>Name : </strong><%= profileUserData.userName %></p>
-            <p><strong>Date of birth : </strong><%= profileUserData.dob %></p>
-            <p><strong>Batting Style : </strong><%= profileUserData.battingStyle %></p>
-            <p><strong>Bowling Style : </strong><%= profileUserData.bowlingStyle %></p>
-            <p><strong>Address : </strong><%= profileUserData.address %></p>
-            <p><strong>Phone number : </strong><%= profileUserData.phone %></p>
+          
+
+        </div>
+      </div>
+      <div class="col-md-8" >
+        <h5 class="bolder text-primary">Performance Details :</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="item-container mb-2">
+              <strong><p>Batting Details</p></strong>
+              <hr style="margin-bottom: .25rem;margin-top: 0rem;">
+              <table class="table table-sm table-borderless">
+                <tr>
+                  <td style="width: 70%;"><strong>Matches</strong></td>
+                  <td style="width: 30%;">: &nbsp;&nbsp;<%= performanceData.matches %></td>
+                </tr>
+                <tr>
+                  <td><strong>Innings</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.batting.innings %></td>
+                </tr>
+                <tr>
+                  <td><strong>Runs</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.batting.runs %></td>
+                </tr>
+                <tr>
+                  <td><strong>Balls</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.batting.balls %></td>
+                </tr>
+                <tr>
+                  <td><strong>Fours</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.batting.fours %></td>
+                </tr>
+                <tr>
+                  <td><strong>Sixes</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.batting.sixes %></td>
+                </tr>
+                <tr>
+                  <td><strong>Fifties</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.batting.fifties %></td>
+                </tr>
+                <tr>
+                  <td><strong>Hundreds</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.batting.hundreds %></td>
+                </tr>
+                <tr>
+                  <td><strong>Hight Runs</strong></td>
+                    <td>: &nbsp;&nbsp;<a href="/singleRoomShortDetails/<%=performanceData.batting.hightRun.matchId%>"><%= performanceData.batting.hightRun.runs %>(<%= performanceData.batting.hightRun.balls %>)</a></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="item-container mb-2">
+              <strong><p>Bowling Details</p></strong>
+              <hr style="margin-bottom: .25rem;margin-top: 0rem;">
+           
+              <table class="table table-sm table-borderless">
+                <tr>
+                  <td style="width: 70%;"><strong>Matches</strong></td>
+                  <td style="width: 30%;">: &nbsp;&nbsp;<%= performanceData.matches %></td>
+                </tr>
+                <tr>
+                  <td><strong>Innings</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.bowling.innings %></td>
+                </tr>
+                <tr>
+                  <td><strong>Given Runs</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.bowling.runs %></td>
+                </tr>
+                <tr>
+                  <td><strong>Overs</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.bowling.overs %></td>
+                </tr>
+                <tr>
+                  <td><strong>Wickets</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.bowling.wickets %></td>
+                </tr>
+                <tr>
+                  <td><strong>Maden Overs</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.bowling.madenOvers %></td>
+                </tr>
+                <tr>
+                  <td><strong>3 Wickets</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.bowling.threeWickets %></td>
+                </tr>
+                <tr>
+                  <td><strong>5 Wickets</strong></td>
+                  <td>: &nbsp;&nbsp;<%= performanceData.bowling.fiveWickets %></td>
+                </tr>
+                <tr>
+                  <td><strong>Hight Wickets</strong></td>
+                  <td>: &nbsp;&nbsp;<a href="/singleRoomShortDetails/<%=performanceData.bowling.hightWicket.matchId%>"><%= performanceData.bowling.hightWicket.wickets %></a></td>
+                </tr>
+              </table>
             
-              <div class="p-4 bg-secondary"> 
-                <%if(checkData.isUserLoggedIn && checkData.isVisitorOwner){%>
-                  <p class="text-center"><strong>Tournament & Club for <%= profileUserData.leagueYear %></strong>
-                    <a href="/player/profile/<%= profileUserData.regNumber %>/edit" class="text-info mr-2" data-toggle="tooltip" data-placement="top" title="Update club name"><i class="fas fa-edit"></i> Update</a>
-                  </p>
-                <%}%>
-                <p><strong>Your current club name - </strong><%= profileUserData.currentClub %></p>
-                <p><strong>Your tournament is - </strong>Siliguri <%= profileUserData.leaguePlaying %> cricket league</p>
-              </div>
-            
+            </div>
           </div>
         </div>
-        <div class="col-md-1"></div>
-      </div>
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 shadow">
-          <h2 class="text-center mr-4 text-uppercase" style="color: #495057; font-weight: bolder; margin-top: 1rem"><strong>performanceData of performance</strong></h2>
-          <h3 class="text-center mb-4">Total Match Played - <strong><%= performanceData.matches %></strong></h3>
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6 shadow">
-                <div class="text-center">
-                  <h3 class="text-center" style="border-bottom: solid black 2px">Batting performanceData</h3>
-                </div>
-                <p><strong>Innings : </strong><%= performanceData.batting.innings %></p>
-                <p><strong>Runs : </strong><%= performanceData.batting.runs %></p>
-                <p><strong>Balls : </strong><%= performanceData.batting.balls %></p>
-                <p><strong>Sixes : </strong><%= performanceData.batting.sixes %></p>
-                <p><strong>Fours : </strong><%= performanceData.batting.fours %></p>
-                <p><strong>Fifties : </strong><%= performanceData.batting.fifties %></p>
-                <p><strong>Hundreds : </strong><%= performanceData.batting.hundreds %></p>
-                <p><strong>Hight Run : </strong><%= performanceData.batting.hightRun %></p>
+        <hr>
+        <h5 class="bolder text-primary">Match Details :</h5>
+        
+        <!-- ******match details structure starting**** -->
+        <div class=" mb-2">
+          <div class="item-container" >
+            <div style="display: flex;">
+              <div class="text-center">
+                <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
               </div>
-              <div class="col-md-6 shadow">
-                <div class="text-center">
-                  <h3 class="text-center" style="border-bottom: solid black 2px">Bowling performanceData</h3>
+              <div class="post-header" style="width: 100%;display: flex;">
+                <div class="mr-auto" style="padding-left: 5px;">
+                  <div style="margin: 0;padding: 0;">
+                   <strong class="text-primary">Match Number : 10</strong>
+                  </div>
+                  <div style="margin: 0;padding: 0;">
+                    <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+                  </div>
                 </div>
-                <p><strong>Innings : </strong><%= performanceData.bowling.innings %></p>
-                <p><strong>Given Runs : </strong><%= performanceData.bowling.runs %></p>
-                <p><strong>Overs : </strong><%= performanceData.bowling.overs %></p>
-                <p><strong>Wickets : </strong><%= performanceData.bowling.wickets %></p>
-                <p><strong>5 wickets : </strong><%= performanceData.bowling.fiveWickets %></p>
-                <p><strong>10 wickets : </strong><%= performanceData.bowling.tenWickets %></p>
-                <p><strong>Maden Overs : </strong><%= performanceData.bowling.madenOvers %></p>
-                <p><strong>Hight wickets : </strong><%= performanceData.bowling.hightWicket %></p>
+                <div class="float-right">
+                  <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
+                    <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
+                  </p>
+                  <div class="dropdown-menu dropdown-menu-right">
+                   hello there
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr style="margin-bottom: .35rem;margin-top: 2px;">
+            <!-- performance details will be here -->
+            <table class="table table-sm table-bordered " >
+              <tr>
+                <div class="bolder">Batting Performance :</div>
+                <td><strong>Runs</strong></td>
+                <td><strong>Balls</strong></td>
+                <td><strong>4's</strong></td>
+                <td><strong>6's</strong></td>
+                <td><strong>SR</strong></td>
+                <td><strong>Out</strong></td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>20</td>
+                <td>1</td>
+                <td>0</td>
+                <td>50.00</td>
+                <td>No</td>
+              </tr>
+              
+            </table>
+            <table class="table table-sm table-bordered" >
+              <tr>
+                <div class="bolder">Bowling Performance :</div>
+                <td><strong>Runs</strong></td>
+                <td><strong>Ovrs</strong></td>
+                <td><strong>Wkt</strong></td>
+                <td><strong>Mdn</strong></td>
+                <td><strong>Wd</strong></td>
+                <td><strong>No</strong></td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>2</td>
+                <td>1</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+              </tr>
+              
+            </table>
+            
+            
+            <hr style="margin-bottom: 5px;margin-top:1px;">
+            <!-- comment section -->
+            <div style="width: 100%; border-radius: 5px;">
+              <div style="display: flex;"> 
+                <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
+                  <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
+                </div>
+                <div class="btn btn-primary">
+                  <a href="" target="_blank" style="color: #fff;">
+                    Match_Details
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <!-- ********match details structure ends******** -->
 
-        <div class="col-md-1"></div>
+        <!-- ******match details structure starting**** -->
+        <div class=" mb-2">
+          <div class="item-container" >
+            <div style="display: flex;">
+              <div class="text-center">
+                <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
+              </div>
+              <div class="post-header" style="width: 100%;display: flex;">
+                <div class="mr-auto" style="padding-left: 5px;">
+                  <div style="margin: 0;padding: 0;">
+                   <strong class="text-primary">Match Number : 10</strong>
+                  </div>
+                  <div style="margin: 0;padding: 0;">
+                    <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+                  </div>
+                </div>
+                <div class="float-right">
+                  <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
+                    <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
+                  </p>
+                  <div class="dropdown-menu dropdown-menu-right">
+                   hello there
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr style="margin-bottom: .35rem;margin-top: 2px;">
+            <!-- performance details will be here -->
+            <div class="bolder">Batting Performance :</div>
+            <div class="btn btn-outline-secondary btn-block">
+              You did not bat in that match.
+            </div>
+            <div class="bolder">Bowling Performance :</div>
+            <table class="table table-sm table-bordered" >
+              <tr>
+               
+                <td><strong>Runs</strong></td>
+                <td><strong>Ovrs</strong></td>
+                <td><strong>Wkt</strong></td>
+                <td><strong>Mdn</strong></td>
+                <td><strong>Wd</strong></td>
+                <td><strong>No</strong></td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>2</td>
+                <td>1</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+              </tr>
+              
+            </table>
+            
+            
+            <hr style="margin-bottom: 5px;margin-top:1px;">
+            <!-- comment section -->
+            <div style="width: 100%; border-radius: 5px;">
+              <div style="display: flex;"> 
+                <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
+                  <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
+                </div>
+                <div class="btn btn-primary">
+                  <a href="" target="_blank" style="color: #fff;">
+                    Match_Details
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ********match details structure ends******** -->
+<!-- ******match details structure starting**** -->
+<div class=" mb-2">
+  <div class="item-container" >
+    <div style="display: flex;">
+      <div class="text-center">
+        <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
       </div>
-      
+      <div class="post-header" style="width: 100%;display: flex;">
+        <div class="mr-auto" style="padding-left: 5px;">
+          <div style="margin: 0;padding: 0;">
+           <strong class="text-primary">Match Number : 10</strong>
+          </div>
+          <div style="margin: 0;padding: 0;">
+            <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+          </div>
+        </div>
+        <div class="float-right">
+          <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
+            <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
+          </p>
+          <div class="dropdown-menu dropdown-menu-right">
+           hello there
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr style="margin-bottom: .35rem;margin-top: 2px;">
+    <!-- performance details will be here -->
+    <div class="bolder">Batting Performance :</div>
+    <div class="btn btn-outline-secondary btn-block">
+      You did not bat in that match.
+    </div>
+    <div class="bolder">Bowling Performance :</div>
+    <div class="btn btn-outline-secondary btn-block">
+      You did not bowl in that match.
+    </div>
+    
+    
+    <hr style="margin-bottom: 5px;margin-top:1px;">
+    <!-- comment section -->
+    <div style="width: 100%; border-radius: 5px;">
+      <div style="display: flex;"> 
+        <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
+          <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
+        </div>
+        <div class="btn btn-primary">
+          <a href="" target="_blank" style="color: #fff;">
+            Match_Details
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<!-- ********match details structure ends******** -->
+
+
+
+
+      </div>
+    </div>
+    <!-- **************************************************** -->
+  </div>
+  <div class="col-lg notVisibleOnCollapse" >
+  </div>
+</div>
+
+
 
 <%- include('includes/footer') %>
+
+<!-- 
+<span>
+  <span >Hello i am sohag roy</span>
+  
+    <span type="button" class="d-block text-primary" data-toggle="modal" data-target="#exampleModalCenter">Edit</span>
+    
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit your bio-status</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/update-bio-status/" method="post">
+              <div class="form-group" style="text-align: left;">
+                <label for="status" class="text-muted" ><small>Edit status </small></label>
+                <input name="bioStatus" value="Hello" id="status" class="form-control form-control-sm " type="text" placeholder="status" autocomplete="off" />
+              </div>
+              <div style="text-align: left;">
+                <button class="btn btn-success btn-sm ">Submit</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </span> -->

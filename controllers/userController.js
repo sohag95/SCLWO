@@ -7,6 +7,16 @@ const completedMatchesCollection = require("../db").db().collection("CompletedMa
 const CommonFunctions = require('../models/CommonFunctions')
 const Player = require('../models/Player')
 const PerformanceTable = require('../models/PerformanceTable')
+const PerformanceAnalysis = require('../models/PerformanceAnalysis')
+
+exports.logInForm = function (req, res) {
+  if(!req.session.user){
+    res.render("log-in-form")
+  }else{
+    req.flash("errors", "You already logged In !! Log-out first to fetch that page.")
+    req.session.save(() => res.redirect("/"))
+  }
+}
 
 exports.logout = function (req, res) {
   req.session.destroy(function () {
@@ -15,6 +25,8 @@ exports.logout = function (req, res) {
 }
 
 exports.test = function (req, res) {
+  let performanceAnalysis=new PerformanceAnalysis()
+  performanceAnalysis.arrangeData()
   res.render('teamSelectTest')
 }
 
@@ -29,17 +41,13 @@ exports.searchPlayer = function (req, res) {
     })
 }
 
-
-
 exports.guestHome=async function(req,res){
   try {
     let liveRooms=[]
     let upCommingMatches=[]
     let roomData = await liveRoomCollection.find().sort({ priority: -1 }).toArray()
     let rooms=roomData.filter((room)=>{
-      if(!room.matchFinished){
         return room
-      }
     }).map((room)=>{
       let data=room
       let tossWonBy
@@ -351,3 +359,5 @@ exports.getProfileData = function (req, res, next) {
     checkData:checkData
   })
 }
+
+

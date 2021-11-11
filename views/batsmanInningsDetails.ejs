@@ -7,8 +7,8 @@
         <div class="col-md-10 shadow ">
           <div class="container scoreUpperPart">
             
-            <h5 class="text-center"><strong> Team Name : <%=batsman.teamName%></strong></h5>
-            <p><strong>Player Name :</strong> <%=batsman.score.name%></p>
+            <h5 class="text-center"><strong> Team Name :  <%=batsman.teamName%></strong></h5>
+            <p><strong>Player Name :</strong> <a href="/profile/<%=batsman.score.regNumber%>"><%=batsman.score.name%></a></p>
             <p><strong>Innings Starts at - </strong><%=batsman.score.battingStartedAt%></p>
             <p><strong>Player Out :</strong> <%= batsman.score.isOut ? "Yes" : "No"%></p>
             <%if(batsman.score.isOut){%>

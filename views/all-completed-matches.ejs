@@ -1,0 +1,68 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+
+
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
+    
+  <div class="single-batch-container mt-2">
+    <div class="single-batch-data pb-2">
+      <div style="position: relative;">
+        <img class="single-batch-image"  src="/images/sohag.jpg" alt="">
+        <div class="batch-no text-capitalize">Tournament sponsorred by Sohag Roy</div> 
+      </div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong>1st division </div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong>2021</div>
+      <hr>
+      <h4>
+        <strong class="bolder ml-2">All Completed Matches : <%=rooms.length%></strong>
+      </h4>
+      <div class="m-2">
+      <%rooms.forEach((room)=>{%>
+        <div class="scoreUpperPart btn-block row" style="margin-left: 0;">
+          <!-- this is header part of score card -->
+            <div class="container">
+              <div class="p_zero">
+                <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  
+                  <%if(room.matchDetails.secondRoundName){%>
+                    | <%=room.matchDetails.secondRoundName%>
+                  <%}%>
+                  | Match no :<%=room.matchDetails.matchNumber%> </strong>
+                  <span class="float-right ">Date : 12/12/12</span>
+                </p>
+                <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
+              </div>
+            </div>
+            <div class="container scoreLowerPart p_zero">
+              <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
+              <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>">
+                <p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+              </a>
+              <a href="/secondInningsDetails/<%=room.matchId%>">
+                <p class="btn btn-sm btn-primary"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
+              </a>
+              <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
+            </div>
+            <div class="container">
+              <div class="p_zero">
+                <p class="float-right"><strong>Scored by-</strong> <%=room.matchDetails.scorerName%></p>
+              </div>
+              <strong><a href="/singleRoomShortDetails/<%=room.matchId%>" class="text-center">Details</a></strong>
+            </div> 
+          </div>
+        <%})%>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+<div class="col-lg"></div>
+</div>
+
+<!-- *******end here******* -->
+
+  <%- include('includes/footer') %>
+

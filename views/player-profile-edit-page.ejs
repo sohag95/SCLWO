@@ -1,47 +1,45 @@
 <%- include('includes/header') %>
-<div class="container py-md-3">
-  <div class="row align-items-center">
-    <div class="container">
-      <%- include('includes/flash') %>
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 shadow">
-          <br>
-          <h3 class="font-bolder">Update your current tournament and club name.</h3>
-          <h3><strong>Your club updation year is - </strong><%=userData.leagueYear%></h3>
-          <form action="/player-club-name-update" method="POST" id="player-team-update">
-            <div class="form-group">
-              <label for="tournamentPart" class="text-muted mb-1"><small>Select Tournament</small></label>
-              <select id="tournamentPart" class="form-control form-control-lg" name="leaguePlaying" form="player-team-update">
-              <option value="<%=userData.leaguePlaying%>"><%=userData.leaguePlaying%></option>
-              </select>
-            </div>
-        
-            <div class="form-group">
-              <label for="playerTeamNamePart" class="text-muted mb-1"><small>Select your team name</small></label>
-              <select id="playerTeamNamePart" class="form-control form-control-lg" name="currentClub"  form="player-team-update">
-              <option value="<%=userData.currentClub%>"><%=userData.currentClub%></option>
-              </select>
-            </div>
-            <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit Club Name</button>
-          
-          </form>  
-        
-          <hr>
-          <form action="/update-player-profile-data" method="POST" id="update-registration-form">
-            <h2>Edit Profile</h2>
+<%- include('includes/flash') %>
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
+    <div class="single-batch-container mt-2">
+      <div class="single-batch-data pb-2 pt-2 bg-warning">
+         <form class="m-2" action="/player-club-name-update" method="POST" id="player-team-update">
+          <h4 class="bolder"><strong>Update Tournament Details </strong></h4>
+          <div class="form-group">
+            <label for="tournamentPart" class="text-muted mb-1"><small>Select Tournament</small></label>
+            <select id="tournamentPart" class="form-control form-control-lg" name="leaguePlaying" form="player-team-update">
+            <option value="<%=userData.leaguePlaying%>"><%=userData.leaguePlaying%></option>
+            </select>
+          </div>
+      
+          <div class="form-group">
+            <label for="playerTeamNamePart" class="text-muted mb-1"><small>Select your team name</small></label>
+            <select id="playerTeamNamePart" class="form-control form-control-lg" name="currentClub"  form="player-team-update">
+            <option value="<%=userData.currentClub%>"><%=userData.currentClub%></option>
+            </select>
+          </div>
+          <button type="submit" class="py-3 mt-4 btn btn-sm btn-info btn-block">Submit Tournament Data</button>
+        </form>  
+      </div>
+      <hr>
+      <div class="single-batch-data pb-2 pt-2">
+        <form class="m-2" action="/update-player-profile-data" method="POST" id="update-registration-form">
+          <h4 class="bolder"><strong>Update Profile</strong></h4>
 
-            <div class="form-group">
-              <label for="userName-register" class="text-muted mb-1"><small>Name</small></label>
-              <input name="userName" id="userName-register" value="<%=userData.userName%>" class="form-control" type="text" placeholder="Name of the student" autocomplete="off" />
-            </div>
+          <div class="form-group">
+            <label for="userName-register" class="text-muted mb-1"><small>Name</small></label>
+            <input name="userName" id="userName-register" value="<%=userData.userName%>" class="form-control" type="text" placeholder="Name of the student" autocomplete="off" />
+          </div>
 
-            <div class="form-group">
-              <label for="address-register" class="text-muted mb-1"><small>Address</small></label>
-              <input name="address" id="address-register" class="form-control" value="<%=userData.address%>" type="tyext" placeholder="Enter address" />
-            </div>
+          <div class="form-group">
+            <label for="address-register" class="text-muted mb-1"><small>Address</small></label>
+            <input name="address" id="address-register" class="form-control" value="<%=userData.address%>" type="tyext" placeholder="Enter address" />
+          </div>
 
-            <div class="form-group">
+          <div class="row">
+            <div class="form-group col-md-6">
               <label for="batting-register" class="text-muted mb-1"><small>Batting Style</small></label>
               <select required id="batting-register" class="form-control" name="battingStyle" form="update-registration-form">
                 <option value="<%=userData.battingStyle%>"><%=userData.battingStyle%></option>
@@ -50,7 +48,7 @@
               </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-md-6">
               <label for="bowling-register" class="text-muted mb-1"><small>Bowling Style</small></label>
               <select required id="bowling-register" class="form-control" name="bowlingStyle" form="update-registration-form">
                 <option value="<%=userData.bowlingStyle%>"><%=userData.bowlingStyle%></option>
@@ -64,30 +62,32 @@
                 <option value="Left-arm medium">Left-arm medium</option>
               </select>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
-              <input name="phone" id="phone-register" class="form-control" value="<%=userData.phone%>" type="text" placeholder="Enter phone number" />
-            </div>
+         <div class="row">
+          <div class="form-group col-md-6">
+            <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
+            <input name="phone" id="phone-register" class="form-control" value="<%=userData.phone%>" type="text" placeholder="Enter phone number" />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="email-register" class="text-muted mb-1"><small>Email</small></label>
+            <input name="email" id="email-register" class="form-control" value="<%=userData.email%>" type="text" placeholder="you@example.com" autocomplete="off" />
+          </div>
+         </div>
 
-            <div class="form-group">
-              <label for="email-register" class="text-muted mb-1"><small>Email</small></label>
-              <input name="email" id="email-register" class="form-control" value="<%=userData.email%>" type="text" placeholder="you@example.com" autocomplete="off" />
-            </div>
-            <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Update</button>
-          </form>
-          <br />
-          <hr />
-          <br />
-
-          <hr>
-          <%- include('includes/changePasswordForm') %>
-        </div>
-        <div class="col-md-1"></div>
+          <button type="submit" class="py-3 mt-4 btn btn-lg btn-info btn-block">Submit Updated Data</button>
+        </form>
+      </div>
+      <hr>
+      <div class="single-batch-data pb-2 pt-2">
+        <%- include('includes/changePasswordForm') %>
       </div>
     </div>
   </div>
+  <div class="col-lg"></div>
 </div>
+
+
 <script>
   let presentTournaments = <%-JSON.stringify(tournaments)%>;
 </script>

@@ -1,54 +1,36 @@
 <%- include('includes/header') %>
 <%- include('includes/flash') %>
-<div class="container py-md-5">
-    <h3>Tournament group added page</h3>
-    <p><strong>Tournament name : </strong><%=tournamentData.tournamentName%> (<%=tournamentData.tournamentYear%>)</p>
+
+
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
     
-    
-    <h4>
-      All added groups for this tournament is : <%=tournamentData.groups.length%>
-    </h4>
-    
-    <%tournamentData.groups.forEach((group,index1)=>{%>
-      <h4><strong>Group name - <%=group.groupName%></strong></h4>
-      <table class="table table-sm table-borderless">
-        <thead>
-          <tr>
-            <th scope="col"><strong>Team Name</strong> </th>
-            <th scope="col">Match Played</th>
-            <th scope="col">Win</th>
-            <th scope="col">Loss</th>
-            <th scope="col">Draw</th>
-            <th scope="col">Points</th>
-          </tr>
-        </thead>
-        <%group.teams.forEach((team,index2)=>{%>
-          <tbody>
-            <tr>
-              <th scope="row"><a href="/tournament/firstRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>)</a></th>
-              <td><%=team.matchesPlayed%></td>
-              <td><%=team.matchesWin%></td>
-              <td><%=team.matchesLoss%></td>
-              <td><%=team.tieOrDraw%></td>
-              <td><%=team.totalPoints%></td>
-            </tr>
-          </tbody>
-        <%})%>
-      </table>
-    <%})%>
-    <hr>
-    <div>
-      <p><strong>First round fixture </strong> </p>
-      <a href="<%=tournamentData.fixtureLink%>"><button id="match-success-button" class="btn btn-success btn-block">Tournament matches fixture</button></a>
-    </div>
-    <hr>
-    
-    <%if(tournamentData.isSecondRoundStarted){%>
-      <h3><strong>Qualified teams for <%=tournamentData.secondRoundName%></strong></h3>
+  <div class="single-batch-container mt-2">
+    <div class="single-batch-data pb-4">
+      <div style="position: relative;">
+        <img class="single-batch-image"  src="/images/sohag.jpg" alt="">
+        <div class="batch-no text-capitalize">Tournament sponsorred by Sohag Roy</div> 
+      </div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong><%=tournamentData.tournamentName%></div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong><%=tournamentData.tournamentYear%></div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Total Groups : </strong><%=tournamentData.groups.length%></div>
+      <div class="text-center">
+        <a href="/all-completed-matches/<%=tournamentData.tournamentName%>/<%=tournamentData.tournamentYear%>">
+          <div class="btn btn-outline-primary btn-sm mr-1">All Completed Matches</div>
+        </a>
+      </div>
+      
       <hr>
-      <%tournamentData.secondRoundGroups.forEach((group,index1)=>{%>
-        <h4><strong>Group name - <%=group.groupName%></strong></h4>
-        <table class="table table-sm table-borderless">
+      <h4>
+        <strong class="bolder ml-2">Tournament Groups:</strong>
+      </h4>
+      
+      <div class="m-2">
+      <%tournamentData.groups.forEach((group,index1)=>{%>
+        <div class="bolder text-primary"><strong>Group name - <%=group.groupName%></strong></div>
+        
+        <table class="table table-sm table-bordered">
           <thead>
             <tr>
               <th scope="col"><strong>Team Name</strong> </th>
@@ -62,7 +44,7 @@
           <%group.teams.forEach((team,index2)=>{%>
             <tbody>
               <tr>
-                <th scope="row"><a href="/tournament/secondRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>)</a></th>
+                <th scope="row"><a href="/tournament/firstRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>)</a></th>
                 <td><%=team.matchesPlayed%></td>
                 <td><%=team.matchesWin%></td>
                 <td><%=team.matchesLoss%></td>
@@ -73,36 +55,129 @@
           <%})%>
         </table>
       <%})%>
-      <hr>
-      
-      <div>
-        <p><strong>Second round fixture </strong> </p>
-        <a href="<%=tournamentData.secondRoundFixtureLink%>"><button id="match-success-button" class="btn btn-success btn-block">Tournament matches fixture</button></a>
       </div>
       <hr>
-    <%}%> 
-    <h3><strong>Hight runs scorrers :</strong></h3>
-      <%tournamentData.topBatters.forEach((batter)=>{%>
-        <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-          <span class="item-text"><strong>Name : </strong><a href="/profile/<%=batter.regNumber%>"><%=batter.userName%></a></span>
-          <span class="item-text"><strong>Matches played : </strong><%=batter.matchesPlayed%></span>
-          <div>
-            <strong> Total Runs : <%=batter.runs%> </strong>
-          </div>
-        </li>  
-      <%})%>
+      <div class="m-2">
+        <p><strong>First round fixture </strong> </p>
+        <a href="<%=tournamentData.fixtureLink%>"><button id="match-success-button" class="btn btn-success btn-block">Tournament matches fixture</button></a>
+      </div>
       <hr>
-      <h3><strong>Hight wicket takers :</strong></h3>
-      <%tournamentData.topBowlers.forEach((bowler)=>{%>
-        <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-          <span class="item-text"><strong>Name : </strong><a href="/profile/<%=bowler.regNumber%>"><%=bowler.userName%></a></span>
-          <span class="item-text"><strong>Matches played : </strong><%=bowler.matchesPlayed%></span>
-          <div>
-            <strong> Total Wickets : <%=bowler.wickets%></strong>
+      <div class="m-2">
+      <%if(tournamentData.isSecondRoundStarted){%>
+        <h3><strong>Qualified teams for <%=tournamentData.secondRoundName%></strong></h3>
+        <hr>
+        <%tournamentData.secondRoundGroups.forEach((group,index1)=>{%>
+          <h4><strong>Group name - <%=group.groupName%></strong></h4>
+          <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th scope="col"><strong>Team Name</strong> </th>
+                <th scope="col">Match Played</th>
+                <th scope="col">Win</th>
+                <th scope="col">Loss</th>
+                <th scope="col">Draw</th>
+                <th scope="col">Points</th>
+              </tr>
+            </thead>
+            <%group.teams.forEach((team,index2)=>{%>
+              <tbody>
+                <tr>
+                  <th scope="row"><a href="/tournament/secondRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>)</a></th>
+                  <td><%=team.matchesPlayed%></td>
+                  <td><%=team.matchesWin%></td>
+                  <td><%=team.matchesLoss%></td>
+                  <td><%=team.tieOrDraw%></td>
+                  <td><%=team.totalPoints%></td>
+                </tr>
+              </tbody>
+            <%})%>
+          </table>
+        <%})%>
+        <hr>
+      
+        <div>
+          <p><strong>Second round fixture </strong> </p>
+          <a href="<%=tournamentData.secondRoundFixtureLink%>"><button id="match-success-button" class="btn btn-success btn-block">Tournament matches fixture</button></a>
+        </div>
+        <hr>
+      <%}%> 
+    </div>
+      
+        <p><h5 class="bolder text-primary ml-2">Hight Run Scorers:</h5></p>
+          <!--         
+          <span class="m-2">
+            <p class="btn btn-primary btn-block">There is no student till now.</p>
+          </span> -->
+        
+        <%tournamentData.topBatters.forEach((batter)=>{%>
+        <div class="ml-2 mr-2">
+          <div class="student-room-container" style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
+            </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col-sm-6"  style="width: 100%;display: flex;">
+                  <div style="width: 100%;">
+                    <div class="text-primary"><strong><%=batter.userName%> (CCA)</strong></div>
+                    <div><strong>Matches : </strong><%=batter.matchesPlayed%> &nbsp;|&nbsp; <strong>Runs : </strong><%=batter.runs%></div>
+                    <div></div>
+                  </div>
+                  
+                </div>
+                <div class="col-sm-6 " style="margin: auto;">
+                  <div class="float-btn" style="display: flex;">
+                    <a href="/profile/<%=batter.regNumber%>">
+                      <div class="btn btn-primary btn-sm mr-1">View profile</div>
+                    </a>
+                    <a href="/single-chat/">
+                      <div class="btn btn-primary btn-sm "> Compare</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
           </div>
-        </li>  
-      <%})%>
-      <hr>
+        </div>
+        <%})%>
+
+        <p><h5 class="bolder text-primary ml-2">Hight Wicket Takers:</h5></p>
+          <!--         
+          <span class="m-2">
+            <p class="btn btn-primary btn-block">There is no student till now.</p>
+          </span> -->
+        
+        <%tournamentData.topBowlers.forEach((bowler)=>{%>
+        <div class="ml-2 mr-2">
+          <div class="student-room-container" style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
+            </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col-sm-6"  style="width: 100%;display: flex;">
+                  <div style="width: 100%;">
+                    <div class="text-primary"><strong><%=bowler.userName%> (CCA)</strong></div>
+                    <div><strong>Matches : </strong><%=bowler.matchesPlayed%> &nbsp;|&nbsp; <strong>Wickets : </strong><%=bowler.wickets%></div>
+                    <div></div>
+                  </div>
+                  
+                </div>
+                <div class="col-sm-6 " style="margin: auto;">
+                  <div class="float-btn" style="display: flex;">
+                    <a href="/profile/<%=bowler.regNumber%>">
+                      <div class="btn btn-primary btn-sm mr-1">View profile</div>
+                    </a>
+                    
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <%})%>
+    </div>
+  </div>
 </div>
+<div class="col-lg"></div>
+</div>
+
+<!-- *******end here******* -->
 
   <%- include('includes/footer') %>

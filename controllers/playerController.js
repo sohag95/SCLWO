@@ -62,12 +62,12 @@ exports.playerRegister = function (req, res) {
 exports.playerHome =async function (req, res) {
   try{
     let userData=await Player.findPlayerByregNumber(req.regNumber)
-    let perfornamceData=await PerformanceTable.getPlayerPerformanceData(req.regNumber,"home")
+    let performanceData=await PerformanceTable.getPlayerPerformanceData(req.regNumber,"home")
     console.log(userData)
-    console.log(perfornamceData)
+    console.log(performanceData)
     res.render("player-home",{
       userData:userData,
-      perfornamceData:perfornamceData
+      performanceData:performanceData
     })
   }catch{
     res.render('404')
@@ -243,4 +243,8 @@ exports.getComparePageWithData = function (req, res) {
   res.render("compare-page",{
     compareData:req.compareData
   })
+}
+
+exports.getPerformanceAnalysisPage = function (req, res) {
+  res.render("performance-analysis")
 }

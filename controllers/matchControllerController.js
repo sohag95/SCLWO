@@ -427,3 +427,28 @@ exports.markAsAllPlayerDataAdded = function(req, res) {
     req.session.save(() => res.redirect("/matchController-home"))
   })
 }
+
+exports.getCompletedMatches =async function (req, res) {
+  try{
+    let tournamentName=req.params.tournamentName
+    let tournamentYear=req.params.tournamentYear
+    let roomsData=await completedMatchesCollection.find({"matchDetails.tournamentName":tournamentName,"matchDetails.tournamentYear":tournamentYear}).toArray()
+    let rooms=roomsData.map((room)=>{
+    let data=room
+    let tossWonBy
+    if(data.matchDetails.tossWonBy=="firstTeam"){
+      tossWonBy=data.matchDetails.firstTeam
+    }else{
+      tossWonBy=data.matchDetails.secondTeam
+    }
+    data.tossDetails=tossWonBy+" won the toss and decided to "+data.matchDetails.decidedTo+" first."
+    data.batting=CommonFunctions.getBattingTeamName(data)
+    return data
+  })
+    res.render("all-completed-matches",{
+      rooms:rooms
+    })
+  }catch{
+    res.render("404")
+  }
+}

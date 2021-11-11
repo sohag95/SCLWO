@@ -537,7 +537,8 @@ LiveScoreRoom.addNewBowler = function (data, matchId) {
       overs:0,
       madenOvers:0,
       wideBalls:0,
-      noBalls:0
+      noBalls:0,
+      trackingBalls:"",
     }
     try {
         await liveRoomCollection.findOneAndUpdate(

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,77 +6,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>SCLWO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css	" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
     <script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet" />
     <link rel="stylesheet" href="/main.css" />
+    
   </head>
   <body>
-    <header class="header-bar">
-      <div class="container d-flex flex-column flex-md-row align-items-center p-3">
-        <h4 class="font-weight-normal" style="margin-right: 10px">
-          <a href="/" class="text-white"><img title="Logo" data-toggle="tooltip" data-placement="bottom" style="width: 80px; height: 80px; border-radius: 40px" src="/images/sohag.jpg" /></a>
-        </h4>
-        <div class="text-white my-0 mr-md-auto justify-content-center">
-          <h4>Siliguri Cricket Lovers</h4>
-          <p class="header-p">ESTD : 2017</p>
-          <p></p>
-        </div>
-
-        <div class="flex-row my-md-0 paddingMarginZero">
-          <!--Search-->
-          <a class="header-search-icon btn-floating btn-lg btn-fb mr-0 header-a" type="button" role="button" href="#"><i class="fas fa-search"></i></a>
-          <!--Facebook-->
-          <a class="btn-floating btn-lg btn-fb mr-0 header-a" type="button" role="button" href="#"><i class="fab fa-facebook-f"></i></a>
-          <!--Twitter-->
-          <a class="btn-floating btn-lg btn-tw mr-0 header-a" type="button" role="button" href="#"><i class="fab fa-twitter"></i></a>
-          <!--Google +-->
-          <a class="btn-floating btn-lg btn-gplus mr-0 header-a" type="button" role="button" href="#"><i class="fab fa-google-plus-g"></i></a>
-          <!--Instagram-->
-          <a class="btn-floating btn-lg btn-ins mr-0 header-a" type="button" role="button" href="#"><i class="fab fa-instagram"></i></a>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navShadow">
+      <a class="navbar-brand" href="/">
+        <img src="/images/sohag-logo1.png" width="110" height="32" alt="">
+      </a>
+      <div style="display: flex;align-items: center;">
+        <!-- <div class=" visibleItemsOnCollapse" >
+          <div>
+            <div class="header-search-icon searchButton" > <i class="fas fa-search"></i></div>
+          </div>
+        </div> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="text-center notVisibleOnCollapse">
+        <div class="d-flex justify-content-between">
+          <div class="p-1">
+            <div class="form-control header-search-icon" style="border-radius: 4rem; width: 15rem;text-align: left;">
+              <i class="fas fa-search"></i> Search player
+            </div>
+          </div>
         </div>
       </div>
       
-    </header>
-
-    <div class="menuItems">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-10 paddingMarginZero">
-            <div class="d-flex menuItemAlignment">
-              <a class="btn btn-sm btn-light mr-1" href="/">Home</a>
-              <a class="btn btn-sm btn-light mr-1" href="/tournaments">Tournaments</a>
-              <a class="btn btn-sm btn-light mr-1" href="/matches">Matches</a>
-              <a class="btn btn-sm btn-light mr-1" href="/top-players">Top Players</a>
-              <a class="btn btn-sm btn-light mr-1" href="/about-us">About Us</a>
-              <a class="btn btn-sm btn-light mr-1" href="/test">Test</a>
-
-              <% if (user) { %>
-              <div class="d-flex">
-                <% if (user.accountType=="admin") { %>
-                <a class="btn btn-sm btn-success mr-1" href="/admin-home">Admin's Home</a>
-                <% }%> <% if (user.accountType=="player") { %>
-                <a class="btn btn-sm btn-success mr-1" href="/player-home">Player's Home</a>
-                <% } %> <% if (user.accountType=="matchController") { %>
-                <a class="btn btn-sm btn-success mr-1" href="/matchController-home">Match Controller's Home</a>
-                <% } %> <% if (user.accountType=="liveScorer") { %>
-                  <a class="btn btn-sm btn-success mr-1" href="/live-scorer-room">Scorer's Home</a>
-                  <% } %> %>
-
-                <form action="/logout" method="POST" class="d-inline">
-                    <button class="btn btn-sm btn-secondary">Sign Out</button>
-                </form>
+      <div class="visibleItemsOnCollapse">
+        <hr>
+          <div>
+            <!-- <div class="mt-2 mb-2 ">
+              <div class="form-control header-search-icon" style="border-radius: 4rem; ">
+                <i class="fas fa-search"></i> Search here
               </div>
-              <% } else { %>
-              <button class="btn btn-sm btn-secondary" type="button" data-toggle="collapse" data-target="#collapseSignIn" aria-expanded="false" aria-controls="collapseExample">Sign In</button>
-              <% } %>
+            </div> -->
+
+            
+            <%if(user){%>
+              <%if(user.accountType=="player"){%>
+                <a href="/profile/<%= user.regNumber %>">
+                  <div class="">
+                  <img class="avatar-small" style="top: 0;margin-right: 10px;" src="/images/sohag.jpg" alt="">
+                  <strong><%=user.userName%></strong>
+                  </div>
+                </a>
+              <%}else if(user.accountType=="matchController"){%>
+                <a href="/matchController-home">
+                  <div class="">
+                  <img class="avatar-small" style="top: 0;margin-right: 10px;" src="/images/sohag.jpg" alt="">
+                  <strong><%=user.userName%> (Home)</strong>
+                  </div>
+                </a>
+              <%}else if(user.accountType=="liveScorer"){%>
+                <a href="/live-scorer-room">
+                  <div class="">
+                  <img class="avatar-small" style="top: 0;margin-right: 10px;" src="/images/sohag.jpg" alt="">
+                  <strong>Live Scorer Home</strong>
+                  </div>
+                </a>
+              <%}else if(user.accountType=="admin"){%>
+                <a href="/admin-home">
+                  <div class="">
+                  <img class="avatar-small" style="top: 0;margin-right: 10px;" src="/images/sohag.jpg" alt="">
+                  <strong><%=user.userName%> (Home)</strong>
+                  </div>
+                </a>
+              <%}%>
+              
+            <%}%>
+            
+            <a href="/tournaments">
+              <div class="side-item">
+                <i class="far fa-address-card fa-lg"></i>
+                <strong>Tournaments</strong>
+              </div>
+            </a>
+            <a href="/matches">
+              <div class="side-item">
+                <i class="far fa-address-card fa-lg"></i>
+                <strong>Matches</strong>
+              </div>
+            </a>
+            <a href="/top-players">
+              <div class="side-item">
+                <i class="far fa-address-card fa-lg"></i>
+                <strong>Top Players</strong>
+              </div>
+            </a>
+          <a href="#">
+            <div class="side-item">
+              <i class="far fa-address-card fa-lg"></i>
+              <strong>About Us</strong>
             </div>
-          </div>
-          <div class="col-md-1"></div>
+          </a>
+          <a href="#">
+            <div class="side-item">
+              <i class="fas fa-address-book fa-lg"></i>
+              <strong>Contact Us</strong>
+            </div>
+          </a>
+          <a href="#">
+            <div class="side-item">
+              <i class="fas fa-question-circle fa-lg"></i>
+              <strong>Help</strong>
+            </div>
+          </a>
+          
+            <hr>
+            <%if(user){%>
+            <div class="side-item">
+              
+                <form action="/logout" method="POST" class="d-inline">
+                  
+                  <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out </button>
+                </form>
+            </div>
+            <%}else{%>
+              
+              <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSignIn" aria-expanded="false" aria-controls="collapseExample">
+                <i class="fas fa-sign-in-alt fa-lg"></i>
+                 Log In 
+                </button>
+            <%}%>
+            <hr>
+        </div>  
+      
+      </div>
+      </div>
+      <div class="float-right notVisibleOnCollapse">
+        <a class="mr-2" href="/tournaments"><strong>Tournamnets</strong></a>
+        <a class="mr-2" href="/matches"><strong>Matches</strong></a>
+        
+        <%if(user){%>
+          <%if(user.accountType=="player"){%>
+            <a href="/profile/<%= user.regNumber %>">
+              <button type="button" class="btn btn-outline-primary mr-2">
+                <img class="avatar-small" style="top: 0;" src="/images/sohag.jpg" alt="">
+                <strong><%=user.userName%></strong>
+              </button>
+            </a>
+          <%}else if(user.accountType=="admin"){%>
+            <a href="/admin-home%>">
+              <button type="button" class="btn btn-outline-primary mr-2">
+                <img class="avatar-small" style="top: 0;" src="/images/sohag.jpg" alt="">
+                <strong>Your Home</strong>
+              </button>
+            </a>
+          <%}else if(user.accountType=="matchController"){%>
+            <a href="/matchController-home%>">
+              <button type="button" class="btn btn-outline-primary mr-2">
+                <img class="avatar-small" style="top: 0;" src="/images/sohag.jpg" alt="">
+                <strong>Your Home</strong>
+              </button>
+            </a>
+          <%}else if(user.accountType=="liveScorer"){%>
+            <a href="/live-scorer-room%>">
+              <button type="button" class="btn btn-outline-primary mr-2">
+                <strong>Your Home</strong>
+              </button>
+            </a>
+          <%}%>
+
+          <form action="/logout" method="POST" class="d-inline">
+            <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out</button>
+          </form>
+        <%}else{%>
+          <a href="/log-in">Log In</a>
+          <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSignIn" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-sign-in-alt"></i> Log In </button>
+        <%}%>
+       </div>
+    </nav>
+
+    <!-- header after log-in -->
+    <%if(user){%>
+      <%if(user.accountType=="player"){%>
+      <div class="sticky-top">
+        <div class="homeNavbar">
+          <div class="col-lg  " >
+          </div>  
+         <div class="col-lg-6" style="padding-left: 0px;padding-right: 0px;">
+            <div class=" d-flex justify-content-between ">
+              <div class="text-center">
+                <a  href="/player-home">
+                  <span ><i class="fas fa-home fa-lg"></i></span>
+                 <span class="d-block menu-text" >Home</span>
+                </a>
+              </div>
+              <div class="text-center">
+                <a href="/performance-analysis">
+                  <span><i class="fas fa-chart-line fa-lg"></i></span>
+                  <span class="d-block menu-text" >Analysis</span>
+                </a>
+              </div>
+              <div class="text-center">
+                <a href="/practice-match-addition-form">
+                  <span><i class="fas fa-plus-square fa-lg"></i></span>
+                  <span class="d-block menu-text" >Add Match</span>
+                  </a>
+              </div>
+              <div class="text-center">
+                <a href="/top-players">
+                  <span><i class="fas fa-running fa-lg"></i></span>
+                  <span class="d-block menu-text" >Top Players</span>
+                </a>
+              </div>
+              <div class="text-center">
+                <a href="/profile/<%=user.regNumber%>">
+                  <span><i class="fas fa-user-circle fa-lg"></i></span>
+                  <span class="d-block menu-text" >Profile</span>
+                  
+                </a>
+              </div>
+            </div>
+          </div> 
+          <div class="col-lg " >
+          </div> 
         </div>
       </div>
-    </div>
+      <%}%>
+    <%}%>
+   
+    <!-- structure here -->
+  
+
+
+
+
+
+
     <div class="collapse" id="collapseSignIn">
       <div class="container">
         <div class="row">
