@@ -1,5 +1,90 @@
 <%- include('includes/header') %>
 <%- include('includes/flash') %>
+
+
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-8" >
+    <div class="single-batch-container mt-2">
+      <div class="single-batch-data pb-4">
+        <!-- header part of the tournament starts-->
+        <div style="position: relative;">
+          <img class="single-batch-image"  src="/images/sohag.jpg" alt="">
+          <div class="batch-no text-capitalize">Tournament sponsorred by Sohag Roy</div> 
+        </div>
+        <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong><%=tournamentData.tournamentName%></div>
+        <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong><%=tournamentData.tournamentYear%></div>
+        <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Total Groups : </strong><%=tournamentData.groups.length%></div>
+        <div class="text-center">
+          <a href="/all-completed-matches/<%=tournamentData.tournamentName%>/<%=tournamentData.tournamentYear%>">
+            <div class="btn btn-outline-primary btn-sm mr-1">All Completed Matches</div>
+          </a>  
+                   
+        </div>
+        <hr>
+        <!-- header part of the tournament ends-->
+        <h4>
+          <strong class="bolder ml-2">Tournament Groups Details :</strong>
+        </h4>
+        <div class="m-2">
+          <%tournamentData.groups.forEach((group,groupIndex)=>{%>
+            <div class="bolder text-primary"><strong>Group name - <%=group.groupName%></strong></div>
+            <table class="table table-sm table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col"><strong>Team Name</strong> </th>
+                  <th scope="col">Match Played</th>
+                  <th scope="col">Win</th>
+                  <th scope="col">Points</th>
+                  <th scope="col">Mark If Qualified</th>
+                </tr>
+              </thead>
+              <%group.teams.forEach((team,teamIndex)=>{%>
+                <tbody>
+                  <tr>
+                    <th scope="row"><%=team.teamFullName%> (<%=team.teamShortName%>)</th>
+                    <td><%=team.matchesPlayed%></td>
+                    <td><%=team.matchesWin%></td>
+                    <td><%=team.totalPoints%></td>
+                    <td ><button data-id="<%=groupIndex%>" id="<%=team.teamFullName%>" value="<%=teamIndex%>" class="qualifiedButton btn btn-sm btn-danger"> Click If Qualified</button> </td>
+                  </tr>
+                </tbody>
+              <%})%>
+            </table>
+          <%})%>
+        </div>
+        <hr>
+        <div class="m-2">
+          <h3 class="text-primary bolder text-center"><Strong>Select Qualified Teams</Strong></h3>
+          <form action="/tournament/qualified/<%=tournamentData._id%>/second-round-teams" method="POST" id="addQualifiedTeamsForm">
+            <div class="form-group">
+              <label for="roundName" class="text-danger mb-1"><strong>Gieve Round Name</strong> </label>
+              <input required name="roundName" id="roundName" class="form-control" type="text" placeholder="Enter second round name" autocomplete="off" />
+            </div>
+            <ul id="addedQualifiedTeams" class="list-group ">
+            </ul>
+            <input type="hidden" id="allQualifiedTeams" name="allTeams">
+            <button id="submitQualifiedTeamsButton" class="btn btn-lg btn-primary">Submit Qualified Teams</button>
+          </form>
+          <script src="/addSecondRoundTeams.js"></script> 
+        </div>
+        <!-- ############### -->
+      </div>
+    </div>
+  </div>
+  <div class="col-lg"></div>
+</div>
+
+<!-- *******end here******* -->
+
+
+
+
+
+
+
+
+
 <div class="container py-md-5">
     <h3>Qualified teams for next round page .</h3>
     <p><strong>Tournament name : </strong><%=tournamentData.tournamentName%> (<%=tournamentData.tournamentYear%>)</p>
@@ -32,19 +117,7 @@
       </table>
     <%})%>
     <hr>
-      <h3 class="text-primary text-center"><Strong>Qualified Teams</Strong></h3>
-      <p class="text-center warning text-danger "><strong>Enter round name!!</strong> </p>
-      <form action="/tournament/qualified/<%=tournamentData._id%>/second-round-teams" method="POST" id="addQualifiedTeamsForm">
-      <div class="form-group">
-        <label for="roundName" class="text-muted mb-1">Round name</label>
-        <input required name="roundName" id="roundName" class="form-control" type="text" placeholder="Give a name for this round" autocomplete="off" />
-      </div>
-      <ul id="addedQualifiedTeams" class="list-group ">
-      </ul>
-      <input type="hidden" id="allQualifiedTeams" name="allTeams">
-      <button id="submitQualifiedTeamsButton" class="btn btn-lg btn-primary">ADD QUALIFIED TEAMS</button>
-    </form>
-    <script src="/addSecondRoundTeams.js"></script>  
+       
 </div>
 
   <%- include('includes/footer') %>

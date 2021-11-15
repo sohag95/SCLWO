@@ -1,0 +1,11 @@
+<div class="container commentry scoreUpperPart mt-1 pb-2">
+  <p style="background-color: rgb(69, 164, 241); color: #fff"><strong>Commentry</strong></p>
+  <div id="matchCommentry">  
+  </div>
+  <button id="loadMoreComments" class="btn btn-outline-primary btn-sm btn-block "><strong>Load More Comments...</strong> </button>
+  
+</div>
+<script>
+  let allComments = <%-JSON.stringify(room.matchDetails.commentry)%>
+</script>
+<script src="/matchCommentry.js"></script>

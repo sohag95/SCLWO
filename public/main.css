@@ -678,7 +678,7 @@ label.star:before {
  }
  @media (max-width: 720.98px) {
   .path{
-    padding: .75rem;
+    padding: .85rem;
   }
 }
 
@@ -955,6 +955,7 @@ div.feedbackButton{
 .scoreUpperPart {
   background-color: #b6baba;
   border-radius: 5px;
+  line-height: 1.2;
 }
 
 .tournament-sponsor-image {
@@ -1006,4 +1007,22 @@ div.feedbackButton{
 .menu-text{
   font-size: 12px;
   line-height: 10px;
+}
+
+.match-room-sponsor-image{
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  object-position: top;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  opacity: .6;
+}
+
+.guest-home-notice{
+  height: 5.50rem;
+  overflow-y: scroll;
+}
+.guest-home-notice::-webkit-scrollbar{
+  width: 0px;
 }

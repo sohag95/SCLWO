@@ -73,10 +73,16 @@ MatchController.prototype.createTournament = function () {
       if (this.data.tournamentName == "") {
         this.errors.push("You must provide tournament name.")
       }
+      if (typeof this.data.tournamentYear != "string") {
+        this.data.tournamentYear = ""
+      }
+      if (this.data.tournamentYear == "") {
+        this.errors.push("You must provide tournament name.")
+      }
       if(!this.errors.length){
         let date=new Date()
         let details={
-          tournamentYear:String(date.getFullYear()),
+          tournamentYear:this.data.tournamentYear,
           tournamentName:this.data.tournamentName,
           isAddedAllGroups:false,
           groups:[],
@@ -86,6 +92,8 @@ MatchController.prototype.createTournament = function () {
           secondRoundGroups:[],
           secondRoundFixtureLink:null,
           createdDate:date,
+          topBatters:[],
+          topBowlers:[],
           isTournamentCompleted:false
         }
         tournamentCollection.insertOne(details).then((info)=>{

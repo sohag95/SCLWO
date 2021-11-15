@@ -17,6 +17,9 @@ LiveScoreRoom.prototype.cleanUp = async function () {
     if (typeof this.data.tournamentName != "string") {
       this.data.tournamentName = ""
     }
+    if (typeof this.data.tournamentYear != "string") {
+      this.data.tournamentYear = ""
+    }
     if (typeof this.data.groupName != "string") {
       this.data.groupName = ""
     }
@@ -50,7 +53,7 @@ LiveScoreRoom.prototype.cleanUp = async function () {
       priority:1,
       matchDetails:{
         tournamentName: this.data.tournamentName,
-        tournamentYear:String(date.getFullYear()),
+        tournamentYear:this.data.tournamentYear,
         groupName:this.data.groupName,
         secondRoundName:this.data.secondRoundName,
         matchNumber: this.data.matchNumber,

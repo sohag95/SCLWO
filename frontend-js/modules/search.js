@@ -24,6 +24,12 @@ export default class Search {
       e.preventDefault()
       this.openOverlay()
     })
+    // document.addEventListener("click", function(e) {
+    //   e.preventDefault()
+    //   if (e.target.classList.contains("header-search-icon")) { 
+    //     this.openOverlay()
+    //   }
+    // })
   }
 
   // 3. Methods

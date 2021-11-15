@@ -1,35 +1,56 @@
 <%- include('includes/header') %>
-<div class="container py-md-3">
-  <div class="row ">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 shadow ">
-          <div class="container scoreUpperPart">
-            
-            <h5 class="text-center"><strong> Team Name :  <%=batsman.teamName%></strong></h5>
-            <p><strong>Player Name :</strong> <a href="/profile/<%=batsman.score.regNumber%>"><%=batsman.score.name%></a></p>
-            <p><strong>Innings Starts at - </strong><%=batsman.score.battingStartedAt%></p>
-            <p><strong>Player Out :</strong> <%= batsman.score.isOut ? "Yes" : "No"%></p>
-            <%if(batsman.score.isOut){%>
-              <p><strong>Out by the bowler : </strong><%=batsman.score.outBy%></p>
-            <%}%>
-            <div class="container scoreLowerPart ">
-              <p><strong>Scored runs : </strong><%=batsman.score.runs%></p>
-              <p><strong>Fetch balls : </strong><%=batsman.score.balls%></p>
-              <p><strong>Fours : </strong><%=batsman.score.fours%></p>
-              <p><strong>Sixes : </strong><%=batsman.score.sixes%></p>
-              <p><strong>Run rate : </strong><%=((batsman.score.runs*100)/batsman.score.balls).toFixed(2)%></p>
-              <p><strong>Fetching balls : </strong><%=batsman.score.ballsTracking%></p>
+<div style="display: flex;flex-wrap: wrap;" class="mt-2">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
+          <div class="single-batch-data">
+            <div style="position: relative;">
+              <img class="match-room-sponsor-image"  src="/images/sohag.jpg" alt="">
             </div>
             
+          </div>
+            
+          <div class="container scoreUpperPart pb-4">
+            <%if(batsman.score.regNumber!="Not registered"){%>
+            <div class="text-center">
+              <img class="profile-image mt-2" src="/images/sohag.jpg" />
+              <h5 class="bolder text-primary">
+                <strong><%=batsman.score.name%></strong>
+              </h5>
+              <div class="btn btn-outline-info"><strong><a href="/profile/<%=batsman.score.regNumber%>">Go To Profile</a></strong></div> 
+            </div>
+            <%}else{%>
+              <h5 class="bolder pt-2 text-center">
+                <strong>Batter Name : <%=batsman.score.name%></strong>
+              </h5>
+              <div class="btn btn-lg btn-warning btn-block"> <strong>Batter has not registered !!</strong></div>
+            <%}%>
+            <hr>
+            <h5 class="bolder text-center"><strong> Team Name :  <%=batsman.teamName%></strong></h5>
+          
+            <hr>
+            <p><strong>Innings Starts at - </strong><%=batsman.score.battingStartedAt%></p>
             <p><strong>Innings Ends at - </strong><%= batsman.score.isOut ? batsman.score.battingFinishedAt : "Not Out"%></p>
+            <div class="container scoreLowerPart pb-1 pt-1">
+              <div class="bolder text-success" style="padding-bottom: .75rem;"> <strong>Batting Details :</strong></div>
+              <p><strong>Runs : </strong><%=batsman.score.runs%></p>
+              <p><strong>Balls : </strong><%=batsman.score.balls%></p>
+              <p><strong>Fours : </strong><%=batsman.score.fours%></p>
+              <p><strong>Sixes : </strong><%=batsman.score.sixes%></p>
+              <p><strong>Strike Rate : </strong><%=((batsman.score.runs*100)/batsman.score.balls).toFixed(2)%></p>
+              <p><strong>Fetched Balls : </strong><%=batsman.score.ballsTracking%></p>
+              <%if(batsman.score.isOut){%>
+                <p><strong>Player Out : </strong>Yes</p>
+                <p><strong>Bowler Name : </strong><%=batsman.score.outBy%></p>
+              <%}else{%>
+                <p><strong>Player Out :</strong> No</p>
+              <%}%>
+            </div>
+            
+            
           </div>
-          </div>
-        <div class="col-md-1"></div>
       </div>
-    </div>
+    <div class="col-lg"></div>
   </div>
-</div>
+         
 
 <%- include('includes/footer') %>

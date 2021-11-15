@@ -59,6 +59,7 @@ exports.addGroupPage=async function(req,res){
       groups.shift(group.groupName)
     })
     req.tournamentData.addedGroups=groups
+    console.log(req.tournamentData.addedGroups)
     res.render('add-tournament-group-teams',{
       tournamentData:req.tournamentData,
       regErrors: req.flash("regErrors")
@@ -233,6 +234,13 @@ exports.ifTournamentExists = function(req, res, next) {
   })
 }
 
+exports.liveMatchRoomCreateForm = function(req, res) {
+  let tournamentData=req.tournamentData
+  res.render("live-room-create-form",{
+    tournamentData:tournamentData
+  })
+}
+
 exports.deleteTournament=function(req,res){
   let tournamentName=req.body.tournamentName
   if(req.tournamentData.tournamentName==tournamentName){
@@ -323,6 +331,7 @@ exports.addGroupOnTournament =function (req, res) {
     groupName:groupName,
     allTeams:allTeams
   }
+ 
   MatchController.addGroupsOnTournament(teams,req.params._id)
       .then(function () {
         let message="New group added.Add another group if needed."

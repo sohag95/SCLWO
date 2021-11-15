@@ -1,0 +1,91 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
+    <div class="single-batch-container mt-2">
+
+      <!-- header part of the tournament starts-->
+      <div style="position: relative;">
+        <img class="single-batch-image"  src="/images/sohag.jpg" alt="">
+        <div class="batch-no text-capitalize">Tournament sponsorred by Sohag Roy</div> 
+      </div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong><%=tournamentData.tournamentName%></div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong><%=tournamentData.tournamentYear%></div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Total Groups : </strong><%=tournamentData.groups.length%></div>
+      <div class="text-center">
+        <a href="/all-completed-matches/<%=tournamentData.tournamentName%>/<%=tournamentData.tournamentYear%>">
+          <div class="btn btn-outline-primary btn-sm mr-1">All Completed Matches</div>
+        </a>  
+                 
+      </div>
+      <hr>
+      <!-- header part of the tournament ends--> 
+
+      <h5 class="bolder text-success mt-2"><strong>Add New Live Score Room</strong></h5>
+      <hr>
+        <div class="single-batch-data pb-2 pt-2">
+          <span class="bolder ml-2"><strong>Add Match Data :</strong></span>
+          <form class="m-2" action="/live-match-room-create" method="POST" id="liveScoreRoom">
+            <div class="form-group ">
+              <label for="groupPart" class="text-muted mb-1"><small>Select group</small></label>
+              <select id="groupPart" class="form-control form-control-lg" name="groupName" form="liveScoreRoom">
+              </select>
+            </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="firstTeamPart" class="text-muted mb-1"><small>Select first team name</small></label>
+                  <select id="firstTeamPart" class="form-control form-control-lg" name="firstTeam" form="liveScoreRoom">
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="secondTeamPart" class="text-muted mb-1"><small>Select second team name</small></label>
+                  <select id="secondTeamPart" class="form-control form-control-lg" name="secondTeam" form="liveScoreRoom">
+                  </select>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="matchNumber" class="text-muted mb-1"><small>Match number of the tournament</small></label>
+                  <input required name="matchNumber" id="matchNumber" class="form-control" type="text" placeholder="Enter match number" autocomplete="off" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="venue" class="text-muted mb-1"><small>Venue Name</small></label>
+                  <input required name="venue" id="venue" class="form-control" type="text" placeholder="Enter the venue name" autocomplete="off" />
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="date" class="text-muted mb-1"><small>Date of the game</small></label>
+                  <input required name="date" id="date" class="form-control" type="date" placeholder="Enter the played date" autocomplete="off" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="matchStartingTime" class="text-muted mb-1"><small>Match Starting Time</small></label>
+                  <input required name="matchStartingTime" id="matchStartingTime" class="form-control" type="text" placeholder="Enter the time of starting the match" autocomplete="off" />
+                </div>
+              </div>
+        
+            <div class="form-group">
+              <label for="password" class="text-muted mb-1"><small>Room Password</small></label>
+              <input required name="password" id="password" class="form-control" type="password" placeholder="Give a password for the room" autocomplete="off" />
+            </div>
+            <input hidden name="secondRoundName" id="secondRoundName"/>
+            <input hidden name="tournamentName" value="<%=tournamentData.tournamentName%>"/>
+            <input hidden name="tournamentYear" value="<%=tournamentData.tournamentYear%>"/>
+            
+            <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Create Room</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  <div class="col" ></div>
+</div>
+<script>
+  let tournament = <%-JSON.stringify(tournamentData)%>;
+</script>
+<script src="/selectTeamsForScoreRoom.js"></script>
+<%- include('includes/footer') %>

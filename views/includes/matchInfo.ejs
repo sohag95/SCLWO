@@ -14,4 +14,22 @@
   <strong>Venue</strong>
   <p><%=room.matchDetails.venue%></p>
   <hr>
+  <%if(room.matchDetails.firstTeamTeamList.length){%>
+    <strong><%=room.matchDetails.firstTeam%>'s Team List :</strong>
+    <p>
+    <%room.matchDetails.firstTeamTeamList.forEach((player)=>{%>
+      <%=player.userName%>,
+    <%})%>
+  </p>
+  <hr>
+  <%}%>
+  <%if(room.matchDetails.secondTeamTeamList.length){%>
+    <strong><%=room.matchDetails.secondTeam%>'s Team List :</strong>
+    <p>
+    <%room.matchDetails.secondTeamTeamList.forEach((player)=>{%>
+      <%=player.userName%>,
+    <%})%>
+  </p>
+  <hr>
+  <%}%>
 </div>

@@ -64,10 +64,9 @@
       <hr>
       <div class="m-2">
       <%if(tournamentData.isSecondRoundStarted){%>
-        <h3><strong>Qualified teams for <%=tournamentData.secondRoundName%></strong></h3>
-        <hr>
+        <h4 class="bolder"><strong>Qualified teams for - <%=tournamentData.secondRoundName%> (second round)</strong></h4>
         <%tournamentData.secondRoundGroups.forEach((group,index1)=>{%>
-          <h4><strong>Group name - <%=group.groupName%></strong></h4>
+          <div class="bolder text-primary"><strong>Group name - <%=group.groupName%></strong></div>
           <table class="table table-sm table-bordered">
             <thead>
               <tr>

@@ -1,225 +1,203 @@
 <%- include('includes/header') %>
+<%- include('includes/flash') %>
 
-<div class="container">
-  <% regErrors.forEach(function(message) { %>
-  <div class="alert alert-danger small"><%= message %></div>
-  <% }) %> 
-  <%- include('includes/flash') %>
-</div>
-
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-3 align-self-start shadow mobileResponsiveDesign">
-          <div class="container" style="margin-top: 1rem">
-            <div class="text-center">
-              
-              <h2 class="about-h2 text-uppercase boldFont nameStyle"><%= user.userName %></h2>
+<div class="mt-2">
+  <div style="display: flex;flex-wrap: wrap;">
+    <div class="col-lg-3">
+      <div style="width: 100%;position: relative;">
+        <img class="home-cover-image" src="/images/sohag.jpg"/>
+        <div>
+          <img class="home-profile-image" src="/images/sohag.jpg" />
+        </div>
+      </div> 
+      <a href="/all-available-match-rooms">
+        <div class="btn btn-block btn-info btn-lg">
+          <strong>All Created Match Rooms</strong>
+        </div>
+      </a>
+      <hr>
+      <h4 class="bolder text-primary"><strong>Matches available to add player's score :</strong></h4>
+      <%if(!successMatches.length){%>
+        <div class="btn btn-lg btn-block btn-info">No match available!!</div>
+      <%}%>
+      <%successMatches.forEach((room)=>{%>
+        <div class="scoreUpperPart btn-block row" style="margin-left: 0;">
+          <!-- this is header part of score card -->
+          <div class="container">
+            <div class="p_zero">
+              <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  | Match no :<%=room.matchDetails.matchNumber%> </strong></p>
+              <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
             </div>
           </div>
-          <div id="accordion">
-            <div class="card">
-              <div class="card-header" id="headingPasswordChange">
-                <h5 class="mb-0">
-                  <button class="btn btn-link collapsed bolderFont" data-toggle="collapse" data-target="#collapsePasswordChange" aria-expanded="false" aria-controls="collapsePasswordChange">Change Your Password</button>
-                </h5>
-              </div>
-              <div id="collapsePasswordChange" class="collapse" aria-labelledby="headingPasswordChange" data-parent="#accordion">
-                <div class="card-body"><%- include('includes/changePasswordForm') %></div>
-              </div>
-            </div>
-            <div class="card-header" >
-              <h5 class="mb-0">
-               <a href="/all-available-match-rooms"><button class="btn btn-link  bolderFont" >All Available Matches</button></a> 
-              </h5>
-            </div>
+          <div class="container scoreLowerPart p_zero">
+            <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
+            <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+            <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
+            <%if(!room.matchCancled.hasCancled){%>
+              <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
+            <%}else{%>
+              <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
+            <%}%>
           </div>
-          <hr>
-          <h3 class="bold-font">All Running Tournaments</h3>
-          <%if(!tournaments.length){%>
-            <div class="btn btn-lg btn-block btn-info">No tournament available!!</div>
-          <%}%>
-          <%tournaments.forEach((tournament)=>{%>
-            <div class="card">
-              <div class="card-body">
-                <p><strong>Tournament Name : </strong><%=tournament.tournamentName%> of  <%=tournament.tournamentYear%></p>
-                <p><strong>Total Groups : </strong><%=tournament.groups.length%></p>
-                <a class="btn btn-secondary" href="/tournament/<%=tournament._id%>/add-group">Tournament details</a>
-              </div>
+          <div class="container">
+            <div class="p_zero">
+                <p class="float-right"><strong>Scored by-</strong> <%=room.matchDetails.scorerName%></p>
             </div>
-          <%})%>
-        </div>
-        <div class="col-md-6 shadow mobileResponsiveDesign">
-            <div class="row">
-              <div class="col-md-12" style="padding-top: 0.75rem">
-                <div class="container">
-                <form action="/live-match-room-create" method="POST" id="liveScoreRoom">
-                  <h2 class="bold-font">Create Live Score Room</h2>
-                  
-                  
-                    <div class="form-group">
-                      <label for="tournamentPart" class="text-muted mb-1"><small>Select Tournament</small></label>
-                      <select id="tournamentPart" class="form-control form-control-lg" name="tournamentName" form="liveScoreRoom">
-                      </select>
-                    </div>
-                
-                    <div class="form-group">
-                      <label for="groupPart" class="text-muted mb-1"><small>Select group</small></label>
-                      <select id="groupPart" class="form-control form-control-lg" name="groupName" form="liveScoreRoom">
-                      </select>
-                    </div>
-                
-                    <div class="form-group">
-                      <label for="firstTeamPart" class="text-muted mb-1"><small>Select first team name</small></label>
-                      <select id="firstTeamPart" class="form-control form-control-lg" name="firstTeam" form="liveScoreRoom">
-                      </select>
-                    </div>
-              
-                    <div class="form-group">
-                      <label for="secondTeamPart" class="text-muted mb-1"><small>Select second team name</small></label>
-                      <select id="secondTeamPart" class="form-control form-control-lg" name="secondTeam" form="liveScoreRoom">
-                      </select>
-                    </div>
-                  
-                  
-
-                  <div class="form-group">
-                    <label for="matchNumber" class="text-muted mb-1"><small>Match number of the tournament</small></label>
-                    <input required name="matchNumber" id="matchNumber" class="form-control" type="text" placeholder="Enter match number" autocomplete="off" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="venue" class="text-muted mb-1"><small>Venue Name</small></label>
-                    <input required name="venue" id="venue" class="form-control" type="text" placeholder="Enter the venue name" autocomplete="off" />
-                  </div>
-
-                  
-                  <div class="form-group">
-                    <label for="date" class="text-muted mb-1"><small>Date of the game</small></label>
-                    <input required name="date" id="date" class="form-control" type="date" placeholder="Enter the played date" autocomplete="off" />
-                  </div>
-                  <div class="form-group">
-                    <label for="matchStartingTime" class="text-muted mb-1"><small>Match Starting Time</small></label>
-                    <input required name="matchStartingTime" id="matchStartingTime" class="form-control" type="text" placeholder="Enter the time of starting the match" autocomplete="off" />
-                  </div>
-                  <div class="form-group">
-                    <label for="password" class="text-muted mb-1"><small>Room Password</small></label>
-                    <input required name="password" id="password" class="form-control" type="password" placeholder="Give a password for the room" autocomplete="off" />
-                  </div>
-                  <input hidden name="secondRoundName" id="secondRoundName"/>
-                  
-                  <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Create Room</button>
-                </form>
-              </div>
-                <br />
-                <hr />
-                <form action="/add-new-tournament" method="POST" id="addTournament">
-                  <h2 class="bold-font">Add A Tournament</h2>
-                  <div class="form-group">
-                    <label for="tournamentName" class="text-muted mb-1"><small>Tournament name</small></label>
-                    <input required name="tournamentName" id="tournamentName" class="form-control" type="text" placeholder="Enter tournament name" autocomplete="off" />
-                  </div>
-                  <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Create Trounament</button>
-                </form>
-              </div>
+            <strong><a href="/singleRoomShortDetails/<%=room.matchId%>/completed-match" class="text-center">Details</a></strong>
           </div> 
+          <a href="/players-scores/<%=room.matchId%>/updation/link/page">
+            <button class="btn btn-lg btn-block btn-info">Update player's score</button>
+          </a>
         </div>
-        <div class="col-md-3 shadow mobileResponsiveDesign">
-          <h2 class="bold-font" style="padding-top: 0.75rem">All Matches</h2>
-          <h3 class="bold-font">Completed matches:</h3>
-          <div class="card p-2">
-            <%if(!completedMatches.length){%>
-              <div class="btn btn-lg btn-block btn-info">No completed match available!!</div>
-            <%}%>
-          <%completedMatches.forEach((room)=>{%>
-            <div class="scoreUpperPart btn-block row" style="margin-left: 0;">
-              <!-- this is header part of score card -->
-              <div class="container">
-                <div class="p_zero">
-                  <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  | Match no :<%=room.matchDetails.matchNumber%> </strong></p>
-                  <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
+      <%})%>   
+      <hr>
+    </div>
+    <div class="col-lg-6">
+
+      <div id="accordion">
+        <div class="card">
+          <div class="" id="headingOne">
+            <h5 class="mb-0">
+              <button class="path btn-block text-center" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Add New Tournament</strong> <i class="fas fa-plus-square"></i>
+              </button>
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="single-batch-data pb-2 pt-2 bg-warning">
+                  <form class="m-2" action="/add-new-tournament" method="POST" id="addTournament">
+                    <h4 class="bolder"><strong>Add A New Tournament</strong></h4>
+                    <div class="form-group">
+                      <label for="tournamentName" class="text-muted mb-1"><small>Tournament name</small></label>
+                      <input required name="tournamentName" id="tournamentName" class="form-control form-control-lg" type="text" placeholder="Enter tournament name" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                      <label for="tournamentYear" class="text-muted mb-1"><small>Tournament Year</small></label>
+                      <input required name="tournamentYear" id="tournamentYear" class="form-control form-control-lg" type="text" placeholder="Enter tournament year" autocomplete="off" />
+                    </div>
+                    <button type="submit" class="py-3 mt-4 btn btn-sm btn-info btn-block">Create Trounament</button>
+                  </form>
                 </div>
-              </div>
-              <div class="container scoreLowerPart p_zero">
-                <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
-                <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
-                <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
-                <%if(!room.matchCancled.hasCancled){%>
-                  <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
-                <%}else{%>
-                  <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
-                <%}%>
-              </div>
-              <div class="container">
-                <div class="p_zero">
-                    <p class="float-right"><strong>Scored by-</strong> <%=room.matchDetails.scorerName%></p>
-                </div>
-                <strong><a href="/singleRoomShortDetails/<%=room.matchId%>" class="text-center">Details</a></strong>
-              </div> 
-              <%if(!room.scoreCardLink){%>
-                <form action="/match/<%=room._id%>/add-scoreCard-link" method="POST">
-                  <div class="d-flex align-items-center">
-                    <input id="create-field" name="scoreCardLink" placeholder="Paste the link of scorecard"  autocomplete="off" class="form-control" required type="text" style="flex: 1;">
-                    <button id="add-player-button" class="btn btn-primary">Submit Link</button>
-                  </div>
-                </form>
-              <%}else{%>
-                <form action="/match/<%=room._id%>/successfullyDone" method="POST">   
-                    <button id="match-success-button" class="btn btn-success btn-block">Click to add as successfully done</button>
-                </form>
-              <%}%> 
-            </div>
-          <%})%> 
-          </div> 
-          <h4 class="bold-font">Matches score ready to add on player's account:</h4>
-          <form class="m-2" action="/search-match-room" method="post">
-            <h4><strong>Search completed match :</strong></h4>
-            <div class="d-flex align-items-center">
-              <input  name="matchId" autocomplete="off" placeholder="Enter matchId" class="form-control mr-3" required type="text" style="flex: 1;">
-              <button  class="btn btn-primary">Search</button>
-            </div>
-          </form>
-          <hr>
-          <div class="card p-2">
-            <%if(!successMatches.length){%>
-              <div class="btn btn-lg btn-block btn-info">No match available!!</div>
-            <%}%>
-          <%successMatches.forEach((room)=>{%>
-            <div class="scoreUpperPart btn-block row" style="margin-left: 0;">
-              <!-- this is header part of score card -->
-              <div class="container">
-                <div class="p_zero">
-                  <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  | Match no :<%=room.matchDetails.matchNumber%> </strong></p>
-                  <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
-                </div>
-              </div>
-              <div class="container scoreLowerPart p_zero">
-                <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
-                <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
-                <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
-                <%if(!room.matchCancled.hasCancled){%>
-                  <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
-                <%}else{%>
-                  <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
-                <%}%>
-              </div>
-              <div class="container">
-                <div class="p_zero">
-                    <p class="float-right"><strong>Scored by-</strong> <%=room.matchDetails.scorerName%></p>
-                </div>
-                <strong><a href="/singleRoomShortDetails/<%=room.matchId%>/completed-match" class="text-center">Details</a></strong>
-              </div> 
-              <a href="/players-scores/<%=room.matchId%>/updation/link/page">
-                <button class="btn btn-lg btn-block btn-info">Update player's score</button>
-              </a>
-            </div>
-          <%})%> 
-          </div>   
+          </div>
         </div>
       </div>
+      <hr>
+      <div class="single-batch-container mt-2">   
+        <form class="m-2" action="/search-match-room" method="post">
+          <h4 class="bolder"><strong>Search completed match to add player's score :</strong></h4>
+          <div class="d-flex align-items-center">
+            <input  name="matchId" autocomplete="off" placeholder="Enter matchId" class="form-control mr-3" required type="text" style="flex: 1;">
+            <button  class="btn btn-primary">Search</button>
+          </div>
+        </form>
+      </div>
+      <hr>
+      <h4 class="bolder text-success mt-1"><strong>Active Tournaments : <%=tournaments.length%></strong></h4>
+        <%tournaments.forEach((tournament)=>{%>
+          <div class="single-batch-container mt-2">
+            <div class="single-batch-data pb-2">
+              <div style="position: relative;">
+                <img class="tournament-sponsor-image"  src="/images/sohag.jpg" alt="">
+                <div class="batch-no text-capitalize">Tournament sponsorred by Sohag Roy</div> 
+              </div>
+              <div class="ml-2 mr-2">
+                <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong><%=tournament.tournamentName%></div>
+                <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong><%=tournament.tournamentYear%></div>
+                <div class="bolder  text-primary" style="padding-top: 3px;"><strong>Total Groups : </strong><%=tournament.groups.length%></div>
+                <div class="text-center">
+                  <a href="/tournament/<%=tournament._id%>/add-group">
+                    <div class="btn btn-outline-info btn-sm btn-block"><strong>See Tournament Details</strong> </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <%})%>
+      <hr>
+    </div>
+    <div class="col-lg-3">
+      <h4 class="bolder text-primary"><strong>Matchs to Add Scorecard Link :</strong></h4>
+      <%if(!completedMatches.length){%>
+        <div class="btn btn-lg btn-block btn-info">No completed match available!!</div>
+      <%}%>
+      <%completedMatches.forEach((room)=>{%>
+        <div class="scoreUpperPart btn-block row" style="margin-left: 0;">
+          <!-- this is header part of score card -->
+          <div class="container">
+            <div class="p_zero">
+              <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  | Match no :<%=room.matchDetails.matchNumber%> </strong></p>
+              <p ><strong>Venue -</strong> <%=room.matchDetails.venue%></p>
+            </div>
+          </div>
+          <div class="container scoreLowerPart p_zero">
+            <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
+            <p ><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+            <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.)</p>
+            <%if(!room.matchCancled.hasCancled){%>
+              <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
+            <%}else{%>
+              <p class="fontBolder " style="color: red;display: inline-block;"><strong><%=room.matchCancled.canclationMessage%></strong></p>
+            <%}%>
+          </div>
+          <div class="container">
+            <div class="p_zero">
+                <p class="float-right"><strong>Scored by-</strong> <%=room.matchDetails.scorerName%></p>
+            </div>
+            <strong><a href="/singleRoomShortDetails/<%=room.matchId%>" class="text-center">Details</a></strong>
+          </div> 
+          <%if(!room.scoreCardLink){%>
+            <form action="/match/<%=room._id%>/add-scoreCard-link" method="POST">
+              <div class="d-flex align-items-center">
+                <input id="create-field" name="scoreCardLink" placeholder="Paste the link of scorecard"  autocomplete="off" class="form-control" required type="text" style="flex: 1;">
+                <button id="add-player-button" class="btn btn-primary">Submit Link</button>
+              </div>
+            </form>
+          <%}else{%>
+            <form action="/match/<%=room._id%>/successfullyDone" method="POST">   
+                <button id="match-success-button" class="btn btn-success btn-block">Click to add as successfully done</button>
+            </form>
+          <%}%> 
+        </div>
+      <%})%> 
+    
     </div>
   </div>
-  <script>
-    let allTournaments = <%-JSON.stringify(tournaments)%>;
-  </script>
-  <script src="/selectTeamsForScoreRoom.js"></script>
+</div>
+
+
+
+
+
+
+<!-- match structure starts -->
+<!-- <div class="scoreUpperPart btn-block " >
+  <div class="container">
+    <div class="p_zero">
+      <p class="text-uppercase"><strong>Siliguri 1st-division cricket  
+        | Match no : 4 </strong>
+      </p>
+      <p ><strong>Venue -</strong> ABC ground</p>
+    </div>
+  </div>
+  <div class="container scoreLowerPart p_zero">
+    <p class="text-uppercase"><strong>CCA</strong></p>
+    <p class="text-uppercase"><strong>MSC</strong></p>
+  </div>
+  <div class="container">
+    <div class="p_zero"> 
+      <p >Starts at 10:00 am on 12/12/21</p>
+    </div>
+  </div> 
+  <form action="/match/roomId/add-scoreCard-link" method="POST">
+    <div class="d-flex align-items-center">
+      <input id="create-field" name="scoreCardLink" placeholder="Paste the link of scorecard"  autocomplete="off" class="form-control" required type="text" style="flex: 1;">
+      <button id="add-player-button" class="btn btn-primary">Submit Link</button>
+    </div>
+  </form>
+</div> -->
+<!-- match Structure ends -->
+
+
+
+  
 <%- include('includes/footer') %>

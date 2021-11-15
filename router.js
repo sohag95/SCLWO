@@ -52,7 +52,6 @@ router.get("/performance-analysis",playerController.playerMustBeLoggedIn,playerC
 //Match controller routes
 router.post("/matchController-login", matchControllerController.matchControllerLogin)
 router.get("/matchController-home",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.matchControllerHome)
-router.post("/live-match-room-create", matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.liveMatchRoomCreate)
 router.get("/all-available-match-rooms",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.availableMatchRooms)
 router.post("/match-room/:_id/delete",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifMatchRoomExists,matchControllerController.liveMatchRoomDelete)
 
@@ -64,6 +63,9 @@ router.get("/tournament/qualified/:_id/second-round-teams",matchControllerContro
 router.post("/tournament/qualified/:_id/second-round-teams",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.addSecondRoundTeams)
 router.post("/tournament/:_id/delete",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.deleteTournament)
 router.post("/tournament/:_id/completed",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.tournamentCompleted)
+
+router.post("/live-match-room-create", matchControllerController.matchControllerMustBeLoggedIn,matchControllerController.liveMatchRoomCreate)
+router.get("/tournament/:_id/create-match-room", matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.liveMatchRoomCreateForm)
 
 router.post("/match/:_id/add-scoreCard-link",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifMatchRoomExists,matchControllerController.addScoreCardLink)
 router.post("/tournament/:_id/add-fixture-link",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifTournamentExists,matchControllerController.addFixtureLink)

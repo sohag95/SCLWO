@@ -1,14 +1,16 @@
 <%- include('includes/header') %>
-<div class="container py-md-3">
-  <div class="row align-items-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 shadow">
-          <h5 class="text-center text-uppercase fontBolder"><strong><%=room.matchDetails.firstTeam%> Vs <%=room.matchDetails.secondTeam%></strong></h5>
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7" >
+          <div class="single-batch-data">
+            <div style="position: relative;">
+              <img class="match-room-sponsor-image"  src="/images/sohag.jpg" alt="">
+            </div>
+            <div class="bolder text-center text-primary p-1" ><strong><%=room.matchDetails.firstTeam%> VS <%=room.matchDetails.secondTeam%></strong></div> 
+          </div>
           <div class="scoreUpperPart btn-block row" style="margin-left: 0">
             <div class="container">
-              <div class="container">
+              
                 <div class="p_zero">
                   <p class="text-uppercase"><strong><%=room.matchDetails.tournamentName%>  
                     <%if(room.matchDetails.secondRoundName){%>
@@ -25,10 +27,10 @@
                     <%}%>
                   <%}%>
                 </div>
-              </div>
+            
               
               <!-- this is body part of the score card -->
-              <div class="container scoreLowerPart p_zero">
+              <div class="container scoreLowerPart p_zero pb-1">
                 <%if(room.matchDetails.isStarted && !room.matchDetails.isFinished && room.matchDetails.tossWonBy){%>
                   <%if(room.emergency.hasEmergency){%>
                     <p class="text-danger"><strong><%=room.emergency.emergencyMessage%></strong></p>
@@ -53,17 +55,17 @@
                     <p><strong>CRR - </strong><%=room.crr%></p>
                      <%}else{%>
                     <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
-                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-outline-info"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
                     </a>
-                    <a style="display: block;margin-bottom: 2px;" href="/secondInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
+                    <a style="display: block;margin-bottom: 2px;" href="/secondInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-outline-info"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
                     </a>
                     <%}%>
                     
                 <%}else if(room.matchDetails.isFinished){%>
                     <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
-                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-outline-info"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
                     </a>
-                    <a href="/secondInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
+                    <a href="/secondInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-outline-info"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
                     </a>
                     <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
                 <%}else{%>
@@ -77,11 +79,11 @@
                 <table class="table table-sm table-borderless">
                   <thead>
                     <tr>
-                      <th scope="col">Batting</th>
-                      <th scope="col">R(B)</th>
-                      <th scope="col">4s</th>
-                      <th scope="col">6s</th>
-                      <th scope="col">SR</th>
+                      <th scope="col" style="width: 40%;">Batting</th>
+                      <th scope="col" style="width: 15%;">R(B)</th>
+                      <th scope="col" style="width: 15%;">4s</th>
+                      <th scope="col" style="width: 15%;">6s</th>
+                      <th scope="col" style="width: 15%;">SR</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -128,47 +130,59 @@
               <table class="table table-sm table-borderless">
                 <thead>
                   <tr>
-                    <th scope="col">Bowling</th>
-                    <th scope="col">Ovs</th>
-                    <th scope="col">Mdn</th>
-                    <th scope="col">Run</th>
-                    <th scope="col">Wkt</th>
+                    <th scope="col" style="width: 40%;">Bowling</th>
+                    <th scope="col" style="width: 12%;">Ovs</th>
+                    <th scope="col" style="width: 12%;">Mdn</th>
+                    <th scope="col" style="width: 12%;">Run</th>
+                    <th scope="col" style="width: 12%;">Wkt</th>
+                    <th scope="col" style="width: 12%;">Eco</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <%let ECO%>
                     <%if(room.matchDetails.inningsStatus=="1st Innings"){%>
+                      <%ECO=(room.firstInningsBowling.allBowlers[room.state.bowlerIndex].runs*6)/((room.firstInningsBowling.allBowlers[room.state.bowlerIndex].overs*6)+room.eachOver.ballNumber)%>
                       <tr>
                         <th scope="row"><%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].name%>*</th>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].overs%>.<%=room.eachOver.ballNumber%></td>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].madenOvers%></td>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].runs%></td>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.bowlerIndex].wickets%></td>
+                        <td><%=ECO.toFixed(2)%></td>
                       </tr>
                       <%if(room.state.previousBowlerIndex !=null){%>
+                        <%ECO=(room.firstInningsBowling.allBowlers[room.state.previousBowlerIndex].runs*6)/((room.firstInningsBowling.allBowlers[room.state.previousBowlerIndex].overs*6))%>
                       <tr>
                         <th scope="row"><%=room.firstInningsBowling.allBowlers[room.state.previousBowlerIndex].name%></th>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.previousBowlerIndex].overs%></td>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.previousBowlerIndex].madenOvers%></td>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.previousBowlerIndex].runs%></td>
                         <td><%=room.firstInningsBowling.allBowlers[room.state.previousBowlerIndex].wickets%></td>
+                        <td><%=ECO.toFixed(2)%></td>
                       </tr>
                       <%}%>
                     <%}%>
                     <%if(room.matchDetails.inningsStatus=="2nd Innings" || room.matchDetails.inningsStatus=="game over"){%>
+                      <%ECO=(room.secondInningsBowling.allBowlers[room.state.bowlerIndex].runs*6)/((room.secondInningsBowling.allBowlers[room.state.bowlerIndex].overs*6)+room.eachOver.ballNumber)%>
+                      
                       <tr>
                         <th scope="row"><%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].name%>*</th>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].overs%>.<%=room.eachOver.ballNumber%></td>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].madenOvers%></td>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].runs%></td>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.bowlerIndex].wickets%></td>
+                        <td><%=ECO.toFixed(2)%></td>
                       </tr>
                       <%if(room.state.previousBowlerIndex !=null){%>
-                      <tr>
+                        <%ECO=(room.secondInningsBowling.allBowlers[room.state.previousBowlerIndex].runs*6)/((room.secondInningsBowling.allBowlers[room.state.previousBowlerIndex].overs*6))%>
+                     
+                        <tr>
                         <th scope="row"><%=room.secondInningsBowling.allBowlers[room.state.previousBowlerIndex].name%></th>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.previousBowlerIndex].overs%></td>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.previousBowlerIndex].madenOvers%></td>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.previousBowlerIndex].runs%></td>
                         <td><%=room.secondInningsBowling.allBowlers[room.state.previousBowlerIndex].wickets%></td>
+                        <td><%=ECO.toFixed(2)%></td>
                       </tr>
                       <%}%>
                     <%}%>
@@ -223,21 +237,11 @@
             </div>
           </div>
           <%if(room.matchDetails.isStarted){%>
-          <div class="container commentry scoreUpperPart">
-            <p style="background-color: rgb(69, 164, 241); color: #fff"><strong>Commentry</strong></p>
-            <%for(i=room.matchDetails.commentry.length-1;i>=0;i--){%> <%if(i%2==0){%>
-            <p style="background-color: rgb(195, 220, 241)"><Strong><%=room.matchDetails.commentry[i].commentAt%> : </Strong><%=room.matchDetails.commentry[i].comment%></p>
-            <%}else{%>
-            <p style="background-color: rgb(217, 232, 245)"><Strong><%=room.matchDetails.commentry[i].commentAt%> : </Strong><%=room.matchDetails.commentry[i].comment%></p>
-            <%}%>
-          <%}%>
-          </div>
+            <%- include('includes/match-commentry') %>
           <%}%>
         </div>
-        <div class="col-md-1"></div>
+        <div class="col-lg"></div>
       </div>
-    </div>
-  </div>
-</div>
+   
 
 <%- include('includes/footer') %>

@@ -37,10 +37,10 @@
             <div class="container scoreLowerPart p_zero">
               <p class="fontBolder " style="color: red;"><%=room.matchDetails.winningStatus%></p>
               <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>">
-                <p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                <p class="btn btn-sm btn-outline-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
               </a>
               <a href="/secondInningsDetails/<%=room.matchId%>">
-                <p class="btn btn-sm btn-primary"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
+                <p class="btn btn-sm btn-outline-primary"><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.secondInningsScore.totalRuns%>/<%=room.secondInningsScore.totalWickets%>  (<%=room.secondInningsScore.totalOvers%>.<%=room.secondInningsScore.ballNumber%> ovs.) </p>
               </a>
               <p style="color: red;">Man of the match : <%=room.matchDetails.manOfTheMatch%>.</p>
             </div>
