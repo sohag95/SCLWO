@@ -17,7 +17,7 @@
       <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Total Groups : </strong><%=tournamentData.groups.length%></div>
       <div class="text-center">
         <a href="/all-completed-matches/<%=tournamentData.tournamentName%>/<%=tournamentData.tournamentYear%>">
-          <div class="btn btn-outline-primary btn-sm mr-1">All Completed Matches</div>
+          <div class="btn btn-outline-primary btn-sm mr-1">All Completed Matches <i class="fas fa-arrow-right"></i></div>
         </a>
       </div>
       
@@ -117,7 +117,7 @@
               <div class="row"  style="width: 100%;">
                 <div class="col-sm-6"  style="width: 100%;display: flex;">
                   <div style="width: 100%;">
-                    <div class="text-primary"><strong><%=batter.userName%> (CCA)</strong></div>
+                    <div class="bolder text-primary"><strong><%=batter.userName%> (CCA)</strong></div>
                     <div><strong>Matches : </strong><%=batter.matchesPlayed%> &nbsp;|&nbsp; <strong>Runs : </strong><%=batter.runs%></div>
                     <div></div>
                   </div>
@@ -125,12 +125,46 @@
                 </div>
                 <div class="col-sm-6 " style="margin: auto;">
                   <div class="float-btn" style="display: flex;">
-                    <a href="/profile/<%=batter.regNumber%>">
-                      <div class="btn btn-primary btn-sm mr-1">View profile</div>
-                    </a>
-                    <a href="/single-chat/">
-                      <div class="btn btn-primary btn-sm "> Compare</div>
-                    </a>
+                    <%if(user){%>
+                      <%if(user.accountType=="player"){%>
+                        <%if(user.regNumber==batter.regNumber){%>
+                          <a href="/profile/<%=batter.regNumber%>">
+                            <button class="btn btn-outline-warning btn-sm btn-block">
+                              View Your Profile
+                            </button>
+                          </a>
+                        <%}else{%>
+                          <div style="display: flex;">
+                            <div style="width: 50%;">
+                              <a href="/profile/<%=batter.regNumber%>" >
+                                <div class="btn btn-outline-info btn-sm btn-block">
+                                  View Profile
+                                </div>
+                              </a>
+                            </div>
+                            <div style="width: 50%; margin-left: 5px;">
+                              <a href="/compare/<%=user.regNumber%>/<%=batter.regNumber%>/performance" style="width: 50%;">
+                                <div class="btn btn-info btn-sm btn-block">
+                                  Compare
+                                </div>
+                              </a>
+                            </div>
+                          </div> 
+                        <%}%>          
+                      <%}else{%>
+                        <a href="/profile/<%=batter.regNumber%>">
+                          <button class="btn btn-outline-info btn-sm btn-block">
+                            View Profile
+                          </button>
+                        </a>
+                      <%}%>
+                    <%}else{%>
+                      <a href="/profile/<%=batter.regNumber%>">
+                        <button class="btn btn-outline-info btn-sm btn-block">
+                          View Profile
+                        </button>
+                      </a>
+                    <%}%>
                   </div>
                 </div>
               </div>
@@ -153,7 +187,7 @@
               <div class="row"  style="width: 100%;">
                 <div class="col-sm-6"  style="width: 100%;display: flex;">
                   <div style="width: 100%;">
-                    <div class="text-primary"><strong><%=bowler.userName%> (CCA)</strong></div>
+                    <div class="bolder text-primary"><strong><%=bowler.userName%> (CCA)</strong></div>
                     <div><strong>Matches : </strong><%=bowler.matchesPlayed%> &nbsp;|&nbsp; <strong>Wickets : </strong><%=bowler.wickets%></div>
                     <div></div>
                   </div>
@@ -161,10 +195,46 @@
                 </div>
                 <div class="col-sm-6 " style="margin: auto;">
                   <div class="float-btn" style="display: flex;">
-                    <a href="/profile/<%=bowler.regNumber%>">
-                      <div class="btn btn-primary btn-sm mr-1">View profile</div>
-                    </a>
-                    
+                    <%if(user){%>
+                      <%if(user.accountType=="player"){%>
+                        <%if(user.regNumber==bowler.regNumber){%>
+                          <a href="/profile/<%=bowler.regNumber%>">
+                            <button class="btn btn-outline-warning btn-sm btn-block">
+                              View Your Profile
+                            </button>
+                          </a>
+                        <%}else{%>
+                          <div style="display: flex;">
+                            <div style="width: 50%;">
+                              <a href="/profile/<%=bowler.regNumber%>" >
+                                <div class="btn btn-outline-info btn-sm btn-block">
+                                  View Profile
+                                </div>
+                              </a>
+                            </div>
+                            <div style="width: 50%; margin-left: 5px;">
+                              <a href="/compare/<%=user.regNumber%>/<%=bowler.regNumber%>/performance" style="width: 50%;">
+                                <div class="btn btn-info btn-sm btn-block">
+                                  Compare
+                                </div>
+                              </a>
+                            </div>
+                          </div> 
+                        <%}%>          
+                      <%}else{%>
+                        <a href="/profile/<%=bowler.regNumber%>">
+                          <button class="btn btn-outline-info btn-sm btn-block">
+                            View Profile
+                          </button>
+                        </a>
+                      <%}%>
+                    <%}else{%>
+                      <a href="/profile/<%=bowler.regNumber%>">
+                        <button class="btn btn-outline-info btn-sm btn-block">
+                          View Profile
+                        </button>
+                      </a>
+                    <%}%>
                   </div>
                 </div>
               </div>

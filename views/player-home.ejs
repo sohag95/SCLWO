@@ -15,23 +15,23 @@
         </div>
       </div> 
     
-      
         <hr>
         <div class="container mt-2 mb-2" style="padding: 0px;">
           <div class="path text-center" style="padding: 1rem;">
               <div class="col" style="width: 100%;">
                 <a href="/practice-match-addition-form">
-                  <div class="btn btn-outline-info btn-sm btn-block"><strong>Add Practice Match Details</strong></div>
+                  <div class="btn btn-outline-info btn-sm btn-block"><strong>Add Practice Match Details <i class="fas fa-arrow-right"></i></strong></div>
                 </a>
               </div>
           </div>
         </div>
         <hr>
+
         <h5 class="bolder"><strong>Performance Details :</strong></h5>
         <div class="row">
           <div class="col-md-6">
             <div class="item-container mb-2">
-              <strong class="text-center"><p>Batting Details</p></strong>
+              <p class="bolder text-center"><strong >Batting Details</strong></p>
               <hr style="margin-bottom: .25rem;margin-top: 0rem;">
               <table class="table table-sm table-borderless text-center">
                 <thead>
@@ -43,49 +43,54 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>12</td>
+                    <td><%=performanceData.matches%></td>
                     <td>Matches </td>
-                    <td>10</td>
+                    <td><%=performanceData.practiceMatches%></td>
                   </tr>
                   <tr>
-                    <td>10</td>
+                    <td><%=performanceData.batting.innings%></td>
                     <td>Innings</td>
-                    <td>9</td>
+                    <td><%=performanceData.practiceMatchBatting.innings%></td>
                   </tr>
                   <tr>
-                    <td>432</td>
+                    <td><%=performanceData.batting.runs%></td>
                     <td>Runs</td>
-                    <td>220</td>
+                    <td><%=performanceData.practiceMatchBatting.runs%></td>
                   </tr>
                   <tr>
-                    <td>22</td>
+                    <td><%=performanceData.batting.balls%></td>
+                    <td>Balls</td>
+                    <td><%=performanceData.practiceMatchBatting.balls%></td>
+                  </tr>
+                  <tr>
+                    <td><%=performanceData.batting.fours%></td>
                     <td>Fours</td>
-                    <td>10</td>
+                    <td><%=performanceData.practiceMatchBatting.fours%></td>
                   </tr>
                   <tr>
-                    <td>3</td>
+                    <td><%=performanceData.batting.sixes%></td>
                     <td>Sixes</td>
-                    <td>5</td>
+                    <td><%=performanceData.practiceMatchBatting.sixes%></td>
                   </tr>
                   <tr>
-                    <td>2</td>
+                    <td><%=performanceData.batting.fifties%></td>
                     <td>Fifties</td>
-                    <td>1</td>
+                    <td><%=performanceData.practiceMatchBatting.fifties%></td>
                   </tr>
                   <tr>
-                    <td>1</td>
+                    <td><%=performanceData.batting.hundreds%></td>
                     <td>Hundreds</td>
-                    <td>0</td>
+                    <td><%=performanceData.practiceMatchBatting.hundreds%></td>
                   </tr>
                   <tr>
-                    <td>1</td>
+                    <td><%=performanceData.batting.notOut%></td>
                     <td>Not Out</td>
-                    <td>0</td>
+                    <td><%=performanceData.practiceMatchBatting.notOut%></td>
                   </tr>
                   <tr>
-                    <td>84</td>
+                    <td><a href="/singleRoomShortDetails/<%=performanceData.batting.hightRun.matchId%>"><%= performanceData.batting.hightRun.runs %>(<%= performanceData.batting.hightRun.balls %>)</a></td>
                     <td>Hight Runs</td>
-                    <td>67</td>
+                    <td><%=performanceData.practiceMatchBatting.hightRuns%></td>
                   </tr>
                 </tbody>
                 
@@ -94,7 +99,7 @@
           </div>
           <div class="col-md-6">
             <div class="item-container mb-2">
-              <strong class="text-center"><p>Bowling Details</p></strong>
+              <p class="bolder text-center"><strong >Bowling Details</strong></p>
               <hr style="margin-bottom: .25rem;margin-top: 0rem;">
               <table class="table table-sm table-borderless text-center">
                 <thead>
@@ -106,49 +111,54 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>12</td>
+                    <td><%=performanceData.matches%></td>
                     <td>Matches </td>
-                    <td>10</td>
+                    <td><%=performanceData.practiceMatches%></td>
                   </tr>
                   <tr>
-                    <td>8</td>
+                    <td><%=performanceData.bowling.innings%></td>
                     <td>Innings</td>
-                    <td>7</td>
+                    <td><%=performanceData.practiceMatchBowling.innings%></td>
                   </tr>
                   <tr>
-                    <td>123</td>
+                    <td><%=performanceData.bowling.runs%></td>
                     <td>Runs Given</td>
-                    <td>109</td>
+                    <td><%=performanceData.practiceMatchBowling.runs%></td>
                   </tr>
                   <tr>
-                    <td>20</td>
+                    <td><%=performanceData.bowling.overs%></td>
                     <td>Overs</td>
-                    <td>30</td>
+                    <td><%=performanceData.practiceMatchBowling.overs%></td>
                   </tr>
                   <tr>
-                    <td>10</td>
+                    <td><%=performanceData.bowling.wickets%></td>
                     <td>Wickets</td>
-                    <td>16</td>
+                    <td><%=performanceData.practiceMatchBowling.wickets%></td>
                   </tr>
                   <tr>
-                    <td>2</td>
+                    <td><%=performanceData.bowling.madenOvers%></td>
                     <td>Maden Ovs</td>
-                    <td>3</td>
+                    <td><%=performanceData.practiceMatchBowling.madenOvers%></td>
                   </tr>
                   <tr>
-                    <td>1</td>
+                    <td><%=performanceData.bowling.wideBalls+performanceData.bowling.noBalls%></td>
+                    <td>Extra Runs</td>
+                    <td><%=performanceData.practiceMatchBowling.wideBalls+performanceData.practiceMatchBowling.noBalls%></td>
+                  </tr>
+                  <tr>
+                    <td><%=performanceData.bowling.threeWickets%></td>
                     <td>3 wickets</td>
-                    <td>1</td>
+                    <td><%=performanceData.practiceMatchBowling.threeWickets%></td>
                   </tr>
                   <tr>
-                    <td>0</td>
+                    <td><%=performanceData.bowling.fiveWickets%></td>
                     <td>5 wickets</td>
-                    <td>0</td>
+                    <td><%=performanceData.practiceMatchBowling.fiveWickets%></td>
                   </tr>
                   <tr>
-                    <td>4</td>
+                    <td><a href="/singleRoomShortDetails/<%=performanceData.bowling.hightWicket.matchId%>"><%= performanceData.bowling.hightWicket.wickets %></a></td>
                     <td>Hight wickets</td>
-                    <td>3</td>
+                    <td><%=performanceData.practiceMatchBowling.hightWickets%></td>
                   </tr>
                 </tbody>
                 
@@ -162,97 +172,23 @@
             <h5 class="bolder"><strong>Tournament Match Details :</strong></h5>
         
              <!-- ******match details structure starting**** -->
-            <div class=" mb-2">
-              <div class="item-container" >
-                <div style="display: flex;">
-                  <div class="text-center">
-                    <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
-                  </div>
-                  <div class="post-header" style="width: 100%;display: flex;">
-                    <div class="mr-auto" style="padding-left: 5px;">
-                      <div style="margin: 0;padding: 0;">
-                      <strong class="text-primary">Match Number : 10</strong>
-                      </div>
-                      <div style="margin: 0;padding: 0;">
-                        <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
-                      </div>
-                    </div>
-                    <div class="float-right">
-                      <p style="margin-right: 8px;">
-                        <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
-                        <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
-                      </p>
-                      
-                    </div>
-                  </div>
-                </div>
-                <hr style="margin-bottom: .35rem;margin-top: 2px;">
-                <!-- performance details will be here -->
-                <table class="table table-sm table-bordered " >
-                  <tr>
-                    <div class="bolder">Batting Performance :</div>
-                    <td><strong>Runs</strong></td>
-                    <td><strong>Balls</strong></td>
-                    <td><strong>4's</strong></td>
-                    <td><strong>6's</strong></td>
-                    <td><strong>SR</strong></td>
-                    <td><strong>Out</strong></td>
-                  </tr>
-                  <tr>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>50.00</td>
-                    <td>No</td>
-                  </tr>
-                  
-                </table>
-                <table class="table table-sm table-bordered" >
-                  <tr>
-                    <div class="bolder">Bowling Performance :</div>
-                    <td><strong>Runs</strong></td>
-                    <td><strong>Ovrs</strong></td>
-                    <td><strong>Wkt</strong></td>
-                    <td><strong>Mdn</strong></td>
-                    <td><strong>Wd</strong></td>
-                    <td><strong>No</strong></td>
-                  </tr>
-                  <tr>
-                    <td>10</td>
-                    <td>2</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>2</td>
-                    <td>0</td>
-                  </tr>
-                  
-                </table>
-                
-                
-                <hr style="margin-bottom: 5px;margin-top:1px;">
-                <!-- comment section -->
-                <div style="width: 100%; border-radius: 5px;">
-                  <div style="display: flex;"> 
-                    <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
-                      <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
-                    </div>
-                    <div class="btn btn-primary">
-                      <a href="" target="_blank" style="color: #fff;">
-                        Match_Details
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+             <%- include('includes/matchDetails') %>
+
             <!-- ********match details structure ends******** -->
 
           </div>
           <div class="col-md-6">
             <h5 class="bolder"><strong>Practice Match Details :</strong></h5>
-        
+            <%if(!performanceData.practiceMatchDetails.length){%>
+              <div class="btn btn-lg btn-warning btn-block mb-2">
+                <strong>
+                  No practice match data added!!
+                </strong>
+                </div>
+            <%}%>
              <!-- ******match details structure starting**** -->
+             <%for(let i=performanceData.practiceMatchDetails.length-1;i>=0;i--){%>
+
             <div class=" mb-2">
               <div class="item-container" >
                 <div style="display: flex;">
@@ -262,11 +198,11 @@
                   <div class="post-header" style="width: 100%;display: flex;">
                     <div class="mr-auto" style="padding-left: 5px;">
                       <div style="margin: 0;padding: 0;">
-                      <strong class="text-primary">Match Number : 10</strong> | <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
+                      <strong class="text-primary">Match Number : <%=i+1%></strong> | <strong><span class="text-warning"><%=performanceData.practiceMatchDetails[i].matchData.ownTeam%>(own)</span> vs <span class="text-primary"><%=performanceData.practiceMatchDetails[i].matchData.opponentTeam%></span></strong>
                    
                       </div>
                       <div style="margin: 0;padding: 0;">
-                        <i><span>Played at ABC Ground on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+                        <i><span>Played at <%=performanceData.practiceMatchDetails[i].matchData.venue%> on <%=performanceData.practiceMatchDetails[i].matchData.date%></span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
                       </div>
                     </div>
                     <div class="float-right">
@@ -274,64 +210,79 @@
                         <strong><i class="fas fa-ellipsis-h"></i></strong>
                       </p>
                       <div class="dropdown-menu dropdown-menu-right">
-                      <span class="btn btn-sm btn-danger">Delete Match</span>
+                        <form action="/delete/practiceMatch/<%=i%>/details" method="post">
+                          <button class="btn btn-sm btn-danger">Delete Match</button>
+                        </form>
                       </div>
                     </div>
                   </div>
                 </div>
                 <hr style="margin-bottom: .35rem;margin-top: 2px;">
-                <!-- performance details will be here -->
-                <table class="table table-sm table-bordered " >
-                  <tr>
-                    <div class="bolder">Batting Performance :</div>
-                    <td><strong>Runs</strong></td>
-                    <td><strong>Balls</strong></td>
-                    <td><strong>4's</strong></td>
-                    <td><strong>6's</strong></td>
-                    <td><strong>SR</strong></td>
-                    <td><strong>Out</strong></td>
-                  </tr>
-                  <tr>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>50.00</td>
-                    <td>No</td>
-                  </tr>
-                  
-                </table>
-                <table class="table table-sm table-bordered" >
-                  <tr>
-                    <div class="bolder">Bowling Performance :</div>
-                    <td><strong>Runs</strong></td>
-                    <td><strong>Ovrs</strong></td>
-                    <td><strong>Wkt</strong></td>
-                    <td><strong>Mdn</strong></td>
-                    <td><strong>Wd</strong></td>
-                    <td><strong>No</strong></td>
-                  </tr>
-                  <tr>
-                    <td>10</td>
-                    <td>2</td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>2</td>
-                    <td>0</td>
-                  </tr>
-                  
-                </table>
-                
-                
+                <!--batting performance data -->
+                <div class="bolder">Batting Performance :</div>
+                <%if(performanceData.practiceMatchDetails[i].battingData){%>
+                  <table class="table table-sm table-bordered " >
+                    <tr>
+                      <td><strong>Runs</strong></td>
+                      <td><strong>Balls</strong></td>
+                      <td><strong>4s</strong></td>
+                      <td><strong>6s</strong></td>
+                      <td><strong>SR</strong></td>
+                      <td><strong>Out</strong></td>
+                    </tr>
+                    <tr>
+                      <td><%=performanceData.practiceMatchDetails[i].battingData.runs%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].battingData.balls%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].battingData.fours%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].battingData.sixes%></td>
+                      <td><%=((performanceData.practiceMatchDetails[i].battingData.runs*100)/performanceData.practiceMatchDetails[i].battingData.balls).toFixed(2)%></td>
+                      <td>
+                          <%=performanceData.practiceMatchDetails[i].battingData.outType%>
+                        
+                      </td>
+                    </tr>
+                  </table>
+                <%}else{%>
+                  <div class="btn btn-outline-secondary btn-block">  
+                    You did not bat in that match.
+                  </div>
+                <%}%>
+                <!-- bowling performance data -->
+                <div class="bolder">Bowling Performance :</div>
+                <%if(performanceData.practiceMatchDetails[i].bowlingData){%>
+                  <table class="table table-sm table-bordered" >
+                    <tr>
+                      <td><strong>Runs</strong></td>
+                      <td><strong>Ovrs</strong></td>
+                      <td><strong>Wkt</strong></td>
+                      <td><strong>Mdn</strong></td>
+                      <td><strong>Wd</strong></td>
+                      <td><strong>No</strong></td>
+                    </tr>
+                    <tr>
+                      <td><%=performanceData.practiceMatchDetails[i].bowlingData.runs%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].bowlingData.overs%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].bowlingData.wickets%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].bowlingData.madenOvers%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].bowlingData.wideBalls%></td>
+                      <td><%=performanceData.practiceMatchDetails[i].bowlingData.noBalls%></td>
+                    </tr>
+                  </table>
+                <%}else{%>
+                  <div class="btn btn-outline-secondary btn-block">
+                    You did not bowl in that match.
+                  </div>
+                <%}%>
                 <hr style="margin-bottom: 5px;margin-top:1px;">
                 <!-- comment section -->
                 <div style="width: 100%; border-radius: 5px;">     
                   <div class="p-2 bg-warning text-center"> 
-                    <strong>MSC won the match by 10 runs</strong>
+                    <strong><%=performanceData.practiceMatchDetails[i].matchData.shortDetails%></strong>
                   </div>
                 </div>
               </div>
             </div>
+            <%}%>
             <!-- ********match details structure ends******** -->
 
           </div>

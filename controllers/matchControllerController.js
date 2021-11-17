@@ -150,20 +150,6 @@ exports.matchControllerMustBeLoggedIn = function(req, res, next) {
   }
 }
 
-exports.matchControllerLogin = function(req, res) {
-  let matchController = new MatchController(req.body)
-  matchController.matchControllerLogin().then(function(result) {
-    req.session.user = {regNumber: matchController.data.regNumber, userName: matchController.data.userName,accountType:"matchController"}
-    req.session.save(function() {
-      res.redirect('/matchController-home')
-    })
-  }).catch(function(e) {
-    req.flash('errors', e)
-    req.session.save(function() {
-      res.redirect('/')
-    })
-  })
-}
 
 exports.liveMatchRoomCreate =function (req, res) {
   try {
@@ -400,6 +386,7 @@ exports.getPlayersScoreUpdationPage = function(req, res) {
     scoreAdditionCompleted:matchData.scoreAdditionCompleted,
     tournamentName:matchData.matchDetails.tournamentName,
     tournamentYear:matchData.matchDetails.tournamentYear,
+    matchDate:matchData.matchDetails.dateOfTheMatch,
     venue:matchData.matchDetails.venue,
     matchNumber:matchData.matchDetails.matchNumber,
     firstTeam:matchData.matchDetails.firstTeam,

@@ -5,6 +5,16 @@ const Player = require("../models/Player")
 const liveRoomCollection = require("../db").db().collection("LiveMatchRoom")
 
 
+exports.liveScorerMustBeLoggedIn = function (req, res, next) {
+  if (req.session.user.accountType == "liveScorer") {
+    next()
+  } else {
+    req.flash("errors", "You must be logged in as a scorer to perform that action.")
+    req.session.save(function () {
+      res.redirect("/")
+    })
+  }
+}
 
 exports.liveScorerRoom=async function(req,res){
   try{
@@ -84,96 +94,68 @@ exports.liveScorerRoom=async function(req,res){
       battersList:newBattersList,
       battersIndexes:battersIndexes
     }
-  //bowlersList to add bowlers
-  let bowlersIndexes=[]
-  let newBowlers=[]
-  let previousBowlerIndex=""
-  let activeBowlers=[]
-  let bowlers
-  let bowlersList=[]
-  if(data.matchDetails.isStarted && data.matchDetails.tossWonBy && (data.state.bowlerNumber==0 || data.state.overFinished)){
-    if(data.matchDetails.inningsStatus=="1st Innings"){
-      bowlers=data.firstInningsBowling.allBowlers
-    }else{
-      bowlers=data.secondInningsBowling.allBowlers
-    }
-    for(let i=0;i<bowlers.length;i++){
-      let bowlerData={
-        userName:bowlers[i].name,
-        regNumber:bowlers[i].regNumber,
-        index:String(i)
+    //bowlersList to add bowlers
+    let bowlersIndexes=[]
+    let newBowlers=[]
+    let previousBowlerIndex=""
+    let activeBowlers=[]
+    let bowlers
+    let bowlersList=[]
+    if(data.matchDetails.isStarted && data.matchDetails.tossWonBy && (data.state.bowlerNumber==0 || data.state.overFinished)){
+      if(data.matchDetails.inningsStatus=="1st Innings"){
+        bowlers=data.firstInningsBowling.allBowlers
+      }else{
+        bowlers=data.secondInningsBowling.allBowlers
       }
-      activeBowlers.push(bowlerData)
-    }
-    previousBowlerIndex=data.state.previousBowlerIndex
-    bowlersIndexes=data.matchDetails.bowlersIndexes
-    if(data.matchDetails.tossWonBy=="firstTeam" && data.matchDetails.decidedTo=="batting" && data.matchDetails.inningsStatus=="1st Innings"){
-      bowlersList=data.matchDetails.secondTeamTeamList
-    }else if(data.matchDetails.tossWonBy=="firstTeam" && data.matchDetails.decidedTo=="bowling" && data.matchDetails.inningsStatus=="2nd Innings"){
-      bowlersList=data.matchDetails.secondTeamTeamList
-    }else if(data.matchDetails.tossWonBy=="secondTeam" && data.matchDetails.decidedTo=="bowling" && data.matchDetails.inningsStatus=="1st Innings"){
-      bowlersList=data.matchDetails.secondTeamTeamList
-    }else if(data.matchDetails.tossWonBy=="secondTeam" && data.matchDetails.decidedTo=="batting" && data.matchDetails.inningsStatus=="2nd Innings"){
-      bowlersList=data.matchDetails.secondTeamTeamList
-    }else{
-      bowlersList=data.matchDetails.firstTeamTeamList
-    }
-    for(let i=0;i<11;i++){
-     let bowler={
-        regNumber:bowlersList[i].regNumber,
-        userName:bowlersList[i].userName,
-        index:String(i)
+      for(let i=0;i<bowlers.length;i++){
+        let bowlerData={
+          userName:bowlers[i].name,
+          regNumber:bowlers[i].regNumber,
+          index:String(i)
+        }
+        activeBowlers.push(bowlerData)
       }
-      newBowlers.push(bowler)
+      previousBowlerIndex=data.state.previousBowlerIndex
+      bowlersIndexes=data.matchDetails.bowlersIndexes
+      if(data.matchDetails.tossWonBy=="firstTeam" && data.matchDetails.decidedTo=="batting" && data.matchDetails.inningsStatus=="1st Innings"){
+        bowlersList=data.matchDetails.secondTeamTeamList
+      }else if(data.matchDetails.tossWonBy=="firstTeam" && data.matchDetails.decidedTo=="bowling" && data.matchDetails.inningsStatus=="2nd Innings"){
+        bowlersList=data.matchDetails.secondTeamTeamList
+      }else if(data.matchDetails.tossWonBy=="secondTeam" && data.matchDetails.decidedTo=="bowling" && data.matchDetails.inningsStatus=="1st Innings"){
+        bowlersList=data.matchDetails.secondTeamTeamList
+      }else if(data.matchDetails.tossWonBy=="secondTeam" && data.matchDetails.decidedTo=="batting" && data.matchDetails.inningsStatus=="2nd Innings"){
+        bowlersList=data.matchDetails.secondTeamTeamList
+      }else{
+        bowlersList=data.matchDetails.firstTeamTeamList
+      }
+      for(let i=0;i<11;i++){
+      let bowler={
+          regNumber:bowlersList[i].regNumber,
+          userName:bowlersList[i].userName,
+          index:String(i)
+        }
+        newBowlers.push(bowler)
+      }
     }
-  }
-  let newBowlerData={
-    bowlersIndexes:bowlersIndexes,
-    newBowlers:newBowlers,
-    previousBowlerIndex:previousBowlerIndex,
-    activeBowlers:activeBowlers
-  }
-  let retiredHurtPlayers=data.matchDetails.retiredHurtPlayers
-  res.render("live-scorer-room",{
-    room:data,
-    createTeamList:createTeamList,
-    newBatterData:newBatterData,
-    newBowlerData:newBowlerData,
-    retiredHurtPlayers:retiredHurtPlayers
-  })
-} catch {
-  res.render("404")
-}
-}
-
-exports.liveScorerMustBeLoggedIn = function (req, res, next) {
-  if (req.session.user.accountType == "liveScorer") {
-    next()
-  } else {
-    req.flash("errors", "You must be logged in as a scorer to perform that action.")
-    req.session.save(function () {
-      res.redirect("/")
+    let newBowlerData={
+      bowlersIndexes:bowlersIndexes,
+      newBowlers:newBowlers,
+      previousBowlerIndex:previousBowlerIndex,
+      activeBowlers:activeBowlers
+    }
+    let retiredHurtPlayers=data.matchDetails.retiredHurtPlayers
+    res.render("live-scorer-room",{
+      room:data,
+      createTeamList:createTeamList,
+      newBatterData:newBatterData,
+      newBowlerData:newBowlerData,
+      retiredHurtPlayers:retiredHurtPlayers
     })
+  } catch {
+    res.render("404")
   }
 }
 
-exports.liveScorerLogin = function (req, res) {
-  let scoreRoom = new LiveScoreRoom(req.body)
-  scoreRoom
-    .LiveScoreRoomControllerLogin()
-    .then(function (result) {
-      req.session.user = { matchId: scoreRoom.data.matchId, accountType: "liveScorer" }
-      req.session.save(function () {
-        res.redirect("/live-scorer-room")
-      })
-    })
-    .catch(function (e) {
-      req.flash("errors", e)
-      req.session.save(function () {
-        res.redirect("/")
-      })
-    })
-}
 
 
 //Live match scorer's activities.

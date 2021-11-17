@@ -217,14 +217,15 @@ LiveScoreRoom.deleteRoom = function(id) {
 LiveScoreRoom.prototype.LiveScoreRoomControllerLogin = function () {
   return new Promise((resolve, reject) => {
     try {
-      if (typeof this.data.matchId != "string") {
-        this.data.matchId = ""
+      //here matchId is comming as this.data.regNumber as matchId=req.body.regNumber
+      if (typeof this.data.regNumber != "string") {
+        this.data.regNumber = ""
       }
       if (typeof this.data.password != "string") {
         this.data.password = ""
       }
       liveRoomCollection
-        .findOne({ matchId: this.data.matchId })
+        .findOne({ matchId: this.data.regNumber })
         .then(roomData => {
           if (roomData.password == this.data.password) {
             this.data = roomData
@@ -234,10 +235,10 @@ LiveScoreRoom.prototype.LiveScoreRoomControllerLogin = function () {
           }
         })
         .catch(function () {
-          reject("Please try again later.")
+          reject("Invalid matchId / password.")
         })
     } catch {
-      reject()
+      reject("Please try again later.")
     }
   })
 }

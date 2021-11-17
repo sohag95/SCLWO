@@ -122,9 +122,13 @@ export default class Search {
     </div>
     
     <div class="search-overlay-bottom">
-      <div class="container container--narrow py-3">
-        <div class="circle-loader"></div>
-        <div class="live-search-results"></div>
+      <div style="display: flex;flex-wrap: wrap;">
+        <div class="col-lg"></div>
+        <div class="col-lg-7" >
+          <div class="circle-loader"></div>
+          <div class="live-search-results"></div>
+        </div>
+        <div class="col-lg"></div>
       </div>
     </div>
     

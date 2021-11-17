@@ -10,7 +10,7 @@
         <div class="text-center">
           <img class="profile-image" src="/images/sohag.jpg" />
           <h5>
-            <strong>Sohag Roy
+            <strong><%=profileUserData.userName%>
              <span class="text-primary" > <i class="fas fa-check-circle"></i></span>
             </strong>
           </h5>
@@ -26,16 +26,16 @@
       <div class="col-md-4">
         <div class="">
           <div class="item-container mb-2">
-            <strong><p>Identity</p></strong>
-            <hr style="margin-bottom: .25rem;margin-top: 0rem;">
+            <p class="bolder"><strong >Identity</strong></p>
+              <hr style="margin-bottom: .25rem;margin-top: 0rem;">
            
-            <p><i class="fas fa-clock"></i> <strong>Name : </strong><%= profileUserData.userName %></p>
-            <p><i class="fas fa-clock"></i> <strong>Date of birth : </strong><%= profileUserData.dob %></p>
-            <p><i class="fas fa-clock"></i> <strong>Batting Style : </strong><%= profileUserData.battingStyle %></p>
-            <p><i class="fas fa-clock"></i> <strong>Bowling Style : </strong><%= profileUserData.bowlingStyle %></p>
+            <p><i class="fas fa-user"></i> <strong>Name : </strong><%= profileUserData.userName %></p>
+            <p><i class="fas fa-info-circle"></i> <strong>Batting Style : </strong><%= profileUserData.battingStyle %></p>
+            <p><i class="fas fa-info-circle"></i> <strong>Bowling Style : </strong><%= profileUserData.bowlingStyle %></p>
             <p><i class="fas fa-map-marker-alt"></i> <strong>Address : </strong><%= profileUserData.address %></p>
-            <p><i class="fas fa-clock"></i> <strong>Phone number : </strong><%= profileUserData.phone %></p>
-          
+            <p><i class="fas fa-phone"></i> <strong> Phone number : </strong><%= profileUserData.phone %></p>
+            <p><i class="fas fa-birthday-cake"></i> <strong> Date of birth : </strong><%= profileUserData.dob %></p>
+            
             
             <%if(checkData.isUserLoggedIn && checkData.isVisitorOwner){%>
               <a  href="/player/profile/<%= profileUserData.regNumber %>/edit">
@@ -61,7 +61,7 @@
           </div>
 
           <div class="item-container mb-2">
-            <p>
+            <p class="bolder">
               <strong>About</strong>
               <%if(checkData.isUserLoggedIn && checkData.isVisitorOwner){%>
                 <span class="float-right">
@@ -79,8 +79,8 @@
                         <div class="modal-body">
                           <form action="/update-about-details" method="post">
                             <div class="form-group" style="text-align: left;">
-                              <label for="status" class="text-muted" ><small>Write About Yourself </small></label>
-                              <textarea required name="aboutMe" id="post" class="post-input-field" placeholder="Write about yourself."  type="text"></textarea>
+                              <label for="status" class="text-muted" ><small>About Yourself </small></label>
+                              <textarea required name="aboutData" id="post"  class="post-input-field" placeholder="Write about yourself."  type="text"><%=profileUserData.aboutPlayer%></textarea>
                             </div>
                             <div style="text-align: left;">
                               <button class="btn btn-success btn-sm ">Submit</button>
@@ -98,14 +98,18 @@
             </p>
             <hr style="margin-bottom: .25rem;margin-top: 0rem;">
             <p>
-              Hello i am sohag .I love to play cricket.I like to bowl and i am a off spin bowler.My favourite player is Virat Kohli.
+              <%if(profileUserData.aboutPlayer){%>
+                <%=profileUserData.aboutPlayer%>
+              <%}else{%>
+                <div class="btn btn-outline-primary btn-sm btn-block">About data has not provided!</div>
+              <%}%>
             </p>
           </div>
 
           <%if(checkData.isUserLoggedIn && !checkData.isVisitorOwner){%>
             <div class="item-container mb-2">
               <a href="/compare/<%=user.regNumber%>/<%=profileUserData.regNumber%>/performance">
-                <div class="btn btn-success btn-block">Compare with <strong class="text-lowercase"><%=profileUserData.userName%>'s</strong> performance <i class="fas fa-arrow-right"></i></div>
+                <div class="btn btn-success btn-block">Compare performance <i class="fas fa-arrow-right"></i></div>
               </a>
             </div>
           <%}%>
@@ -119,7 +123,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="item-container mb-2">
-              <strong><p>Batting Details</p></strong>
+              <p class="bolder "><strong >Batting Details</strong></p>
               <hr style="margin-bottom: .25rem;margin-top: 0rem;">
               <table class="table table-sm table-borderless">
                 <tr>
@@ -163,7 +167,7 @@
           </div>
           <div class="col-md-6">
             <div class="item-container mb-2">
-              <strong><p>Bowling Details</p></strong>
+              <p class="bolder "><strong >Bowling Details</strong></p>
               <hr style="margin-bottom: .25rem;margin-top: 0rem;">
            
               <table class="table table-sm table-borderless">
@@ -210,228 +214,27 @@
         </div>
         <hr>
         <h5 class="bolder text-primary">Match Details :</h5>
-        
-        <!-- ******match details structure starting**** -->
-        <div class=" mb-2">
-          <div class="item-container" >
-            <div style="display: flex;">
-              <div class="text-center">
-                <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
-              </div>
-              <div class="post-header" style="width: 100%;display: flex;">
-                <div class="mr-auto" style="padding-left: 5px;">
-                  <div style="margin: 0;padding: 0;">
-                   <strong class="text-primary">Match Number : 10</strong>
-                  </div>
-                  <div style="margin: 0;padding: 0;">
-                    <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
-                  </div>
-                </div>
-                <div class="float-right">
-                  <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
-                    <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
-                  </p>
-                  <div class="dropdown-menu dropdown-menu-right">
-                   hello there
-                  </div>
-                </div>
-              </div>
+        <%if(!performanceData.matchDetails.length){%>
+          <div class="btn btn-lg btn-warning btn-block mb-2">
+            <strong>
+            <%if(checkData.isUserLoggedIn){%>
+              <%if(checkData.isVisitorOwner){%>
+                You have
+              <%}else{%>
+                <%=profileUserData.userName%> has
+              <%}%>
+            <%}else{%>
+              <%=profileUserData.userName%> has
+            <%}%>
+              not played any match till now!!
+            </strong>
             </div>
-            <hr style="margin-bottom: .35rem;margin-top: 2px;">
-            <!-- performance details will be here -->
-            <table class="table table-sm table-bordered " >
-              <tr>
-                <div class="bolder">Batting Performance :</div>
-                <td><strong>Runs</strong></td>
-                <td><strong>Balls</strong></td>
-                <td><strong>4's</strong></td>
-                <td><strong>6's</strong></td>
-                <td><strong>SR</strong></td>
-                <td><strong>Out</strong></td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>20</td>
-                <td>1</td>
-                <td>0</td>
-                <td>50.00</td>
-                <td>No</td>
-              </tr>
-              
-            </table>
-            <table class="table table-sm table-bordered" >
-              <tr>
-                <div class="bolder">Bowling Performance :</div>
-                <td><strong>Runs</strong></td>
-                <td><strong>Ovrs</strong></td>
-                <td><strong>Wkt</strong></td>
-                <td><strong>Mdn</strong></td>
-                <td><strong>Wd</strong></td>
-                <td><strong>No</strong></td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>2</td>
-                <td>1</td>
-                <td>0</td>
-                <td>2</td>
-                <td>0</td>
-              </tr>
-              
-            </table>
-            
-            
-            <hr style="margin-bottom: 5px;margin-top:1px;">
-            <!-- comment section -->
-            <div style="width: 100%; border-radius: 5px;">
-              <div style="display: flex;"> 
-                <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
-                  <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
-                </div>
-                <div class="btn btn-primary">
-                  <a href="" target="_blank" style="color: #fff;">
-                    Match_Details
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- ********match details structure ends******** -->
+        <%}%>
 
         <!-- ******match details structure starting**** -->
-        <div class=" mb-2">
-          <div class="item-container" >
-            <div style="display: flex;">
-              <div class="text-center">
-                <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
-              </div>
-              <div class="post-header" style="width: 100%;display: flex;">
-                <div class="mr-auto" style="padding-left: 5px;">
-                  <div style="margin: 0;padding: 0;">
-                   <strong class="text-primary">Match Number : 10</strong>
-                  </div>
-                  <div style="margin: 0;padding: 0;">
-                    <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
-                  </div>
-                </div>
-                <div class="float-right">
-                  <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
-                    <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
-                  </p>
-                  <div class="dropdown-menu dropdown-menu-right">
-                   hello there
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr style="margin-bottom: .35rem;margin-top: 2px;">
-            <!-- performance details will be here -->
-            <div class="bolder">Batting Performance :</div>
-            <div class="btn btn-outline-secondary btn-block">
-              You did not bat in that match.
-            </div>
-            <div class="bolder">Bowling Performance :</div>
-            <table class="table table-sm table-bordered" >
-              <tr>
-               
-                <td><strong>Runs</strong></td>
-                <td><strong>Ovrs</strong></td>
-                <td><strong>Wkt</strong></td>
-                <td><strong>Mdn</strong></td>
-                <td><strong>Wd</strong></td>
-                <td><strong>No</strong></td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>2</td>
-                <td>1</td>
-                <td>0</td>
-                <td>2</td>
-                <td>0</td>
-              </tr>
-              
-            </table>
-            
-            
-            <hr style="margin-bottom: 5px;margin-top:1px;">
-            <!-- comment section -->
-            <div style="width: 100%; border-radius: 5px;">
-              <div style="display: flex;"> 
-                <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
-                  <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
-                </div>
-                <div class="btn btn-primary">
-                  <a href="" target="_blank" style="color: #fff;">
-                    Match_Details
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <%- include('includes/matchDetails') %>
+
         <!-- ********match details structure ends******** -->
-<!-- ******match details structure starting**** -->
-<div class=" mb-2">
-  <div class="item-container" >
-    <div style="display: flex;">
-      <div class="text-center">
-        <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
-      </div>
-      <div class="post-header" style="width: 100%;display: flex;">
-        <div class="mr-auto" style="padding-left: 5px;">
-          <div style="margin: 0;padding: 0;">
-           <strong class="text-primary">Match Number : 10</strong>
-          </div>
-          <div style="margin: 0;padding: 0;">
-            <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
-          </div>
-        </div>
-        <div class="float-right">
-          <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
-            <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
-          </p>
-          <div class="dropdown-menu dropdown-menu-right">
-           hello there
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr style="margin-bottom: .35rem;margin-top: 2px;">
-    <!-- performance details will be here -->
-    <div class="bolder">Batting Performance :</div>
-    <div class="btn btn-outline-secondary btn-block">
-      You did not bat in that match.
-    </div>
-    <div class="bolder">Bowling Performance :</div>
-    <div class="btn btn-outline-secondary btn-block">
-      You did not bowl in that match.
-    </div>
-    
-    
-    <hr style="margin-bottom: 5px;margin-top:1px;">
-    <!-- comment section -->
-    <div style="width: 100%; border-radius: 5px;">
-      <div style="display: flex;"> 
-        <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
-          <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
-        </div>
-        <div class="btn btn-primary">
-          <a href="" target="_blank" style="color: #fff;">
-            Match_Details
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ********match details structure ends******** -->
-
-
-
 
       </div>
     </div>

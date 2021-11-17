@@ -10,6 +10,11 @@ const liveScoreRoomController=require('./controllers/liveScoreRoomController')
 //####################################
 router.get('/test',userController.test)
 //####################################
+//####################################
+//user log-in 
+router.post("/log-in",  userController.loggingIn)
+//####################################
+
 // user related routes
 router.get('/log-in',userController.logInForm)
 router.get('/',userController.guestHome)
@@ -22,6 +27,7 @@ router.get('/top-players',userController.topPlayers)
 router.get('/profile/:regNumber',userController.checkVisitorLoggedInOrNot,userController.checkPlayerExistsOrNot,userController.getProfileData)
 router.post("/search-player",  userController.searchPlayer)
 
+
 //user related routes of scoreboard ()
 router.get("/singleRoomShortDetails/:matchId",  userController.ifMatchExists,userController.singleRoomShortDetails)
 router.get("/firstInningsDetails/:matchId",  userController.ifMatchExists,userController.firstInningsDetails)
@@ -30,14 +36,12 @@ router.get("/batsman/:matchId/:index/:innings/inningsDetails",userController.ifM
 
 
 //Admin related routes
-router.post("/admin-login", adminController.adminLogin)
 router.get("/admin-home",adminController.adminMustBeLoggedIn,adminController.adminHome)
 router.post("/slidePictureUpload", adminController.adminMustBeLoggedIn, adminController.uploadSlidePicture)
 router.post("/player-register", adminController.adminMustBeLoggedIn, playerController.playerRegister)
 
 
 //Player's related routes
-router.post("/player-login", playerController.playerLogin)
 router.get("/player-home", playerController.playerMustBeLoggedIn, playerController.playerHome)
 router.get("/player/profile/:regNumber/edit", playerController.playerMustBeLoggedIn, playerController.ifPlayerExists, playerController.getPlayerEditPage)
 router.post("/player-club-name-update", playerController.playerMustBeLoggedIn, playerController.updatePlayerClubName)
@@ -47,10 +51,10 @@ router.post("/delete/practiceMatch/:index/details", playerController.playerMustB
 router.get("/practice-match-addition-form", playerController.playerMustBeLoggedIn, playerController.practiceMatchAdditionFormPage)
 router.get("/compare/:visitorReg/:profileUserReg/performance",playerController.playerMustBeLoggedIn,playerController.regNumberManipulationCheck,playerController.getComparePageWithData)
 router.get("/performance-analysis",playerController.playerMustBeLoggedIn,playerController.getPerformanceAnalysisPage)
+router.post("/update-about-details", playerController.playerMustBeLoggedIn, playerController.updateAboutData)
 
 
 //Match controller routes
-router.post("/matchController-login", matchControllerController.matchControllerLogin)
 router.get("/matchController-home",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.matchControllerHome)
 router.get("/all-available-match-rooms",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.availableMatchRooms)
 router.post("/match-room/:_id/delete",matchControllerController.matchControllerMustBeLoggedIn, matchControllerController.ifMatchRoomExists,matchControllerController.liveMatchRoomDelete)
@@ -78,7 +82,6 @@ router.post("/search-match-room",matchControllerController.matchControllerMustBe
 
 
 //Live scorer related routes
-router.post("/live-scorer-logIn", liveScoreRoomController.liveScorerLogin)
 router.get("/live-scorer-room", liveScoreRoomController.liveScorerMustBeLoggedIn, liveScoreRoomController.liveScorerRoom)
 router.post("/create-team-list", liveScoreRoomController.liveScorerMustBeLoggedIn, liveScoreRoomController.createTeamList)
 router.post("/matchStarted", liveScoreRoomController.liveScorerMustBeLoggedIn, liveScoreRoomController.matchStarted)

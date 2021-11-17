@@ -80,61 +80,57 @@
                   </div>
                 </a>
               <%}%>
-              
             <%}%>
             
-            <a href="/tournaments">
-              <div class="side-item">
-                <i class="far fa-address-card fa-lg"></i>
-                <strong>Tournaments</strong>
-              </div>
-            </a>
-            <a href="/matches">
-              <div class="side-item">
-                <i class="far fa-address-card fa-lg"></i>
-                <strong>Matches</strong>
-              </div>
-            </a>
-            <a href="/top-players">
-              <div class="side-item">
-                <i class="far fa-address-card fa-lg"></i>
-                <strong>Top Players</strong>
-              </div>
-            </a>
-          <a href="#">
-            <div class="side-item">
-              <i class="far fa-address-card fa-lg"></i>
-              <strong>About Us</strong>
-            </div>
-          </a>
-          <a href="#">
-            <div class="side-item">
-              <i class="fas fa-address-book fa-lg"></i>
-              <strong>Contact Us</strong>
-            </div>
-          </a>
-          <a href="#">
-            <div class="side-item">
-              <i class="fas fa-question-circle fa-lg"></i>
-              <strong>Help</strong>
-            </div>
-          </a>
-          
+              <a href="/tournaments">
+                <div class="side-item">
+                  <i class="fas fa-info-circle fa-lg"></i></i>
+                  <strong>Tournaments</strong>
+                </div>
+              </a>
+              <a href="/matches">
+                <div class="side-item">
+                  <i class="fas fa-info-circle fa-lg"></i></i>
+                  <strong>Matches</strong>
+                </div>
+              </a>
+              <a href="/top-players">
+                <div class="side-item">
+                  <i class="fas fa-running fa-lg"></i></i>
+                  <strong>Top Players</strong>
+                </div>
+              </a>
+              <hr>
+              <a href="#">
+                <div class="side-item">
+                  <i class="far fa-address-card fa-lg"></i>
+                  <strong>About Us</strong>
+                </div>
+              </a>
+              <a href="#">
+                <div class="side-item">
+                  <i class="fas fa-address-book fa-lg"></i>
+                  <strong>Contact Us</strong>
+                </div>
+              </a>
+              <a href="#">
+                <div class="side-item">
+                  <i class="fas fa-question-circle fa-lg"></i>
+                  <strong>Help</strong>
+                </div>
+              </a>
+
             <hr>
             <%if(user){%>
             <div class="side-item">
-              
-                <form action="/logout" method="POST" class="d-inline">
-                  
+                <form action="/logout" method="POST" class="d-inline"> 
                   <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out </button>
                 </form>
             </div>
             <%}else{%>
-              
-              <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSignIn" aria-expanded="false" aria-controls="collapseExample">
-                <i class="fas fa-sign-in-alt fa-lg"></i>
-                 Log In 
-                </button>
+              <a href="/log-in">
+                <button type="button" class="btn btn-primary" ><i class="fas fa-sign-in-alt"></i> Log In </button>
+              </a>
             <%}%>
             <hr>
         </div>  
@@ -174,13 +170,13 @@
               </button>
             </a>
           <%}%>
-
           <form action="/logout" method="POST" class="d-inline">
             <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out</button>
           </form>
         <%}else{%>
-          <a href="/log-in">Log In</a>
-          <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSignIn" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-sign-in-alt"></i> Log In </button>
+          <a href="/log-in">
+            <button type="button" class="btn btn-primary" ><i class="fas fa-sign-in-alt"></i> Log In </button>
+          </a>
         <%}%>
        </div>
     </nav>
@@ -238,74 +234,3 @@
   
 
 
-
-
-
-
-    <div class="collapse" id="collapseSignIn">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-10 shadow">
-            <h2 class="bold-font">For Admin</h2>
-            <form action="/admin-login" method="POST" class="mb-0 pt-2 pt-md-0">
-              <div class="row align-items-center">
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="regNumber" class="form-control form-control-sm input-dark" type="text" placeholder="Registration Number" autocomplete="off" />
-                </div>
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="password" class="form-control form-control-sm input-dark" type="password" placeholder="Password" />
-                </div>
-                <div class="col-md-auto">
-                  <button class="btn btn-primary btn-sm">Sign In</button>
-                </div>
-              </div>
-            </form>
-            <h2 class="bold-font">For Player</h2>
-            <form action="/player-login" method="POST" class="mb-0 pt-2 pt-md-0">
-              <div class="row align-items-center">
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="regNumber" class="form-control form-control-sm input-dark" type="text" placeholder="Registration Number" autocomplete="off" />
-                </div>
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="password" class="form-control form-control-sm input-dark" type="password" placeholder="Password" />
-                </div>
-                <div class="col-md-auto">
-                  <button class="btn btn-primary btn-sm">Sign In</button>
-                </div>
-              </div>
-            </form>
-            <h2 class="bold-font">For Match Controller</h2>
-            <form action="/matchController-login" method="POST" class="mb-0 pt-2 pt-md-0">
-              <div class="row align-items-center">
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="regNumber" class="form-control form-control-sm input-dark" type="text" placeholder="Registration Number" autocomplete="off" />
-                </div>
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="password" class="form-control form-control-sm input-dark" type="password" placeholder="Password" />
-                </div>
-                <div class="col-md-auto">
-                  <button class="btn btn-primary btn-sm">Sign In</button>
-                </div>
-              </div>
-            </form>
-            <h2 class="bold-font">For Live Scorer</h2>
-            <form action="/live-scorer-logIn" method="POST" class="mb-0 pt-2 pt-md-0">
-              <div class="row align-items-center">
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="matchId" class="form-control form-control-sm input-dark" type="text" placeholder="Match Id" autocomplete="off" />
-                </div>
-                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-                  <input name="password" class="form-control form-control-sm input-dark" type="password" placeholder="Password" />
-                </div>
-                <div class="col-md-auto">
-                  <button class="btn btn-primary btn-sm">Sign In</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="col-md-1"></div>
-        </div>
-      </div>
-    </div>
- 

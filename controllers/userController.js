@@ -8,6 +8,17 @@ const CommonFunctions = require('../models/CommonFunctions')
 const Player = require('../models/Player')
 const PerformanceTable = require('../models/PerformanceTable')
 const PerformanceAnalysis = require('../models/PerformanceAnalysis')
+const MatchController = require('../models/MatchController')
+const Admin = require('../models/Admin')
+const LiveScoreRoom = require('../models/LiveScoreRoom')
+
+
+
+exports.test = function (req, res) {
+  let performanceAnalysis=new PerformanceAnalysis()
+  performanceAnalysis.arrangeData()
+  res.render('teamSelectTest')
+}
 
 exports.logInForm = function (req, res) {
   if(!req.session.user){
@@ -18,17 +29,100 @@ exports.logInForm = function (req, res) {
   }
 }
 
+exports.loggingIn = function (req, res) {
+  if(!req.session.user){
+    let regNumber=req.body.regNumber
+    if(regNumber.length==13){
+      let userType=regNumber.slice(7,9)
+      if(userType=="pl"){
+        let player = new Player(req.body)
+        player
+          .playerLogin()
+          .then(function (result) {
+            req.session.user = { regNumber: player.data.regNumber, userName: player.data.userName,accountType: "player" }
+            req.session.save(function () {
+              res.redirect("/player-home")
+            })
+          })
+          .catch(function (e) {
+            req.flash("errors", e)
+            req.session.save(function () {
+              res.redirect("/log-in")
+            })
+          })
+      }else if(userType=="mc"){
+        let matchController = new MatchController(req.body)
+        matchController.matchControllerLogin().then(function(result) {
+          req.session.user = {regNumber: matchController.data.regNumber, userName: matchController.data.userName,accountType:"matchController"}
+          req.session.save(function() {
+            res.redirect('/matchController-home')
+          })
+        }).catch(function(e) {
+          req.flash('errors', e)
+          req.session.save(function() {
+            res.redirect('/log-in')
+          })
+        })
+      }else if(userType=="ad"){
+        let admin = new Admin(req.body)
+        admin
+          .adminLogin()
+          .then(function (result) {
+            console.log(result)
+            req.session.user = { regNumber: admin.data.regNumber, userName: admin.data.userName, accountType: "admin" }
+            req.session.save(function () {
+              res.redirect("/admin-home")
+            })
+          })
+          .catch(function (e) {
+            req.flash("errors", e)
+            req.session.save(function () {
+              res.redirect("/log-in")
+            })
+          })
+      }else{
+        req.flash("errors", "Invalid Registration Number/Password!!")
+        req.session.save(() => res.redirect("/log-in"))
+      }
+    }else if(regNumber.length==11){
+      let checkMatch=regNumber.slice(2,7)
+      if(checkMatch=="match"){
+        let scoreRoom = new LiveScoreRoom(req.body)
+        scoreRoom
+          .LiveScoreRoomControllerLogin()
+          .then(function (result) {
+            req.session.user = { matchId: scoreRoom.data.matchId, accountType: "liveScorer" }
+            req.session.save(function () {
+              res.redirect("/live-scorer-room")
+            })
+          })
+          .catch(function (e) {
+            req.flash("errors", e)
+            req.session.save(function () {
+              res.redirect("/log-in")
+            })
+          })
+      }else{
+        req.flash("errors", "Invalid Match Id/Password!!")
+        req.session.save(() => res.redirect("/log-in"))
+      }
+    }else{
+      req.flash("errors", "Invalid Registration Number/Password!!")
+      req.session.save(() => res.redirect("/log-in"))
+    }
+  }else{
+    req.flash("errors", "You already logged In !! Log-out first to perform that action.")
+    req.session.save(() => res.redirect("/log-in"))
+  }
+}
+
+
 exports.logout = function (req, res) {
   req.session.destroy(function () {
     res.redirect("/")
   })
 }
 
-exports.test = function (req, res) {
-  let performanceAnalysis=new PerformanceAnalysis()
-  performanceAnalysis.arrangeData()
-  res.render('teamSelectTest')
-}
 
 exports.searchPlayer = function (req, res) {
   let searchTerm=req.body.searchTerm.toLowerCase()
@@ -46,9 +140,7 @@ exports.guestHome=async function(req,res){
     let liveRooms=[]
     let upCommingMatches=[]
     let roomData = await liveRoomCollection.find().sort({ priority: -1 }).toArray()
-    let rooms=roomData.filter((room)=>{
-        return room
-    }).map((room)=>{
+    roomData.forEach((room)=>{
       let data=room
       let tossWonBy
       if(data.matchDetails.tossWonBy=="firstTeam"){
@@ -63,14 +155,27 @@ exports.guestHome=async function(req,res){
         liveRooms.push(data)
       }
       if(!data.matchDetails.isStarted && upCommingMatches.length<=2){
-        upCommingMatches.push(data)
+        //only match details part has been taken
+        upCommingMatches.push(data.matchDetails)
       }
       return data
     })
+
+    //#####################################
+    //here i have to grabe all notices given by admin
+    //#####################################
+    //Top players getting
+    let topPlayers = await administrationCollection.findOne({regNumber:"siliguriTop10Players"})
+    let top5Players={
+      topBatters:topPlayers.topBatters.slice(0,6),
+      topBowlers:topPlayers.topBowlers.slice(0,6),
+      topAllRounders:topPlayers.topAllRounders.slice(0,6)
+    }
+    console.log(top5Players)
     res.render("guest-home",{
-      rooms:rooms,
       liveRooms:liveRooms,
-      upCommingMatches:upCommingMatches
+      upCommingMatches:upCommingMatches,
+      top5Players:top5Players
     })
   } catch {
     res.render("404")

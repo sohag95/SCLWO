@@ -16,23 +16,6 @@ exports.playerMustBeLoggedIn = function (req, res, next) {
   }
 }
 
-exports.playerLogin = function (req, res) {
-  let player = new Player(req.body)
-  player
-    .playerLogin()
-    .then(function (result) {
-      req.session.user = { regNumber: player.data.regNumber, userName: player.data.userName,accountType: "player" }
-      req.session.save(function () {
-        res.redirect("/player-home")
-      })
-    })
-    .catch(function (e) {
-      req.flash("errors", e)
-      req.session.save(function () {
-        res.redirect("/")
-      })
-    })
-}
 
 exports.playerRegister = function (req, res) {
   let player = new Player(req.body,"register")
@@ -65,9 +48,14 @@ exports.playerHome =async function (req, res) {
     let performanceData=await PerformanceTable.getPlayerPerformanceData(req.regNumber,"home")
     console.log(userData)
     console.log(performanceData)
+    let checkData={
+      isUserLoggedIn:true,
+      isVisitorOwner:true
+    }
     res.render("player-home",{
       userData:userData,
-      performanceData:performanceData
+      performanceData:performanceData,
+      checkData:checkData
     })
   }catch{
     res.render('404')
@@ -80,7 +68,6 @@ exports.ifPlayerExists = function (req, res, next) {
   Player.findPlayerByregNumber(req.params.regNumber)
     .then(function (userDocument) {
       req.profileUser = userDocument
-      
       next()
     })
     .catch(function () {
@@ -247,4 +234,21 @@ exports.getComparePageWithData = function (req, res) {
 
 exports.getPerformanceAnalysisPage = function (req, res) {
   res.render("performance-analysis")
+}
+
+exports.updateAboutData =async function (req, res) {
+  Player
+  .updateAboutData(req.body.aboutData,req.regNumber)
+  .then(() => {
+     req.flash("success", "Details about yourself updated successfully.")
+    req.session.save(function () {
+      res.redirect(`/profile/${req.regNumber}`)
+    })
+  })
+  .catch(errors => {
+    errors.forEach(error => req.flash("errors", error))
+    req.session.save(function () {
+      res.redirect(`/profile/${req.regNumber}`)
+    })
+  })
 }

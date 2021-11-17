@@ -71,6 +71,7 @@ Player.prototype.cleanUp = async function () {
         address: this.data.address.trim().toLowerCase(),
         email: this.data.email.trim().toLowerCase(),
         phone: this.data.phone.trim().toLowerCase(),
+        aboutPlayer:null,
         password: this.data.password,
       }
     }
@@ -265,8 +266,8 @@ Player.findPlayerByregNumber = function (regNumber) {
             leaguePlaying:userDocument.leaguePlaying,
             leagueYear:userDocument.leagueYear,
             address: userDocument.address,
-            email: userDocument.email,
             phone: userDocument.phone,
+            aboutPlayer:userDocument.aboutPlayer
           }
           resolve(userDocument)
         } else {
@@ -305,8 +306,9 @@ Player.updatePlayerClubName = function (data,regNumber) {
           }
         })
         resolve()
-      }
-      reject(errors)
+      }else{
+        reject(errors)
+      }   
     }catch{
       reject(["sorry, thee is some problem.Try again later!"])
     }
@@ -314,6 +316,36 @@ Player.updatePlayerClubName = function (data,regNumber) {
   })
 }
 
+Player.updateAboutData=function(aboutData,regNumber){
+  return new Promise(async (resolve, reject) =>{
+    try{
+      let errors=[]
+      if (typeof aboutData != "string") {
+       aboutData=""
+      }
+      if (aboutData.length >=300 ) {
+        errors.push("Youhave to write about yourself within 300 characters.")
+      }
+      if(aboutData==""){
+        errors.push("You should write something about yourself.")
+      }
+      
+      if(!errors.length){
+       await playersCollection.findOneAndUpdate({regNumber:regNumber},{
+          $set:{
+            "aboutPlayer":aboutData,
+          }
+        })
+        resolve()
+      }else{
+        reject(errors)
+      }
+    }catch{
+      reject(["sorry, thee is some problem.Try again later!"])
+    }
+    
+  })
+}
 
 
 

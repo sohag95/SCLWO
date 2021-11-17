@@ -106,24 +106,24 @@
                         <tr>
                           <%if(batsman.isOut){%>
                             <%if(batsman.outType=="caught-out"){%>
-                              <td colspan="5"><p>c <i> <%=batsman.filderName%>  b <%=batsman.outBy%></i></p></td>
+                              <td colspan="5"><p><i>c <%=batsman.filderName%>  b <%=batsman.outBy%></i></p></td>
                             <%}else if(batsman.outType=="lbw"){%>
-                              <td colspan="5"><p>lbw b <%=batsman.outBy%></p></td>
+                              <td colspan="5"><p><i>lbw b <%=batsman.outBy%></i></p></td>
                             <%}else if(batsman.outType=="bowled"){%>
-                              <td colspan="5"><p>b <%=batsman.outBy%></p></td>
+                              <td colspan="5"><p><i>b <%=batsman.outBy%></i></p></td>
                             <%}else if(batsman.outType=="run-out"){%>
-                              <td colspan="5"><p>Run Out (<%=batsman.filderName%>)</p></td>
+                              <td colspan="5"><p><i>Run Out (<%=batsman.filderName%>)</i></p></td>
                             <%}else if(batsman.outType=="stumping-out"){%>
-                              <td colspan="5"><p>stmp <%=batsman.filderName%> b <%=batsman.outBy%></p></td>
+                              <td colspan="5"><p><i>stmp <%=batsman.filderName%> b <%=batsman.outBy%></i></p></td>
                             <%}else if(batsman.outType=="hit-wicket"){%>
-                              <td colspan="5"><p>hit-out </p></td>
+                              <td colspan="5"><p><i>hit-out</i> </p></td>
                             <%}%>
                           <%}else if(batsman.isRetiredHurt){%>
-                            <td colspan="5"><p>retire-hurt</p></td>
+                            <td colspan="5"><p><i>retire-hurt</i></p></td>
                           <%}else if(room.matchDetails.inningsStatus=="2nd Innings"){%>
-                            <td colspan="5"><p>Batting..</p></td>
+                            <td colspan="5"><p><i>Batting</i></p></td>
                           <%}else{%>
-                            <td colspan="5"><p>Not out</p></td>
+                            <td colspan="5"><p><i>Not out</i></p></td>
                           <%}%> 
                         </tr>
                         

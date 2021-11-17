@@ -135,6 +135,7 @@ CommonFunctions.getPlayersScoreDetailsOfAMatch=function(matchData){
         matchId:matchData.matchId,
         tournamentName:matchData.matchDetails.tournamentName,
         tournamentYear:matchData.matchDetails.tournamentYear,
+        matchDate:matchData.matchDetails.dateOfTheMatch,
         ownTeam:matchData.matchDetails.secondTeam,
         opponentTeam:matchData.matchDetails.firstTeam,
         winningStatus:matchData.matchDetails.winningStatus

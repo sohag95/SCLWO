@@ -4,12 +4,10 @@
 
 <!-- scoring rooms starts -->
 <div class="container mt-1 mb-1">
-  <%if(!rooms.length){%>
-    <h4 class="text-center"><strong>No match available now.</strong></h4>
-  <%}%>
+  
   <div class="container">
   <div class="row align-items-center "> 
-    <%rooms.forEach((room)=>{%>       
+    <%liveRooms.forEach((room)=>{%>       
       <div class="scoreUpperPart btn-block row" style="margin-left: 0;">
         <!-- this is header part of score card -->
         <div class="container">
@@ -100,57 +98,43 @@
             
               <h5 class="bolder text-success">Upcomming Matches :</h5>
               <div class="guest-home-notice">
-                <div class="path">
-                  <h5 class="text-center"><strong>No upcomming match available!!</strong></h5>
-                </div>
+                <%if(!upCommingMatches.length){%>
+                  <div class="path">
+                    <h5 class="text-center"><strong>No upcomming match available!!</strong></h5>
+                  </div>
+                <%}%>
+              <%upCommingMatches.forEach((match)=>{%>
                 <!-- match structure starts -->
-              <div class="scoreUpperPart btn-block " >
-                <div class="container">
-                  <div class="p_zero">
-                    <p class="text-uppercase"><strong>Siliguri 1st-division cricket  
-                      | Match no : 4 </strong>
-                    </p>
-                    <p ><strong>Venue -</strong> ABC ground</p>
+                <div class="scoreUpperPart btn-block " >
+                  <div class="container">
+                    <div class="p_zero">
+                      <p class="text-uppercase"><strong><%=match.tournamentName%>-<%=match.tournamentYear%> 
+                        | Match no : <%=match.matchNumber%> </strong>
+                      </p>
+                      <p ><strong>Venue -</strong> <%=match.venue%></p>
+                    </div>
                   </div>
-                </div>
-                <div class="container scoreLowerPart p_zero">
-                  <p class="text-uppercase"><strong>CCA</strong></p>
-                  <p class="text-uppercase"><strong>MSC</strong></p>
-                </div>
-                <div class="container">
-                  <div class="p_zero"> 
-                    <p >Starts at 10:00 am on 12/12/21</p>
+                  <div class="container scoreLowerPart p_zero">
+                    <p class="text-uppercase"><strong><%=match.firstTeam%></strong></p>
+                    <p class="text-uppercase"><strong><%=match.secondTeam%></strong></p>
                   </div>
-                </div> 
+                  <div class="container">
+                    <div class="p_zero"> 
+                      <p >Starts at <%=match.matchStartingTime%> on <%=match.dateOfTheMatch%></p>
+                    </div>
+                  </div> 
+                  
+                </div>
+                <!-- match Structure ends -->
+              <%})%>
                 
-              </div>
-              <!-- match Structure ends -->
-               <!-- match structure starts -->
-               <div class="scoreUpperPart btn-block " >
-                <div class="container">
-                  <div class="p_zero">
-                    <p class="text-uppercase"><strong>Siliguri 1st-division cricket  
-                      | Match no : 4 </strong>
-                    </p>
-                    <p ><strong>Venue -</strong> ABC ground</p>
-                  </div>
-                </div>
-                <div class="container scoreLowerPart p_zero">
-                  <p class="text-uppercase"><strong>CCA</strong></p>
-                  <p class="text-uppercase"><strong>MSC</strong></p>
-                </div>
-                <div class="container">
-                  <div class="p_zero"> 
-                    <p >Starts at 10:00 am on 12/12/21</p>
-                  </div>
-                </div> 
-                
-              </div>
-              <!-- match Structure ends -->
+              
               
               </div>
-              <button class="btn btn-sm  btn-info btn-block" ><strong>See all upcomming matches...</strong> </button>
-
+              <a href="/matches">
+                <button class="btn btn-sm  btn-info btn-block" ><strong>See all upcomming matches <i class="fas fa-arrow-right"></i></strong> </button>
+              </a>
+              
             <hr style="margin: 8px;" class="visibleItemsOnCollapse">
           </div>
           
@@ -161,377 +145,194 @@
                   <h5 class="text-center"><strong>No new notice available!!</strong></h5>
                 </div>
               </div>
-              <button class="btn btn-sm  btn-secondary btn-block" ><strong>See all notices...</strong> </button>    
+              <button class="btn btn-sm  btn-secondary btn-block" ><strong>See all notices <i class="fas fa-arrow-right"></i></strong> </button>    
             </div> 
         </div>
        <!-- matches and notice parts ending part here -->
       <hr>
-      <h5 class="bolder">Top Batters in Siliguri</h5>
+      <h5 class="bolder"><strong>Top Batters in Siliguri :</strong> </h5>
       <div class="teacher-banner-container pb-1">
-        
-          <div class="top-batters">
-            <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-              <strong class="d-block">Sohag Roy</strong>
-              <span class="d-block"><strong>Total Runs : 120</strong> </span>
-              <span class="d-block"><strong>Total Matches : 3</strong> </span>
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  View profile
-                </div>
-              </a> 
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  Compare
-                </div>
-              </a>   
+          <%top5Players.topBatters.forEach((batter)=>{%>
+            <div class="top-batters">
+              <img class="teacher-image"  src="/images/sohag.jpg" alt="">
+              <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
+                <span class="d-block bolder text-primary"><strong><%=batter.userName%></strong></span>
+                <strong class="d-block bolder"> Runs : <%=batter.runs%> </strong>
+                <strong class="d-block bolder">Matches Played : <%=batter.matchesPlayed%> </strong>
+                <%if(user){%>
+                  <%if(user.accountType=="player"){%>
+                    <%if(user.regNumber==batter.regNumber){%>
+                      <a href="/profile/<%=batter.regNumber%>">
+                        <button class="btn btn-outline-warning btn-sm btn-block">
+                          View Your Profile
+                        </button>
+                      </a>
+                    <%}else{%>
+                      <div style="display: flex;">
+                        <div style="width: 48%;">
+                          <a href="/profile/<%=batter.regNumber%>" >
+                            <div class="btn btn-outline-info btn-sm btn-block">
+                              View Profile
+                            </div>
+                          </a>
+                        </div>
+                        <div style="width: 49%;margin-left: 4px;">
+                          <a href="/compare/<%=user.regNumber%>/<%=batter.regNumber%>/performance" >
+                            <div class="btn btn-info btn-sm btn-block">
+                              Compare
+                            </div>
+                          </a>
+                        </div>
+                      </div> 
+                    <%}%>          
+                  <%}else{%>
+                    <a href="/profile/<%=batter.regNumber%>">
+                      <button class="btn btn-outline-info btn-sm btn-block">
+                        View Profile
+                      </button>
+                    </a>
+                  <%}%>
+                <%}else{%>
+                  <a href="/profile/<%=batter.regNumber%>">
+                    <button class="btn btn-outline-info btn-sm btn-block">
+                      View Profile
+                    </button>
+                  </a>
+                <%}%>
+              </div>
             </div>
-          </div>
-
-          <div class="top-batters">
-            <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-              <strong class="d-block">Sohag Roy</strong>
-              <span class="d-block"><strong>Total Runs : 120</strong> </span>
-              <span class="d-block"><strong>Total Matches : 3</strong> </span>
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  View profile
-                </div>
-              </a> 
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  Compare
-                </div>
-              </a>   
-            </div>
-          </div>
-
-          <div class="top-batters">
-            <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-              <strong class="d-block">Sohag Roy</strong>
-              <span class="d-block"><strong>Total Runs : 120</strong> </span>
-              <span class="d-block"><strong>Total Matches : 3</strong> </span>
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  View profile
-                </div>
-              </a> 
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  Compare
-                </div>
-              </a>   
-            </div>
-          </div>
-
-          <div class="top-batters">
-            <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-              <strong class="d-block">Sohag Roy</strong>
-              <span class="d-block"><strong>Total Runs : 120</strong> </span>
-              <span class="d-block"><strong>Total Matches : 3</strong> </span>
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  View profile
-                </div>
-              </a> 
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  Compare
-                </div>
-              </a>   
-            </div>
-          </div>
-
-          <div class="top-batters">
-            <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-              <strong class="d-block">Sohag Roy</strong>
-              <span class="d-block"><strong>Total Runs : 120</strong> </span>
-              <span class="d-block"><strong>Total Matches : 3</strong> </span>
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  View profile
-                </div>
-              </a> 
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  Compare
-                </div>
-              </a>   
-            </div>
-          </div>
-
-          <div class="top-batters">
-            <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-              <strong class="d-block">Sohag Roy</strong>
-              <span class="d-block"><strong>Total Runs : 120</strong> </span>
-              <span class="d-block"><strong>Total Matches : 3</strong> </span>
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  View profile
-                </div>
-              </a> 
-              <a href="/profile/21sclwopl0025">
-                <div class="class btn btn-outline-info btn-sm">
-                  Compare
-                </div>
-              </a>   
-            </div>
-          </div>
-
+          <%})%>
         </div>
     </div>
 
     
-  <div class=" item-container container " style="background-color:#f0f2f5 ;">
-    <h5 class="bolder">Top Bowlers in Siliguri</h5>
+  <div class=" item-container container " style="background-color:#f0f2f4 ;">
+    <h5 class="bolder"><strong>Top Bowlers in Siliguri :</strong> </h5>
     <div class="teacher-banner-container pb-1">
       
+      <%top5Players.topBowlers.forEach((bowler)=>{%>
         <div class="top-batters">
           <img class="teacher-image"  src="/images/sohag.jpg" alt="">
           <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block"><strong>Total Runs : 120</strong> </span>
-            <span class="d-block"><strong>Total Matches : 3</strong> </span>
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                View profile
-              </div>
-            </a> 
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                Compare
-              </div>
-            </a>   
+            <div class=" bolder text-primary"><strong><%=bowler.userName%></strong></div>
+            <strong class="d-block bolder">Wickets : <%=bowler.wickets%> </strong>
+            <strong class="d-block bolder">Matches Played : <%=bowler.matchesPlayed%> </strong>
+            <%if(user){%>
+              <%if(user.accountType=="player"){%>
+                <%if(user.regNumber==bowler.regNumber){%>
+                  <a href="/profile/<%=bowler.regNumber%>">
+                    <button class="btn btn-outline-warning btn-sm btn-block">
+                      View Your Profile
+                    </button>
+                  </a>
+                <%}else{%>
+                  <div style="display: flex;">
+                    <div style="width: 48%;">
+                      <a href="/profile/<%=bowler.regNumber%>" >
+                        <div class="btn btn-outline-info btn-sm btn-block">
+                          View Profile
+                        </div>
+                      </a>
+                    </div>
+                    <div style="width: 49%;margin-left: 4px;">
+                      <a href="/compare/<%=user.regNumber%>/<%=bowler.regNumber%>/performance" >
+                        <div class="btn btn-info btn-sm btn-block">
+                          Compare
+                        </div>
+                      </a>
+                    </div>
+                  </div> 
+                <%}%>          
+              <%}else{%>
+                <a href="/profile/<%=bowler.regNumber%>">
+                  <button class="btn btn-outline-info btn-sm btn-block">
+                    View Profile
+                  </button>
+                </a>
+              <%}%>
+            <%}else{%>
+              <a href="/profile/<%=bowler.regNumber%>">
+                <button class="btn btn-outline-info btn-sm btn-block">
+                  View Profile
+                </button>
+              </a>
+            <%}%>
           </div>
         </div>
-
-        <div class="top-batters">
-          <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-          <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block"><strong>Total Runs : 120</strong> </span>
-            <span class="d-block"><strong>Total Matches : 3</strong> </span>
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                View profile
-              </div>
-            </a> 
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                Compare
-              </div>
-            </a>   
-          </div>
-        </div>
-
-        <div class="top-batters">
-          <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-          <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block"><strong>Total Runs : 120</strong> </span>
-            <span class="d-block"><strong>Total Matches : 3</strong> </span>
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                View profile
-              </div>
-            </a> 
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                Compare
-              </div>
-            </a>   
-          </div>
-        </div>
-
-        <div class="top-batters">
-          <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-          <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block"><strong>Total Runs : 120</strong> </span>
-            <span class="d-block"><strong>Total Matches : 3</strong> </span>
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                View profile
-              </div>
-            </a> 
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                Compare
-              </div>
-            </a>   
-          </div>
-        </div>
-
-        <div class="top-batters">
-          <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-          <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block"><strong>Total Runs : 120</strong> </span>
-            <span class="d-block"><strong>Total Matches : 3</strong> </span>
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                View profile
-              </div>
-            </a> 
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                Compare
-              </div>
-            </a>   
-          </div>
-        </div>
-
-        <div class="top-batters">
-          <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-          <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block"><strong>Total Runs : 120</strong> </span>
-            <span class="d-block"><strong>Total Matches : 3</strong> </span>
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                View profile
-              </div>
-            </a> 
-            <a href="/profile/21sclwopl0025">
-              <div class="class btn btn-outline-info btn-sm">
-                Compare
-              </div>
-            </a>   
-          </div>
-        </div>
-
+      <%})%>
     </div>
   </div>
 
 <div class=" item-container container " style="background-color:#f0f2f5 ;">
-  <h5 class="bolder">Top All-rounders in Siliguri</h5>
+  <h5 class="bolder"><strong>Top All-rounders in Siliguri :</strong></h5>
   <div class="teacher-banner-container pb-1">
     
+    <%top5Players.topAllRounders.forEach((allrounder)=>{%>
       <div class="top-batters">
         <img class="teacher-image"  src="/images/sohag.jpg" alt="">
         <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-          <strong class="d-block">Sohag Roy</strong>
-          <span class="d-block"><strong>Total Runs : 120</strong> </span>
-          <span class="d-block"><strong>Total Matches : 3</strong> </span>
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              View profile
-            </div>
-          </a> 
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              Compare
-            </div>
-          </a>   
+          <div class="d-block bolder text-primary"><strong><%=allrounder.userName%></strong></div>
+          <strong class="d-block bolder"> Runs : <%=allrounder.runs%> </strong>
+          <strong class="d-block bolder"> Wickets : <%=allrounder.wickets%> </strong>
+          <%if(user){%>
+            <%if(user.accountType=="player"){%>
+              <%if(user.regNumber==allrounder.regNumber){%>
+                <a href="/profile/<%=allrounder.regNumber%>">
+                  <button class="btn btn-outline-warning btn-sm btn-block">
+                    View Your Profile
+                  </button>
+                </a>
+              <%}else{%>
+                <div style="display: flex;">
+                  <div style="width: 48%;">
+                    <a href="/profile/<%=allrounder.regNumber%>" >
+                      <div class="btn btn-outline-info btn-sm btn-block">
+                        View Profile
+                      </div>
+                    </a>
+                  </div>
+                  <div style="width: 49%; margin-left: 4px;">
+                    <a href="/compare/<%=user.regNumber%>/<%=allrounder.regNumber%>/performance" >
+                      <div class="btn btn-info btn-sm btn-block">
+                        Compare
+                      </div>
+                    </a>
+                  </div>
+                </div> 
+              <%}%>          
+            <%}else{%>
+              <a href="/profile/<%=allrounder.regNumber%>">
+                <button class="btn btn-outline-info btn-sm btn-block">
+                  View Profile
+                </button>
+              </a>
+            <%}%>
+          <%}else{%>
+            <a href="/profile/<%=allrounder.regNumber%>">
+              <button class="btn btn-outline-info btn-sm btn-block">
+                View Profile
+              </button>
+            </a>
+          <%}%>
         </div>
       </div>
-
-      <div class="top-batters">
-        <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-        <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-          <strong class="d-block">Sohag Roy</strong>
-          <span class="d-block"><strong>Total Runs : 120</strong> </span>
-          <span class="d-block"><strong>Total Matches : 3</strong> </span>
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              View profile
-            </div>
-          </a> 
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              Compare
-            </div>
-          </a>   
-        </div>
-      </div>
-
-      <div class="top-batters">
-        <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-        <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-          <strong class="d-block">Sohag Roy</strong>
-          <span class="d-block"><strong>Total Runs : 120</strong> </span>
-          <span class="d-block"><strong>Total Matches : 3</strong> </span>
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              View profile
-            </div>
-          </a> 
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              Compare
-            </div>
-          </a>   
-        </div>
-      </div>
-
-      <div class="top-batters">
-        <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-        <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-          <strong class="d-block">Sohag Roy</strong>
-          <span class="d-block"><strong>Total Runs : 120</strong> </span>
-          <span class="d-block"><strong>Total Matches : 3</strong> </span>
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              View profile
-            </div>
-          </a> 
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              Compare
-            </div>
-          </a>   
-        </div>
-      </div>
-
-      <div class="top-batters">
-        <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-        <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-          <strong class="d-block">Sohag Roy</strong>
-          <span class="d-block"><strong>Total Runs : 120</strong> </span>
-          <span class="d-block"><strong>Total Matches : 3</strong> </span>
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              View profile
-            </div>
-          </a> 
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              Compare
-            </div>
-          </a>   
-        </div>
-      </div>
-
-      <div class="top-batters">
-        <img class="teacher-image"  src="/images/sohag.jpg" alt="">
-        <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
-          <strong class="d-block">Sohag Roy</strong>
-          <span class="d-block"><strong>Total Runs : 120</strong> </span>
-          <span class="d-block"><strong>Total Matches : 3</strong> </span>
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              View profile
-            </div>
-          </a> 
-          <a href="/profile/21sclwopl0025">
-            <div class="class btn btn-outline-info btn-sm">
-              Compare
-            </div>
-          </a>   
-        </div>
-      </div>
-
+    <%})%>
   </div>
   <hr>
-   <!-- matches and notice parts starting part here -->
+  <div class="container mt-2 mb-2" style="padding: 0px;">
+    <div class="path text-center" style="padding: 1rem;">
+        <div class="col" style="width: 100%;">
+          <a href="/top-players">
+            <div class="btn btn-outline-info btn-sm btn-block"><strong>See all top players in Siliguri <i class="fas fa-arrow-right"></i></strong></div>
+          </a>
+        </div>
+    </div>
+  </div>
+  <hr>
+   <!-- Important persons says part starts here -->
    <div class="row">
      <div class="col-md-6  text-muted">
-      <h4><strong class="bolder ">President's Say :</strong></h4>
+      <h4 class="bolder"><strong >President's Say :</strong></h4>
       
       <div class="item-container shadow" style="background-color:#f0f2f5 ;">
         <div class="text-center">
@@ -546,7 +347,7 @@
           
     </div>
      <div class="col-md-6 text-muted">
-      <h4><strong class="bolder ">Vice-president's Say :</strong></h4>
+      <h4 class="bolder"><strong >Vice-president's Say :</strong></h4>
       <div class="item-container shadow" style="background-color:#f0f2f5 ;">
         <div class="text-center">
           
@@ -559,7 +360,7 @@
       </div>
     </div>
    </div>
-   <!-- matches and notice parts ending part here -->
+   <!-- saying part ends here -->
 </div>
 
 

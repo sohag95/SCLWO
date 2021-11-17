@@ -185,7 +185,9 @@ PracticeMatch.prototype.getPreviousPracticeMatchData = function () {
         if (this.bowlingData.wickets >= 5 && this.bowlingData.wickets <= 10) {
           this.practiceMatchBowlingData.fiveWickets = this.practiceMatchBowlingData.fiveWickets + 1
         }
-        
+        if (this.bowlingData.wickets >= 3 && this.bowlingData.wickets < 5) {
+          this.practiceMatchBowlingData.threeWickets = this.practiceMatchBowlingData.threeWickets + 1
+        }
         if (this.practiceMatchBowlingData.hightWickets < this.bowlingData.wickets) {
           this.practiceMatchBowlingData.hightWickets = this.bowlingData.wickets
         }
@@ -294,6 +296,9 @@ PracticeMatch.prototype.getReadyToDeleteMatchDetails = function (matchIndex) {
         if (deletedBowlingData.wickets >= 5 && deletedBowlingData.wickets <= 10) {
           this.practiceMatchBowlingData.fiveWickets = this.practiceMatchBowlingData.fiveWickets - 1
         }   
+        if (deletedBowlingData.wickets >= 3 && deletedBowlingData.wickets < 5) {
+          this.practiceMatchBowlingData.threeWickets = this.practiceMatchBowlingData.threeWickets - 1
+        } 
       }
       resolve()
     }else{

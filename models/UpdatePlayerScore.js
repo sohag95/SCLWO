@@ -211,7 +211,10 @@ UpdatePlayerScore.prototype.updateScoreOnPlayerPreformanceTable=function(){
         newBowlingPerformance.wideBalls=bowlingPerformance.wideBalls+this.bowlingData.wideBalls
         newBowlingPerformance.noBalls=bowlingPerformance.noBalls+this.bowlingData.noBalls
         if(this.bowlingData.wickets>=5){
-          newBowlingPerformance.fiveWickets=bowlingPerformance+1
+          newBowlingPerformance.fiveWickets=bowlingPerformance.fiveWickets+1
+        }
+        if(this.bowlingData.wickets>=3 && this.bowlingData.wickets<5){
+          newBowlingPerformance.threeWickets=bowlingPerformance.threeWickets+1
         }
         if(bowlingPerformance.hightWicket.wickets<=this.bowlingData.wickets && this.bowlingData.wickets!=0){
           newBowlingPerformance.hightWicket.wickets=this.bowlingData.wickets

@@ -18,26 +18,6 @@ exports.adminMustBeLoggedIn = function (req, res, next) {
   }
 }
 
-exports.adminLogin = function (req, res) {
-  let admin = new Admin(req.body)
-  admin
-    .adminLogin()
-    .then(function (result) {
-      console.log(result)
-      req.session.user = { regNumber: admin.data.regNumber, userName: admin.data.userName, accountType: "admin" }
-      req.session.save(function () {
-        res.redirect("/admin-home")
-      })
-    })
-    .catch(function (e) {
-      req.flash("errors", e)
-      req.session.save(function () {
-        res.redirect("/")
-      })
-    })
-}
-
-
 
 exports.uploadSlidePicture = function (req, res) {
   let data = req.body

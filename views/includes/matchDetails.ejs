@@ -1,0 +1,122 @@
+<%for(let i=performanceData.matchDetails.length-1;i>=0;i--){%>
+  <div class=" mb-2">
+    <div class="item-container" >
+      <div style="display: flex;">
+        <div class="text-center">
+          <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/sohag.jpg" alt="">
+        </div>
+        <div class="post-header" style="width: 100%;display: flex;">
+          <div class="mr-auto" style="padding-left: 5px;">
+            <div style="margin: 0;padding: 0;">
+             <strong class="text-primary">Match Number : <%=i+1%></strong>
+            </div>
+            <div style="margin: 0;padding: 0;">
+              <i><span><%=performanceData.matchDetails[i].matchData.tournamentName%>-<%=performanceData.matchDetails[i].matchData.tournamentYear%> Played on <%=performanceData.matchDetails[i].matchData.matchDate%></span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+            </div>
+          </div>
+          <div class="float-right">
+            <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <strong><span class="text-warning"><%=performanceData.matchDetails[i].matchData.ownTeam%>(own)</span> vs <span class="text-primary"><%=performanceData.matchDetails[i].matchData.opponentTeam%></span></strong>
+              <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
+            </p>
+            <div class="dropdown-menu dropdown-menu-right">
+             hello there
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr style="margin-bottom: .35rem;margin-top: 2px;">
+      <!--batting performance data -->
+      <div class="bolder">Batting Performance :</div>
+      <%if(performanceData.matchDetails[i].battingData){%>
+        <table class="table table-sm table-bordered " >
+          <tr>
+            <td><strong>Runs</strong></td>
+            <td><strong>Balls</strong></td>
+            <td><strong>4s</strong></td>
+            <td><strong>6s</strong></td>
+            <td><strong>SR</strong></td>
+            <td><strong>Out</strong></td>
+          </tr>
+          <tr>
+            <td><%=performanceData.matchDetails[i].battingData.runs%></td>
+            <td><%=performanceData.matchDetails[i].battingData.balls%></td>
+            <td><%=performanceData.matchDetails[i].battingData.fours%></td>
+            <td><%=performanceData.matchDetails[i].battingData.sixes%></td>
+            <td><%=((performanceData.matchDetails[i].battingData.runs*100)/performanceData.matchDetails[i].battingData.balls).toFixed(2)%></td>
+            <td>
+              <%if(performanceData.matchDetails[i].battingData.isOut){%>
+                <%=performanceData.matchDetails[i].battingData.outType%>
+              <%}else{%>
+                NO
+              <%}%>
+            </td>
+          </tr>
+        </table>
+      <%}else{%>
+        <div class="btn btn-outline-secondary btn-block">
+          <%if(checkData.isUserLoggedIn){%>
+            <%if(checkData.isVisitorOwner){%>
+              You
+            <%}else{%>
+              <%=profileUserData.userName%>
+            <%}%>
+          <%}else{%>
+            <%=profileUserData.userName%>
+          <%}%>
+          did not bat in that match.
+        </div>
+      <%}%>
+      <!-- bowling performance data -->
+      <div class="bolder">Bowling Performance :</div>
+      <%if(performanceData.matchDetails[i].bowlingData){%>
+        <table class="table table-sm table-bordered" >
+          <tr>
+            <td><strong>Runs</strong></td>
+            <td><strong>Ovrs</strong></td>
+            <td><strong>Wkt</strong></td>
+            <td><strong>Mdn</strong></td>
+            <td><strong>Wd</strong></td>
+            <td><strong>No</strong></td>
+          </tr>
+          <tr>
+            <td><%=performanceData.matchDetails[i].bowlingData.runs%></td>
+            <td><%=performanceData.matchDetails[i].bowlingData.overs%></td>
+            <td><%=performanceData.matchDetails[i].bowlingData.wickets%></td>
+            <td><%=performanceData.matchDetails[i].bowlingData.madenOvers%></td>
+            <td><%=performanceData.matchDetails[i].bowlingData.wideBalls%></td>
+            <td><%=performanceData.matchDetails[i].bowlingData.noBalls%></td>
+          </tr>
+        </table>
+      <%}else{%>
+        <div class="btn btn-outline-secondary btn-block">
+          <%if(checkData.isUserLoggedIn){%>
+            <%if(checkData.isVisitorOwner){%>
+              You
+            <%}else{%>
+              <%=profileUserData.userName%>
+            <%}%>
+          <%}else{%>
+            <%=profileUserData.userName%>
+          <%}%>
+          did not bowl in that match.
+        </div>
+      <%}%>
+      
+      <hr style="margin-bottom: 5px;margin-top:1px;">
+      <!-- comment section -->
+      <div style="width: 100%; border-radius: 5px;">
+        <div style="display: flex;"> 
+          <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
+            <div style="width: 100%;"><strong><%=performanceData.matchDetails[i].matchData.winningStatus%></strong></div>
+          </div>
+          <div class="btn btn-primary">
+            <a href="/singleRoomShortDetails/<%=performanceData.matchDetails[i].matchData.matchId%>" style="color: #fff;">
+              Match_Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%>

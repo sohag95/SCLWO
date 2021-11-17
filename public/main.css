@@ -678,7 +678,7 @@ label.star:before {
  }
  @media (max-width: 720.98px) {
   .path{
-    padding: .85rem;
+    padding: 1.85rem;
   }
 }
 
@@ -1020,7 +1020,7 @@ div.feedbackButton{
 }
 
 .guest-home-notice{
-  height: 5.50rem;
+  height: 6rem;
   overflow-y: scroll;
 }
 .guest-home-notice::-webkit-scrollbar{

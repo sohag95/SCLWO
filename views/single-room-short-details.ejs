@@ -47,7 +47,7 @@
                     <p><strong>CRR - </strong><%=room.crr%></p>
                     <%}else if(room.matchDetails.inningsStatus=="2nd Innings"){%>
                       
-                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-primary"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
+                    <a style="display: block;margin-bottom: 2px;" href="/firstInningsDetails/<%=room.matchId%>"><p class="btn btn-sm btn-outline-info"><strong><%=room.batting.firstBattingTeam%></strong>-<%=room.firstInningsScore.totalRuns%>/<%=room.firstInningsScore.totalWickets%>  (<%=room.firstInningsScore.totalOvers%>.<%=room.firstInningsScore.ballNumber%> ovs.) </p>
                     </a>
                     <p ><i>-2nd Innings</i></p>
                     <p ><strong><%=room.batting.secondBattingTeam%></strong>-<%=room.liveScore.totalRuns%>/<%=room.liveScore.totalWickets%>  </p>
