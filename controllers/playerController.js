@@ -77,8 +77,7 @@ exports.ifPlayerExists = function (req, res, next) {
 
 exports.getPlayerEditPage =async function (req, res) {
   try{
-    let date=new Date()
-    let tournaments=await tournamentCollection.find({tournamentYear:String(date.getFullYear())}).sort({ createdDate: -1 }).toArray()
+    let tournaments=await tournamentCollection.find({isTournamentCompleted:false}).sort({ createdDate: -1 }).toArray()
     let userData = req.profileUser
     let visitorReg = userData.regNumber
     console.log(userData)
@@ -227,8 +226,12 @@ exports.regNumberManipulationCheck =async function (req, res,next) {
 
 exports.getComparePageWithData = function (req, res) {
   console.log(req.compareData)
+  //getting common matches
+  let commonMatches=PerformanceTable.getCommonMatches(req.compareData.visitorUserPerformance,req.compareData.visitedUserPerformance)
+  console.log("Common Matches : ",commonMatches)
   res.render("compare-page",{
-    compareData:req.compareData
+    compareData:req.compareData,
+    commonMatches:commonMatches
   })
 }
 

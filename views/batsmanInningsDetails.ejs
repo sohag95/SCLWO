@@ -40,6 +40,7 @@
               <p><strong>Fetched Balls : </strong><%=batsman.score.ballsTracking%></p>
               <%if(batsman.score.isOut){%>
                 <p><strong>Player Out : </strong>Yes</p>
+                <p><strong>Out Type : </strong><%=batsman.score.outType%></p>
                 <p><strong>Bowler Name : </strong><%=batsman.score.outBy%></p>
               <%}else{%>
                 <p><strong>Player Out :</strong> No</p>

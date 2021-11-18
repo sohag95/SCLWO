@@ -14,10 +14,10 @@
       </div>
       <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Name : </strong><%=teamDetails.tournamentData.tournamentName%></div>
       <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Tournament Year : </strong><%=teamDetails.tournamentData.tournamentYear%></div>
-      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Group Name : </strong><%=teamDetails.groupName%></div>
+      <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Group Name : </strong><%=teamDetails.teamData.firstRoundTeamGroup%></div>
       <hr>
       <h5 class="ml-2">
-        <strong class="bolder "><span class="text-primary"><%=teamDetails.team.teamFullName%>'s</span> Performance Details :</strong>
+        <strong class="bolder "><span class="text-primary"><%=teamDetails.teamData.firstRoundTeamData.teamFullName%>'s</span> Performance Details :</strong>
       </h5>
       <p class="bolder ml-2 text-info"><strong>1st Round Details :</strong></p>
       <div class="m-2">
@@ -34,18 +34,22 @@
           </thead>
             <tbody>
               <tr>
-                <th scope="row"><%=teamDetails.team.teamShortName%></th>
-                <td><%=teamDetails.team.matchesPlayed%></td>
-                <td><%=teamDetails.team.matchesWin%></td>
-                <td><%=teamDetails.team.matchesLoss%></td>
-                <td><%=teamDetails.team.tieOrDraw%></td>
-                <td><%=teamDetails.team.totalPoints%></td>
+                <th scope="row"><%=teamDetails.teamData.firstRoundTeamData.teamShortName%></th>
+                <td><%=teamDetails.teamData.firstRoundTeamData.matchesPlayed%></td>
+                <td><%=teamDetails.teamData.firstRoundTeamData.matchesWin%></td>
+                <td><%=teamDetails.teamData.firstRoundTeamData.matchesLoss%></td>
+                <td><%=teamDetails.teamData.firstRoundTeamData.tieOrDraw%></td>
+                <td><%=teamDetails.teamData.firstRoundTeamData.totalPoints%></td>
               </tr>
             </tbody>
         </table>
       </div>
+      <%if(teamDetails.teamData.secondRoundStarted){%>
       <p class="bolder ml-2 text-info"><strong>2nd Round Details :</strong></p>
       <div class="m-2">
+        <%if(!teamDetails.teamData.secondRoundTeamGroup){%>
+          <div class="btn btn-lg btn-outline-danger btn-block"><strong>Team has not qualified for second round! </strong></div>
+        <%}else{%>
          <table class="table table-sm table-bordered">
           <thead>
             <tr>
@@ -59,32 +63,35 @@
           </thead>
             <tbody>
               <tr>
-                <th scope="row"><%=teamDetails.team.teamShortName%></th>
-                <td><%=teamDetails.team.matchesPlayed%></td>
-                <td><%=teamDetails.team.matchesWin%></td>
-                <td><%=teamDetails.team.matchesLoss%></td>
-                <td><%=teamDetails.team.tieOrDraw%></td>
-                <td><%=teamDetails.team.totalPoints%></td>
+                <th scope="row"><%=teamDetails.teamData.secondRoundTeamData.teamShortName%></th>
+                <td><%=teamDetails.teamData.secondRoundTeamData.matchesPlayed%></td>
+                <td><%=teamDetails.teamData.secondRoundTeamData.matchesWin%></td>
+                <td><%=teamDetails.teamData.secondRoundTeamData.matchesLoss%></td>
+                <td><%=teamDetails.teamData.secondRoundTeamData.tieOrDraw%></td>
+                <td><%=teamDetails.teamData.secondRoundTeamData.totalPoints%></td>
               </tr>
             </tbody>
         </table>
+        <%}%>
       </div>
+      <%}%>
+
       <hr>
       <p><h5 class="bolder text-primary ml-2">Played Matches :</h5></p>
-      <%if(!teamDetails.team.matches.length){%>
+      <%if(!teamDetails.teamData.firstRoundTeamData.matches.length){%>
         <div class="m-2">
           <div class=" btn btn-lg btn-info btn-block">
             <strong>No matches played till now!</strong>
           </div>
         </div>
       <%}%>
-        <%teamDetails.team.matches.forEach((match)=>{%>
+        <%teamDetails.teamData.firstRoundTeamData.matches.forEach((match)=>{%>
           <div class="ml-2 mr-2">
             <div class="student-room-container" style="display: flex;width: 100%;">
                 <div class="row"  style="width: 100%;">
                   <div class="col-sm-6"  style="width: 100%;display: flex;">
                     <div style="width: 100%;">
-                      <div ><strong>Opponent Team : </strong><%=match.opponentTeam%> &nbsp;|&nbsp;<strong> Played On : </strong>12/12/12</div>
+                      <div ><strong>Opponent Team : </strong><%=match.opponentTeam%> &nbsp;|&nbsp;<strong> Played On : </strong><%=match.matchDate%></div>
                       <div class="text-info"><strong >Matche Status : </strong><i class="text-warning"><%=match.winningStatus%></i> </div>
                     </div>
                   </div>
@@ -99,13 +106,51 @@
             </div>
           </div>    
         <%})%>
+        
+        <%if(teamDetails.teamData.secondRoundStarted && teamDetails.teamData.secondRoundTeamGroup){%>
+          <hr>
+          <p><h5 class="bolder text-primary ml-2">Played Matches : (second round)</h5></p>
+          <%if(!teamDetails.teamData.secondRoundTeamData.matches.length){%>
+            <div class="m-2">
+              <div class=" btn btn-lg btn-info btn-block">
+                <strong>No matches played till now!</strong>
+              </div>
+            </div>
+          <%}%>
+          <%teamDetails.teamData.secondRoundTeamData.matches.forEach((match)=>{%>
+            <div class="ml-2 mr-2">
+              <div class="student-room-container" style="display: flex;width: 100%;">
+                  <div class="row"  style="width: 100%;">
+                    <div class="col-sm-6"  style="width: 100%;display: flex;">
+                      <div style="width: 100%;">
+                        <div ><strong>Opponent Team : </strong><%=match.opponentTeam%> &nbsp;|&nbsp;<strong> Played On : </strong><%=match.matchDate%></div>
+                        <div class="text-info"><strong >Matche Status : </strong><i class="text-warning"><%=match.winningStatus%></i> </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 " style="margin: auto;">
+                      <div class="float-btn" style="display: flex;">
+                        <a href="/singleRoomShortDetails/<%=match.matchId%>">
+                          <div class="btn btn-outline-info btn-sm mr-1">Match Details</div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>    
+          <%})%>
+        <%}%>
       <hr>
         <p><h5 class="bolder text-primary ml-2">All Team Players With Performances :</h5></p>
           <!--         
           <span class="m-2">
             <p class="btn btn-primary btn-block">There is no student till now.</p>
           </span> -->
-        
+          <%if(!teamPlayers.length){%>
+            <div class="m-2">
+              <div class="btn btn-lg btn-danger btn-block"><strong>No registered player found from this team!</strong></div>
+            </div>
+          <%}%>
+        <%teamPlayers.forEach((player)=>{%>
         <div class="ml-2 mr-2">
           <div class="student-room-container" style="display: flex;width: 100%;">
             <div class="mr-2" >
@@ -114,26 +159,61 @@
               <div class="row"  style="width: 100%;">
                 <div class="col-sm-6"  style="width: 100%;display: flex;">
                   <div style="width: 100%;">
-                    <div class="text-primary"><strong>Sohag Roy (CCA)</strong></div>
-                    <div><strong>Matches : </strong>2 &nbsp;|&nbsp; <strong>Runs : </strong>20 &nbsp;|&nbsp; <strong>Wickets : </strong>2</div>
+                    <div class="text-primary"><strong><%=player.userName%> (<%=teamDetails.teamData.firstRoundTeamData.teamShortName%>)</strong></div>
+                    <div><strong>Matches : </strong><%=player.matchesPlayed%> &nbsp;|&nbsp; <strong>Runs : </strong><%=player.runs%> &nbsp;|&nbsp; <strong>Wickets : </strong><%=player.wickets%></div>
                     <div></div>
                   </div>
                   
                 </div>
                 <div class="col-sm-6 " style="margin: auto;">
                   <div class="float-btn" style="display: flex;">
-                    <a href="/profile/">
-                      <div class="btn btn-primary btn-sm mr-1">View profile</div>
-                    </a>
-                    <a href="/single-chat/">
-                      <div class="btn btn-primary btn-sm "> Compare</div>
-                    </a>
+                    <%if(user){%>
+                      <%if(user.accountType=="player"){%>
+                        <%if(user.regNumber==player.regNumber){%>
+                          <a href="/profile/<%=player.regNumber%>">
+                            <button class="btn btn-outline-warning btn-sm btn-block">
+                              View Your Profile
+                            </button>
+                          </a>
+                        <%}else{%>
+                          <div style="display: flex;">
+                            <div style="width: 50%;">
+                              <a href="/profile/<%=player.regNumber%>" >
+                                <div class="btn btn-outline-info btn-sm btn-block">
+                                  View Profile
+                                </div>
+                              </a>
+                            </div>
+                            <div style="width: 50%; margin-left: 5px;">
+                              <a href="/compare/<%=user.regNumber%>/<%=player.regNumber%>/performance" style="width: 50%;">
+                                <div class="btn btn-info btn-sm btn-block">
+                                  Compare
+                                </div>
+                              </a>
+                            </div>
+                          </div> 
+                        <%}%>          
+                      <%}else{%>
+                        <a href="/profile/<%=player.regNumber%>">
+                          <button class="btn btn-outline-info btn-sm btn-block">
+                            View Profile
+                          </button>
+                        </a>
+                      <%}%>
+                    <%}else{%>
+                      <a href="/profile/<%=player.regNumber%>">
+                        <button class="btn btn-outline-info btn-sm btn-block">
+                          View Profile
+                        </button>
+                      </a>
+                    <%}%>
                   </div>
                 </div>
               </div>
           </div>
         </div>
-    
+        <%})%>
+
     </div>
   </div>
 </div>

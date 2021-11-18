@@ -8,11 +8,11 @@
         <img class="home-cover-image" src="/images/sohag.jpg"/>
         <div>
           <img class="home-profile-image" src="/images/sohag.jpg" />
-          <p style="background-color: aliceblue;height: 40px;margin-top: -23px;">
-            <span class="btn btn-outline-info "><strong>Sohag Roy</strong></span>
-            <span class="btn btn-outline-info float-right "><strong> Manage Profile</strong></span>
-          </p>
-        </div>
+          <div>
+            <h5 class="bolder text-secondary d-inline"><strong>Sohag Roy</strong></h5>
+            <h5 class="bolder d-inline float-right"><a href="/player/profile/<%= user.regNumber %>/edit"><i class="fas fa-user"></i> Manage Profile</a></h5>
+          </div>  
+         </div>
       </div> 
     
         <hr>
@@ -184,11 +184,10 @@
                 <strong>
                   No practice match data added!!
                 </strong>
-                </div>
+              </div>
             <%}%>
-             <!-- ******match details structure starting**** -->
-             <%for(let i=performanceData.practiceMatchDetails.length-1;i>=0;i--){%>
-
+            <!-- ******match details structure starting**** -->
+            <%for(let i=performanceData.practiceMatchDetails.length-1;i>=0;i--){%>
             <div class=" mb-2">
               <div class="item-container" >
                 <div style="display: flex;">

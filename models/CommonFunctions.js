@@ -160,4 +160,34 @@ CommonFunctions.getPlayersScoreDetailsOfAMatch=function(matchData){
   
   return playersScoreDetails
 }
+
+CommonFunctions.getPlayersPerformanceInTournament=function(tournamentName,tournamentYear,playersPerformances){
+  let teamPlayers=[]
+  
+  playersPerformances.forEach((player)=>{
+    let runs=0
+    let wickets=0
+    let matchesPlayed=0
+    player.matchDetails.forEach((match)=>{
+      if(match.matchData.tournamentName==tournamentName && match.matchData.tournamentYear){
+        if(match.battingData){
+          runs=runs+match.battingData.runs
+        }
+        if(match.bowlingData){
+          wickets=wickets+match.bowlingData.wickets
+        }
+        matchesPlayed=matchesPlayed+1
+      }
+    })
+    let playerData={
+      regNumber:player.regNumber,
+      userName:player.userName,
+      matchesPlayed:matchesPlayed,
+      runs:runs,
+      wickets:wickets
+    }
+    teamPlayers.push(playerData)
+  })
+  return teamPlayers
+}
 module.exports= CommonFunctions

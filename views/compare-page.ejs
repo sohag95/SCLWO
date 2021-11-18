@@ -23,7 +23,7 @@
                       <div class="text-center">
                         <img class="avatar-compare"  src="/images/sohag.jpg" alt="">
                       </div>
-                      Sohag Roy
+                      <%=compareData.visitedUserData.userName%>
                     </th>
                     <th scope="col" style="width: 30%;"><strong>VS</strong></th>
                     <th scope="col" style="width: 35%;color: #007bff;" >
@@ -36,49 +36,54 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>12</td>
+                    <td><%=compareData.visitedUserPerformance.matches%></td>
                     <td>Matches </td>
-                    <td>10</td>
+                    <td><%=compareData.visitorUserPerformance.matches%></td>
                   </tr>
                   <tr>
-                    <td>10</td>
+                    <td><%=compareData.visitedUserPerformance.batting.innings%></td>
                     <td>Innings</td>
-                    <td>9</td>
+                    <td><%=compareData.visitorUserPerformance.batting.innings%></td>
                   </tr>
                   <tr>
-                    <td>432</td>
+                    <td><%=compareData.visitedUserPerformance.batting.runs%></td>
                     <td>Runs</td>
-                    <td>220</td>
+                    <td><%=compareData.visitorUserPerformance.batting.runs%></td>
                   </tr>
                   <tr>
-                    <td>22</td>
+                    <td><%=compareData.visitedUserPerformance.batting.balls%></td>
+                    <td>Balls</td>
+                    <td><%=compareData.visitorUserPerformance.batting.balls%></td>
+                  </tr>
+                  <tr>
+                    <td><%=compareData.visitedUserPerformance.batting.fours%></td>
                     <td>Fours</td>
-                    <td>10</td>
+                    <td><%=compareData.visitorUserPerformance.batting.fours%></td>
                   </tr>
                   <tr>
-                    <td>3</td>
+                    <td><%=compareData.visitedUserPerformance.batting.sixes%></td>
                     <td>Sixes</td>
-                    <td>5</td>
+                    <td><%=compareData.visitorUserPerformance.batting.sixes%></td>
                   </tr>
                   <tr>
-                    <td>2</td>
+                    <td><%=compareData.visitedUserPerformance.batting.fifties%></td>
                     <td>Fifties</td>
-                    <td>1</td>
+                    <td><%=compareData.visitorUserPerformance.batting.fifties%></td>
                   </tr>
                   <tr>
-                    <td>1</td>
+                    <td><%=compareData.visitedUserPerformance.batting.hundreds%></td>
                     <td>Hundreds</td>
-                    <td>0</td>
+                    <td><%=compareData.visitorUserPerformance.batting.hundreds%></td>
                   </tr>
                   <tr>
-                    <td>1</td>
+                    <td><%=compareData.visitedUserPerformance.batting.notOut%></td>
                     <td>Not Out</td>
-                    <td>0</td>
+                    <td><%=compareData.visitorUserPerformance.batting.notOut%></td>
                   </tr>
                   <tr>
-                    <td>84</td>
+                    <td><a href="/singleRoomShortDetails/<%=compareData.visitedUserPerformance.batting.hightRun.matchId%>"><%= compareData.visitedUserPerformance.batting.hightRun.runs %>(<%= compareData.visitedUserPerformance.batting.hightRun.balls %>)</a></td>
                     <td>Hight Runs</td>
-                    <td>67</td>
+                    <td><a href="/singleRoomShortDetails/<%=compareData.visitorUserPerformance.batting.hightRun.matchId%>"><%= compareData.visitorUserPerformance.batting.hightRun.runs %>(<%= compareData.visitorUserPerformance.batting.hightRun.balls %>)</a></td>
                   </tr>
                 </tbody>
                 
@@ -96,7 +101,7 @@
                       <div class="text-center">
                         <img class="avatar-compare"  src="/images/sohag.jpg" alt="">
                       </div>
-                      Sohag Roy
+                      <%=compareData.visitedUserData.userName%>
                     </th>
                     <th scope="col" style="width: 30%;"><strong>VS</strong></th>
                     <th scope="col" style="width: 35%;color: #007bff;" >
@@ -109,49 +114,54 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>12</td>
+                    <td><%=compareData.visitedUserPerformance.matches%></td>
                     <td>Matches </td>
-                    <td>10</td>
+                    <td><%=compareData.visitorUserPerformance.matches%></td>
                   </tr>
                   <tr>
-                    <td>8</td>
+                    <td><%=compareData.visitedUserPerformance.bowling.innings%></td>
                     <td>Innings</td>
-                    <td>7</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.innings%></td>
                   </tr>
                   <tr>
-                    <td>123</td>
+                    <td><%=compareData.visitedUserPerformance.bowling.runs%></td>
                     <td>Runs Given</td>
-                    <td>109</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.runs%></td>
                   </tr>
                   <tr>
-                    <td>20</td>
+                    <td><%=compareData.visitedUserPerformance.bowling.overs%></td>
                     <td>Overs</td>
-                    <td>30</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.overs%></td>
                   </tr>
                   <tr>
-                    <td>10</td>
+                    <td><%=compareData.visitedUserPerformance.bowling.wickets%></td>
                     <td>Wickets</td>
-                    <td>16</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.wickets%></td>
                   </tr>
                   <tr>
-                    <td>2</td>
+                    <td><%=compareData.visitedUserPerformance.bowling.madenOvers%></td>
                     <td>Maden Ovs</td>
-                    <td>3</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.madenOvers%></td>
                   </tr>
                   <tr>
-                    <td>1</td>
+                    <td><%=compareData.visitedUserPerformance.bowling.wideBalls+compareData.visitedUserPerformance.bowling.noBalls%></td>
+                    <td>Extra Runs</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.wideBalls+compareData.visitorUserPerformance.bowling.noBalls%></td>
+                  </tr>
+                  <tr>
+                    <td><%=compareData.visitedUserPerformance.bowling.threeWickets%></td>
                     <td>3 wickets</td>
-                    <td>1</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.threeWickets%></td>
                   </tr>
                   <tr>
-                    <td>0</td>
+                    <td><%=compareData.visitedUserPerformance.bowling.fiveWickets%></td>
                     <td>5 wickets</td>
-                    <td>0</td>
+                    <td><%=compareData.visitorUserPerformance.bowling.fiveWickets%></td>
                   </tr>
                   <tr>
-                    <td>4</td>
+                    <td><a href="/singleRoomShortDetails/<%=compareData.visitedUserPerformance.bowling.hightWicket.matchId%>"><%= compareData.visitedUserPerformance.bowling.hightWicket.wickets %></a></td>
                     <td>Hight wickets</td>
-                    <td>3</td>
+                    <td><a href="/singleRoomShortDetails/<%=compareData.visitorUserPerformance.bowling.hightWicket.matchId%>"><%= compareData.visitorUserPerformance.bowling.hightWicket.wickets %></a></td>
                   </tr>
                 </tbody>
                 
@@ -161,25 +171,38 @@
         </div>
 <hr>
 <h5 class="bolder"><strong>Common Match Details :</strong></h5>
+  <%if(!commonMatches.length){%>
+    <div class="btn btn-warning btn-lg btn-block">
+      <strong>No Common Match Available!!</strong>
+    </div>
+  <%}%>
+  
+  <%for(let i=commonMatches.length-1;i>=0;i--){%>
   <!-- ******match details structure starting**** -->
   <div class=" mb-2">
     <div class="item-container" > 
         <div class="post-header" style="width: 100%;display: flex;">
           <div class="mr-auto" style="padding-left: 5px;">
             <div style="margin: 0;padding: 0;">
-            <strong class="text-primary">Common Match Number : 10</strong>
+            <strong class="text-primary">Common Match Number : <%=i+1%></strong>
             </div>
             <div style="margin: 0;padding: 0;">
-              <i><span>Siliguri 1st division cricket league-2021 Played on 12/12/12</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+              <i><span><%=commonMatches[i].matchData.tournamentName%>-<%=commonMatches[i].matchData.tournamentYear%> Played on <%=commonMatches[i].matchData.matchDate%></span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
             </div>
           </div>
           <div class="float-right">
             <div style="margin-right: 8px;">
               <div>
-                <strong><span class="text-warning">CCA(own)</span> vs <span class="text-primary">MSC</span></strong>
+                <strong><span class="text-warning"><%=commonMatches[i].matchData.visitorTeam%>(own)</span> vs <span class="text-primary"><%=commonMatches[i].matchData.secondTeam%></span></strong>
               </div>
               <div class="text-center">
-                <strong class="text-info">(same_team)</strong>
+                <strong class="text-info">
+                  <%if(commonMatches[i].matchData.visitorTeam==commonMatches[i].matchData.visitedTeam){%>
+                    (same_team)
+                  <%}else{%>
+                    (opponent)
+                  <%}%>
+                </strong>
               </div>
               
               <!-- <strong><i class="fas fa-ellipsis-h"></i></strong> -->
@@ -188,9 +211,9 @@
         </div>
       <hr style="margin-bottom: .35rem;margin-top: 2px;">
       <!-- performance details will be here -->
+      <div class="bolder">Batting Performance :</div>
       <table class="table table-sm table-bordered " >
         <tr>
-          <div class="bolder">Batting Performance :</div>
           <td><strong>Player</strong></td>
           <td><strong>Runs</strong></td>
           <td><strong>Balls</strong></td>
@@ -200,22 +223,50 @@
           <td><strong>Out</strong></td>
         </tr>
         <tr>
-          <td><strong class="text-secondary">Sohag Roy</strong></td>
-          <td>10</td>
-          <td>20</td>
-          <td>1</td>
-          <td>0</td>
-          <td>50.00</td>
-          <td>No</td>
+          <td><strong class="text-secondary"><%=compareData.visitedUserData.userName%></strong></td>
+          <%if(!commonMatches[i].visitedBattingData){%>
+            <td colspan="6">
+              <div class="btn btn-outline-secondary btn-sm btn-block">
+                <%=compareData.visitedUserData.userName%> did not bat in that match.
+              </div>
+            </td>
+          <%}else{%>
+            <td><%=commonMatches[i].visitedBattingData.runs%></td>
+            <td><%=commonMatches[i].visitedBattingData.balls%></td>
+            <td><%=commonMatches[i].visitedBattingData.fours%></td>
+            <td><%=commonMatches[i].visitedBattingData.sixes%></td>
+            <td><%=((commonMatches[i].visitedBattingData.runs*100)/commonMatches[i].visitedBattingData.balls).toFixed(2)%></td>
+            <td>
+              <%if(!commonMatches[i].visitedBattingData.isOut){%>
+                NO
+              <%}else{%>
+                <%=commonMatches[i].visitedBattingData.outType%>
+              <%}%>
+            </td>
+          <%}%>
         </tr>
         <tr>
           <td><strong class="text-secondary">YOU</strong></td>
-          <td>10</td>
-          <td>20</td>
-          <td>1</td>
-          <td>0</td>
-          <td>50.00</td>
-          <td>No</td>
+          <%if(!commonMatches[i].visitorBattingData){%>
+            <td colspan="6">
+              <div class="btn btn-outline-secondary btn-sm btn-block">
+                You did not bat in that match.
+              </div>
+            </td>
+          <%}else{%>
+            <td><%=commonMatches[i].visitorBattingData.runs%></td>
+            <td><%=commonMatches[i].visitorBattingData.balls%></td>
+            <td><%=commonMatches[i].visitorBattingData.fours%></td>
+            <td><%=commonMatches[i].visitorBattingData.sixes%></td>
+            <td><%=((commonMatches[i].visitorBattingData.runs*100)/commonMatches[i].visitorBattingData.balls).toFixed(2)%></td>
+            <td>
+              <%if(!commonMatches[i].visitorBattingData.isOut){%>
+                NO
+              <%}else{%>
+                <%=commonMatches[i].visitorBattingData.outType%>
+              <%}%>
+            </td>
+          <%}%>
         </tr>
         
       </table>
@@ -231,27 +282,38 @@
           <td><strong>No</strong></td>
         </tr>
         <tr>
-          <td><strong class="text-secondary">Sohag Roy</strong></td>
-          <td>10</td>
-          <td>2</td>
-          <td>1</td>
-          <td>0</td>
-          <td>2</td>
-          <td>0</td>
+          <td><strong class="text-secondary"><%=compareData.visitedUserData.userName%></strong></td>
+          <%if(!commonMatches[i].visitedBowlingData){%>
+            <td colspan="6">
+              <div class="btn btn-outline-secondary btn-sm btn-block">
+                <%=compareData.visitedUserData.userName%> did not bowl in that match.
+              </div>
+            </td>
+          <%}else{%>
+            <td><%=commonMatches[i].visitedBowlingData.runs%></td>
+            <td><%=commonMatches[i].visitedBowlingData.overs%></td>
+            <td><%=commonMatches[i].visitedBowlingData.wickets%></td>
+            <td><%=commonMatches[i].visitedBowlingData.madenOvers%></td>
+            <td><%=commonMatches[i].visitedBowlingData.wideBalls%></td>
+            <td><%=commonMatches[i].visitedBowlingData.noBalls%></td>
+          <%}%>
         </tr>
         <tr>
           <td><strong class="text-secondary">YOU</strong></td>
-          <td colspan="6">
-            <div class="btn btn-outline-secondary btn-sm btn-block">
-            You did not bowl in that match.
-          </div>
-        </td>
-          <!-- <td>10</td>
-          <td>2</td>
-          <td>1</td>
-          <td>0</td>
-          <td>2</td>
-          <td>0</td> -->
+          <%if(!commonMatches[i].visitorBowlingData){%>
+            <td colspan="6">
+              <div class="btn btn-outline-secondary btn-sm btn-block">
+                You did not bowl in that match.
+              </div>
+            </td>
+          <%}else{%>
+            <td><%=commonMatches[i].visitorBowlingData.runs%></td>
+            <td><%=commonMatches[i].visitorBowlingData.overs%></td>
+            <td><%=commonMatches[i].visitorBowlingData.wickets%></td>
+            <td><%=commonMatches[i].visitorBowlingData.madenOvers%></td>
+            <td><%=commonMatches[i].visitorBowlingData.wideBalls%></td>
+            <td><%=commonMatches[i].visitorBowlingData.noBalls%></td>
+          <%}%>
         </tr>
       </table>
       
@@ -261,10 +323,10 @@
       <div style="width: 100%; border-radius: 5px;">
         <div style="display: flex;"> 
           <div class="p-2 bg-warning" style="width: 100%; display: flex;"> 
-            <div style="width: 100%;"><strong>MSC won the match by 10 runs</strong></div>
+            <div style="width: 100%;"><strong><%=commonMatches[i].matchData.winningStatus%></strong></div>
           </div>
           <div class="btn btn-primary">
-            <a href="" target="_blank" style="color: #fff;">
+            <a href="/singleRoomShortDetails/<%=commonMatches[i].matchData.matchId%>" style="color: #fff;">
               Match_Details
             </a>
           </div>
@@ -273,7 +335,7 @@
     </div>
   </div>
   <!-- ********match details structure ends******** -->
-
+  <%}%>
 
   </div>
   <div class="col-lg notVisibleOnCollapse" >

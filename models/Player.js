@@ -3,6 +3,7 @@ const RegistrationNumberGenerator=require('../models/RegistrationNumberGenerator
 const PerformanceTable = require("./PerformanceTable")
 const playersCollection = require("../db").db().collection("players")
 const administrationCollection = require("../db").db().collection("administration")
+const performanceTableCollection = require("../db").db().collection("performanceTable")
 
    
 
@@ -11,7 +12,7 @@ let Player = function (data,from) {
   this.errors = []
   this.regNumber=undefined
   this.from=from
-  console.log(this.data)
+  
 }
 
 Player.prototype.cleanUp = async function () {
@@ -34,11 +35,12 @@ Player.prototype.cleanUp = async function () {
       if (typeof this.data.dob != "string") {
         this.data.dob = ""
       }
+      if (typeof this.data.userName != "string") {
+        this.data.userName = ""
+      }
     }
 
-    if (typeof this.data.userName != "string") {
-      this.data.userName = ""
-    }
+    
     if (typeof this.data.email != "string") {
       this.data.email = ""
     }
@@ -77,7 +79,6 @@ Player.prototype.cleanUp = async function () {
     }
     if(this.from=="edit"){
       this.data={
-        userName: this.data.userName.trim(),
         battingStyle: this.data.battingStyle.trim().toLowerCase(),
         bowlingStyle: this.data.bowlingStyle.trim().toLowerCase(),
         address: this.data.address.trim().toLowerCase(),
@@ -92,6 +93,9 @@ Player.prototype.cleanUp = async function () {
 
 Player.prototype.validate = function () {
         if(this.from!="edit"){
+          if (this.data.userName == "") {
+            this.errors.push("You must provide player's name.")
+          }
           if (this.data.password == "") {
             this.errors.push("You must provide a password.")
           }
@@ -121,9 +125,7 @@ Player.prototype.validate = function () {
         }
      
       
-      if (this.data.userName == "") {
-        this.errors.push("You must provide player's name.")
-      }
+      
       if (this.data.email == "") {
         this.data.email = "Not given"
       }
@@ -142,8 +144,8 @@ Player.prototype.validate = function () {
       if (this.data.address.length > 80) {
         this.errors.push("address cannot exceed 80 characters.")
       }
-      if (this.data.phone.length > 12) {
-        this.errors.push("phone number cannot exceed 12 characters.")
+      if (this.data.phone.length != 10) {
+        this.errors.push("Your phone number should contain 10 digits.")
       }
     
 }
@@ -208,7 +210,6 @@ Player.prototype.updateProfileData = function (regNumber) {
         await playersCollection.findOneAndUpdate({regNumber:regNumber},
         { 
           $set: { 
-          "userName": this.data.userName,
           "address":this.data.address,
           "battingStyle":this.data.battingStyle,
           "bowlingStyle":this.data.bowlingStyle,
@@ -267,6 +268,7 @@ Player.findPlayerByregNumber = function (regNumber) {
             leagueYear:userDocument.leagueYear,
             address: userDocument.address,
             phone: userDocument.phone,
+            email:userDocument.email,
             aboutPlayer:userDocument.aboutPlayer
           }
           resolve(userDocument)
@@ -348,6 +350,54 @@ Player.updateAboutData=function(aboutData,regNumber){
 }
 
 
+Player.getPlayersNameAndPerformanceData = function(uniqueOperations) {
+  return new Promise(async function(resolve, reject) {
+    try{
+    let aggOperations = uniqueOperations.concat([
+      {$lookup: {from: "players", localField: "regNumber", foreignField: "regNumber", as: "playerDocument"}},
+      {$project: {
+        matchDetails: 1,
+        regNumber: "$regNumber",
+        player: {$arrayElemAt: ["$playerDocument", 0]}
+      }}
+    ])
+
+    let performances = await performanceTableCollection.aggregate(aggOperations).toArray()
+
+    let playersData=performances.map((performance)=>{
+        let playerData={
+          regNumber:performance.regNumber,
+          userName:performance.player.userName,
+          matchDetails:performance.matchDetails
+        }
+        return playerData
+    })
+    
+    resolve(playersData)
+  }catch{
+    reject()
+  }
+  })
+}
+
+
+Player.getTeamPlayersPerformances=function(tournamentName,tournamentYear,teamName){
+  return new Promise(async (resolve, reject) =>{
+    try{
+      let players=await playersCollection.find({currentClub:teamName,leaguePlaying:tournamentName,leagueYear:tournamentYear}).toArray()
+      let playersRegNumbers=players.map((player)=>{
+        return player.regNumber
+      })
+      let performanceData=await Player.getPlayersNameAndPerformanceData([
+        {$match: {regNumber: {$in: playersRegNumbers}}}
+      ])
+      resolve(performanceData)
+    }catch{
+      resolve([])
+    }
+    
+  })
+}
 
 
 module.exports=Player

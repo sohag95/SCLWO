@@ -209,35 +209,91 @@ exports.singleTournament = function (req, res) {
   })
 }
 
-exports.singleTeam = function (req, res) {
-  let tournamentData=req.tournamentData
-  let groupIndex=Number(req.params.groupIndex)
-  let teamIndex=Number(req.params.teamIndex)
-  let round=req.params.round
-  let groupName
-  let teamData
-  let tournament={
-    tournamentName:tournamentData.tournamentName,
-    tournamentYear:tournamentData.tournamentYear
-  }
-  if(round=="firstRound"){
-    groupName=tournamentData.groups[groupIndex].groupName
-    teamData=tournamentData.groups[groupIndex].teams[teamIndex]
-  }
-  if(round=="secondRound"){
-    groupName=tournamentData.secondRoundGroups[groupIndex].groupName
-    teamData=tournamentData.secondRoundGroups[groupIndex].teams[teamIndex]
-  }
-  if(groupName && teamData){
-    let teamDetails={
-      tournamentData:tournament,
-      groupName:groupName,
-      team:teamData
+exports.singleTeam =async function (req, res) {
+  try{
+    let tournamentData=req.tournamentData
+    let groupIndex=Number(req.params.groupIndex)
+    let teamIndex=Number(req.params.teamIndex)
+    let round=req.params.round
+    let groupName
+    let teamData
+    let tournament={
+      tournamentName:tournamentData.tournamentName,
+      tournamentYear:tournamentData.tournamentYear
     }
-    res.render('single-team-details',{
-      teamDetails:teamDetails
-    })
-  }else{
+    let teamDetailsInfo={
+      secondRoundStarted:tournamentData.isSecondRoundStarted,
+      firstRoundTeamGroup:null,
+      firstRoundTeamData:null,
+      secondRoundTeamGroup:null,
+      secondRoundTeamData:null,
+    }
+
+    let firstRoundTeamGroup=null
+    let firstRoundTeamData=null
+    let secondRoundTeamGroup=null
+    let secondRoundTeamData=null
+
+    if(round=="firstRound"){
+      groupName=tournamentData.groups[groupIndex].groupName
+      teamData=tournamentData.groups[groupIndex].teams[teamIndex]
+      firstRoundTeamGroup=groupName
+      firstRoundTeamData=teamData
+      let teamName=teamData.teamFullName
+      if(tournamentData.isSecondRoundStarted){
+        tournamentData.secondRoundGroups[0].teams.forEach((team)=>{
+          if(team.teamFullName==teamName){
+            secondRoundTeamGroup=tournamentData.secondRoundGroups[0].groupName
+            secondRoundTeamData=team
+          }
+        })
+      }
+    }
+    if(round=="secondRound"){
+      if(tournamentData.isSecondRoundStarted){
+        groupName=tournamentData.secondRoundGroups[groupIndex].groupName
+        teamData=tournamentData.secondRoundGroups[groupIndex].teams[teamIndex]
+        secondRoundTeamGroup=groupName
+        secondRoundTeamData=teamData
+        let teamName2=teamData.teamFullName
+        tournamentData.groups.forEach((group)=>{
+          group.teams.forEach((team)=>{
+            if(team.teamFullName==teamName2){
+              firstRoundTeamGroup=group.groupName
+              firstRoundTeamData=team
+            }
+          })
+        }) 
+      }
+    }
+    teamDetailsInfo={
+      secondRoundStarted:tournamentData.isSecondRoundStarted,
+      firstRoundTeamGroup:firstRoundTeamGroup,
+      firstRoundTeamData:firstRoundTeamData,
+      secondRoundTeamGroup:secondRoundTeamGroup,
+      secondRoundTeamData:secondRoundTeamData,
+    }
+    console.log(teamDetailsInfo)
+    //getting individual player performance details for a specific tournament
+    let teamPlayers=null
+    if(!tournamentData.isTournamentCompleted){
+      let getPlayersPerformanceData=await Player.getTeamPlayersPerformances(tournamentData.tournamentName,tournamentData.tournamentYear,teamData.teamShortName)
+      teamPlayers=CommonFunctions.getPlayersPerformanceInTournament(tournamentData.tournamentName,tournamentData.tournamentYear,getPlayersPerformanceData)
+    }
+
+    if(groupName && teamData){
+      let teamDetails={
+        tournamentData:tournament,
+        teamData:teamDetailsInfo
+      }
+      res.render('single-team-details',{
+        teamDetails:teamDetails,
+        teamPlayers:teamPlayers
+      })
+    }else{
+      res.render("404")
+    }
+  }catch{
     res.render("404")
   }
 }

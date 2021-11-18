@@ -44,7 +44,7 @@
           <%group.teams.forEach((team,index2)=>{%>
             <tbody>
               <tr>
-                <th scope="row"><a href="/tournament/firstRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>)</a></th>
+                <th scope="row"><a href="/tournament/firstRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>)<i class="fas fa-arrow-right"></i></a></th>
                 <td><%=team.matchesPlayed%></td>
                 <td><%=team.matchesWin%></td>
                 <td><%=team.matchesLoss%></td>
@@ -81,7 +81,7 @@
             <%group.teams.forEach((team,index2)=>{%>
               <tbody>
                 <tr>
-                  <th scope="row"><a href="/tournament/secondRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>)</a></th>
+                  <th scope="row"><a href="/tournament/secondRound/<%=tournamentData._id%>/<%=index1%>/<%=index2%>/singleTeam"><%=team.teamFullName%> (<%=team.teamShortName%>) <i class="fas fa-arrow-right"></i></a></th>
                   <td><%=team.matchesPlayed%></td>
                   <td><%=team.matchesWin%></td>
                   <td><%=team.matchesLoss%></td>
